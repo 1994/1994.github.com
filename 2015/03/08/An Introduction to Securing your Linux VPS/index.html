@@ -1,0 +1,987 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="reeco's blog" />
+
+
+
+  <meta name="keywords" content="Linux,VPS,安全,翻译," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+
+  <title> 如何保护你的 Linux VPS // reeco's blog </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">reeco's blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tages">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              如何保护你的 Linux VPS
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/08/An Introduction to Securing your Linux VPS/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/08/An Introduction to Securing your Linux VPS/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文翻译自DigitalOcean的<a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-securing-your-linux-vps" target="_blank" rel="external">An Introduction to Securing your Linux VPS</a>，建议阅读原文</p>
+</blockquote>
+<h2 id="前言">前言</h2>
+<p>利用这个伟大平台的强大功能和灵活性，掌控你自己的Linux服务器是学习新事物的良好机会。不过Linux服务器管理员必须对任何可联网的机器采取同样的谨慎措施，以确保它的安全。</p>
+<p>归类在”Linux security”的主题各种各样，至于怎样恰当的安全级别才看起来像Linux服务器有很多不同的意见。</p>
+<p>你必须自己决定什么样的安全保护措施是必要的。在你做之前需要知道风险，并在实用性和安全性之间做出权衡，合理得做出决定。</p>
+<p>这篇文章旨在提供一些Linux服务器环境下最常见的安全措施供你参考。这不是一份详尽的清单，也不包括推荐的配置，但是提供了更加全面的资源的链接，并讨论为什么每个组件是系统的重要组成部分。<br><a id="more"></a> </p>
+<h2 id="使用防火墙阻止连接">使用防火墙阻止连接</h2>
+<p>建议所有用户都采取的最简单的一个措施是：配置并启用防火墙。防火墙扮演了网络流量和你的机器之间屏障的角色。它们管理着服务器上流量的进和出，并决定是否允许它传递信息。</p>
+<p>防火墙根据用户配置的一系列规则检查有关的流量来实现上述功能。通常，一台服务器只为正当合理的服务开启特定的几个端口。剩下的端口全都关闭，而且需要被防火墙保护，它会拒绝所有发往这些端口的流量。<br>这允许你删除你不期望的数据甚至在某些情况下能条件化使用真实服务。合理的防火墙规则能提供稳健的基础网络安全。</p>
+<p>可用的防火墙解决方案有很多。这里我们仅仅讨论其中一些。</p>
+<h3 id="UFW">UFW</h3>
+<p>UFW是简单的防火墙（uncomplicated firewall）的简称。它的目标是无需其他防火墙那么复杂的语法就能提供良好的保护。</p>
+<p>UFW和绝大多数Linux防火墙一样，其实是包含在Linux内核的netfilter 防火墙的前端控制。这对还不熟悉Linux防火墙人来说是个简易的选择，通常来说还是个不错的选择。</p>
+<h3 id="IPTables">IPTables</h3>
+<p>也许最著名的Linux防火墙解决方案就是iptables了。IPTables是用来管理包含在Linux内核中的netfilter防火墙的另一个组成部分。它已经存在了很长时间并经历了严格的安全审计，以确保其安全性。有一个版本的iptables称为<code>ip6tables</code>，它用于创建对IPv6的约束。</p>
+<p>在你管理Linux服务器时也许会碰到iptables配置。一开始掌握语法可能会有点困难，但它是一个令人难以置信，非常强大的工具，可以为它配置非常灵活的规则集。</p>
+<h3 id="IP6Tables">IP6Tables</h3>
+<p>正如上面提到的那样，<code>iptables</code>用于操作包含IPv4的规则表。如果你在服务器上启动了IPv6，则需要同时关注IPv6，也就是ip6tables。</p>
+<p>包含在Linux内核中的netfilter防火墙使IPv4和IPv6流量完全分离。他们保存在不同的表。决定一个数据包的最终命运的规则是由正在使用的协议版本确定的。</p>
+<p>这对于服务器的管理意味着当IPv6启用时，必须要维持一个规则集。<code>ip6tables</code> 命令与<code>iptables</code>共享相同的语法，所以在执行IPv6表中一样的约束集时通常是直接转发。但是你必须确保流量定向的是IPv6地址，这才能正常工作</p>
+<h3 id="NFTables">NFTables</h3>
+<p>虽然iptables一直在Linux环境下防火墙的标准，但是一个新的名为nftables的防火墙最近也添加到了Linux内核。这和iptables和同一个团队，NFTables旨在最终取代iptables。</p>
+<p>nftables防火墙试图实现较它的前身IPTables更加可读的语法，并实现在同一个工具里支持IPv4和IPv6。虽然现在大多数Linux内核还不够新无法实现NFTables，但它很快就会非常普遍，你应该尽量熟悉它的使用。</p>
+<h2 id="使用SSH安全得远程登录">使用SSH安全得远程登录</h2>
+<p>当管理一台不在本地的服务器时，就需要远程登录了。SSH意思是secure shell，通过这个协议Linux系统能安全得完成远程登录。SSH提供端到端加密，能够将不安全的流量通过安全连接，X-forwarding（网络连接的图形化界面），等等。基本上，如果你不能访问本地或者带外管理，SSH是你与服务器交互的主要方式。</p>
+<p>虽然协议本身是非常安全的并且已经做了大量的研究和代码检查，但是你的配置选择会帮助或者阻碍服务的安全性。我们将在下面讨论：</p>
+<h3 id="密码_vs_SSH-Key_登录">密码 vs SSH-Key 登录</h3>
+<p>SSH有非常灵活的身份认证方式，允许你使用不同的方法登录。最常见的两种方式是密码认证和SSH-Key认证。</p>
+<p>密码认证可能是大部分用户自然选择的方式，安全性上不及SSH-Key认证。密码登录允许潜在的入侵者不断猜测密码，直到密码被发现。这就是所谓的暴力破解并且入侵者可以使用现代工具很容易得实现自动化。</p>
+<p>另一方面，SSH-Key是通过产生一个安全密钥对来操作的。一个公钥作为测试类型被创建，以识别一个对象。它可以毫无问题得公开分享。但除了识别用户之外它不能用于其他任何事情，当和私钥完成匹配之后，它才允许用户登录。私钥应当秘密得保存，并且通过其关联的公钥的测试。</p>
+<p>主要来说你可以向服务器添加SSH key，然后SSH key会允许你使用匹配的私钥进行登录。这些key非常复杂，使用暴力来破解是不切实际的。此外，还可以选择添加长口令，为你的key增加安全性。</p>
+<p>点击此处了解更多关于<a href="https://www.digitalocean.com/community/articles/how-to-use-ssh-to-connect-to-a-remote-server-in-ubuntu" target="_blank" rel="external">如何使用SSH</a>，点击这个链接来学习<a href="https://www.digitalocean.com/community/articles/how-to-set-up-ssh-keys--2" target="_blank" rel="external">如何在服务器上创建SSH密钥</a>。</p>
+<h3 id="实现fail2ban拉黑恶意IP地址">实现fail2ban拉黑恶意IP地址</h3>
+<p>实现类似fail2ban的解决方案一般能提升SSH配置的安全性。fail2ban是一项监控日志文件的服务，以此确定远程系统是否是一个合法用户。如果不是合法用户，则暂时禁止相关IP地址的流量。</p>
+<p>设置合理的fail2ban策略可以让你标志出那些不断尝试登录但是失败的计算机，然后添加防火墙规则，在一段时间内阻止他们的流量。这是一种阻止暴力破解的简单方法，因为被禁止之后他们不得不停下来休息一会儿。</p>
+<p>你可以在这里<a href="https://www.digitalocean.com/community/articles/how-to-protect-ssh-with-fail2ban-on-ubuntu-12-04" target="_blank" rel="external">学习如何在Ubuntu上实现fail2ban策略</a>。这里还有类似的在<a href="https://www.digitalocean.com/community/articles/how-to-protect-ssh-with-fail2ban-on-debian-7" target="_blank" rel="external">Debian</a>和<a href="https://www.digitalocean.com/community/articles/how-to-protect-ssh-with-fail2ban-on-centos-6" target="_blank" rel="external">CentOS</a>上的指导。</p>
+<h2 id="实现入侵检测系统检测非法入侵">实现入侵检测系统检测非法入侵</h2>
+<p>需要记住的一条重要的考虑因素是制定检测一项检测非法使用的策略。你可能有到位的预防措施，但你也需要知道他们是否失败。</p>
+<p>入侵检测系统，也被称为IDS，在状态良好时会记录配置和文件详细信息。然后对这些记录的状态进行比较，以找出文件和设置是否被修改。</p>
+<p>入侵检测系统有很多，我们将在下文了解：</p>
+<h3 id="Tripwire">Tripwire</h3>
+<p>Tripwire是最知名的IDS实现之一。Tripwire编制了一份系统文件的数据库，并且用一组键保护其配置文件和二进制文件。在详细定义了选择和异常的配置之后，Tripwire会通知其监视的文件发生的任何改变。<br>Tripwire的策略模型是非常灵活的，允许你为你的环境塑造其属性。你可以通过cron作业配置tripwire运行，甚至还能实现异常事件邮件通知。</p>
+<p>这里你将了解更多关于<a href="https://www.digitalocean.com/community/articles/how-to-use-tripwire-to-detect-server-intrusions-on-an-ubuntu-vps" target="_blank" rel="external">怎样实现tripwire</a></p>
+<h3 id="Aide">Aide</h3>
+<p>另一个IDS选择是Aide，和tripwire类似，Aide通过构建一个数据库并比较当前系统状态和数据库中存储的已知的好的状态。当差异出现时，它会通知管理员这问题。</p>
+<p>对于相同的问题Aide和tripwire都提供了类似的解决方案。看看文档两种解决方案都尝试一下，然后找出你更喜欢的。</p>
+<p>点击这里，查看有关<a href="https://www.digitalocean.com/community/articles/how-to-install-aide-on-a-digitalocean-vps" target="_blank" rel="external">如何使用Aide</a>的指导。</p>
+<h3 id="Psad">Psad</h3>
+<p>与上述两种工具相比，psad工具所关注的系统部分与之不同。psad关注的是防火墙日志以检测恶意活动，而不是检测系统文件。</p>
+<p>譬如，如果用户试图用端口扫描来探测漏洞，psad能检测到这种活动并动态得改变防火墙规则并锁定用户。这个工具能注册不同的威胁级别并且根据问题的严重性进行响应。psad也能通过电子邮件通知管理员。</p>
+<p>了解更多关于<a href="https://www.digitalocean.com/community/articles/how-to-use-psad-to-detect-network-intrusion-attempts-on-an-ubuntu-vps" target="_blank" rel="external">如何使用psad</a></p>
+<h3 id="Bro">Bro</h3>
+<p>另一个基于网络的IDS是Bro。实际上Bro是一个网络检测框架，它能被用作网络IDS，也能用于其他目的，如收集使用情况，调查问题或者检测模式。</p>
+<p>Bro系统分为两层。第一层监测活动和生成它所考虑的事件。第二层通过一个策略框架运行着生成的事件，这个框架决定着应该怎样做。如果有任何与流量相关的，它会生成警报并执行系统命令，记录下事件或者采取其他措施。</p>
+<p>点击这里，弄清楚<a href="https://www.digitalocean.com/community/articles/how-to-install-bro-ids-2-2-on-ubuntu-12-04" target="_blank" rel="external">怎样使用Bro</a></p>
+<h3 id="RKHunter">RKHunter</h3>
+<p>RKHunter为了检测rootkit和已知的恶意软件，执行了和基于host的入侵检测系统类似的原则，而不是技术上的入侵系统。</p>
+<p>虽然在Linux世界里，病毒是罕见的，但是周围的恶意软件和rootkit会危及系统或者允许成功的入侵者继续为所欲为。RKHunter下载了已知漏洞的列表然后检查系统。如果在常见应用上检测到不安全的设置，RKHunter也会提醒你。</p>
+<p>看看这篇文章了解更多关于<a href="https://www.digitalocean.com/community/articles/how-to-use-rkhunter-to-guard-against-rootkits-on-an-ubuntu-vps" target="_blank" rel="external">在Ubuntu上使用RKHunter</a>。</p>
+<h2 id="常规的安全建议">常规的安全建议</h2>
+<p>虽然上述工具和配置可以帮助你保护系统的一部分，但是良好的安全性并不是仅仅靠实现工具，所以忘记它吧。良好的安全性体现在一定的思维定势上，是一个尽职调查，审查和参与安全的过程。</p>
+<p>下面有一些通用的规则，可以帮助你在正确的方向上确保系统的安全。</p>
+<h3 id="注意更新和有规律得更新">注意更新和有规律得更新</h3>
+<p>系统上安装的几乎所有类型的软件都可能随时发现软件漏洞。通常发行版的维护者们得跟上最新的安全补丁并且将这些更新推送到他们的仓库。</p>
+<p>然而如果你不下载或者安装这些更新，仓库里可用的安全更新对于你的服务器来说没什么好处。虽然很多服务器得益于稳定版本的软件，但是安全更新不应该被推迟，而应该看作重要更新。</p>
+<p>大部分发行版提供安全性邮件列表和独立的只能下载和安装补丁的安全仓库。</p>
+<h3 id="通过非官方渠道下载软件时要小心">通过非官方渠道下载软件时要小心</h3>
+<p>大部分用户会坚持从发行版官方仓库下载可用软件,并且大部分发行版提供已签名的软件包。一般而言用户可以信任发行版的维护者们，并将关注点放在非官方渠道的软件安全性上。</p>
+<p>也许你会选择信任来自发行版的软件包，或者官网网站上的软件，但要注意，除非你是自己审核每个软件，不然都会涉及风险。大部分用户觉得这是一个可接受的风险水平。</p>
+<p>另一方面，从随机仓库和PPA获取软件，并且维护他们的人你无法识别，这也是一个巨大安全风险。这没有一套规则可参考，并且大部分非官方软件源是完全安全的。但只要你信任另一方，你就在经历风险。</p>
+<h3 id="了解你的服务并约束它们">了解你的服务并约束它们</h3>
+<p>虽然运行服务器主要是提供可以访问的服务，但是仍需要限制运行在上面的你使用或者需要的服务。要考虑每一种功能的服务都有可能成为威胁的载体，所以在不影响核心功能的前提下你要尽可能多得消除威胁媒介。</p>
+<p>如果你运行的是无头（没有显示器连接的）服务器，并且不运行任何图形（非web）程序，这意味着你应该禁止和卸载X display服务。在其他领域也可以采取类似的措施。没有打印机？那就禁止”IP”服务。不需要Windows网络共享？那就禁止”samba”服务。</p>
+<p>可以发现各种方法通过各种方式运行在你的计算机上。在”create a list of requirements”章节下的这篇文章涵盖了<a href="https://www.digitalocean.com/community/articles/how-to-migrate-linux-servers-part-1-system-preparation" target="_blank" rel="external">怎样检测已经启动的服务</a></p>
+<h3 id="不要使用FTP并用SFTP代替">不要使用FTP并用SFTP代替</h3>
+<p>对于很多用户来说这可能很难，但是FTP是一种本质上不安全的协议。所有身份认证方式以纯文本方式发送，这意味着任何人只要监测服务器与你本地计算机之间的连接，就能看到登录的详细信息。</p>
+<p>只有在很少数的情况下，FTP可能是较好的措施。如果你运行着匿名，公开，只读的下载镜像站，FTP是不错的选择。另一种情况是你信任你的网络是安全的，只是简单得在两台开启了NAT防火墙的计算机之间传输文件，那FTP也是蛮好的选择。</p>
+<p>在几乎所有的其他情况下，你应该使用一种更加安全的替代方案。在SSH套件中有一个替代协议称为SFTP，表面上它们操作方式类似，但是SFTP是基于与SSH协议一样的安全性。</p>
+<p>这可以让你以同样的方式进行信息传递，就和使用传统的FTP一样，但是这没有风险。大部分现在FTP客户端也可以与SFTP通信。</p>
+<p>要了解更多<a href="https://www.digitalocean.com/community/articles/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server" target="_blank" rel="external">怎样使用SFTP安全得传输文件</a>，看看这个指南。</p>
+<h3 id="实现合理的用户安全策略">实现合理的用户安全策略</h3>
+<p>这里有一些你可以采取的措施，当管理用户时，可以更好得保护系统。</p>
+<p>其中一项建议是禁止root登录。因为root用户存在于任何POSIX-like 系统，并且是一个全能的用户。这往往成为很多许多攻击者的目标。通常来说在配置完sudo访问之后，禁止root登录是一个好主意。或者你使用su命令。很多人对这个建议不以为然，你需要检查看这是否合适你。</p>
+<p>SSH服务中禁用远程root登录是可能的，或者禁用本地登录。你可以/etc/securetty 文件中限制。也可以设置root用户的shell为non-shell来禁止root shell的访问，并设置PAM规则限制root登录。RedHat有一篇不错的文章，关于<a href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Security_Guide/s2-wstation-privileges-noroot.html" target="_blank" rel="external">如何禁止root登录</a>。</p>
+<p>另一个好的策略是为每个用户和服务创建独一无二的账户，并且给以它们能够完成它们工作的最小权限。锁定它们不需要访问的所有东西，并剥夺他们的一切特权。</p>
+<p>这是条很重要的策略，因为当某个用户或者服务被破坏，这不会导致多米诺效应，多米诺效应指的是入侵者会因此获得被破坏的用户或服务的访问权限甚至是系统的。划分的系统可以帮助你隔离问题，就像当船身出现缺口时。舱壁和水密门系统可以防止船舶沉没。</p>
+<p>和我们上面讨论过的服务策略类似，应该小心得禁用不再需要的用户账户。当你卸载软件或者用户不再访问系统，这就可能发生。</p>
+<h3 id="注意权限设置">注意权限设置</h3>
+<p>文件权限对于很多用户来说是挫折的巨大来源。找到权限间的平衡，既允许你做你想做的事情，又不会产生伤害，这是一件很困难的事情，这需要在每个场景中认真关注与思考。</p>
+<p>设置健全的umask策略（定义新文件和目录默认权限的属性）在创建缺省值时会有很大帮助。在这可以学习关于<a href="https://www.digitalocean.com/community/articles/linux-permissions-basics-and-how-to-use-umask-on-a-vps" target="_blank" rel="external">权限是如何工作</a>和<a href="https://www.digitalocean.com/community/articles/linux-permissions-basics-and-how-to-use-umask-on-a-vps" target="_blank" rel="external">如何调整umask值</a>。</p>
+<p>通常，在设置某事物为world-writeable，尤其是它能够以某种方式访问互联网时，需要三思而后行。这可能产生极端的后果。此外，你不应该设置权限的SGID或者SUID位，除非你百分百了解你在做什么。另外，检查文件的所有者和组。</p>
+<p>具体用法不同，文件权限设置会相差很大。但是你应该总是尝试看啊可能，是否有一种方式可以给以更小的权限。这是得到错误的最简单的方式，并且在互联网上在这方面有很多糟糕的建议流传。</p>
+<h3 id="如何保护你使用的特定软件">如何保护你使用的特定软件</h3>
+<p>虽然本指南并不能包含每种类型的服务或者应用的安全细节，但在网上有很多可用的教程和指南。你应该阅读每个项目的安全建议，并在你的系统上实现。</p>
+<p>此外，诸如web服务器或者数据库管理系统这样流行的服务器软件，拥有整个网站和专门的安全数据库。一般情况下，你应该仔细阅读并在上线前确保每个服务。</p>
+<p>你可以查看我们的<a href="https://www.digitalocean.com/community/community_tags/security" target="_blank" rel="external">安全章节</a>，获取更多关于你正在使用的软件具体的建议。</p>
+<h2 id="结论">结论</h2>
+<p>现在你应该对可以在Linux服务器上实现的常用安全实践有较好的理解。虽然我们已经很努力得提高了很多领域的重视，但在一天结束之际，你必须自己做出决定。当你管理一台服务器时，你必须得为这台服务器的安全负责。</p>
+<p>这不是你一开始就能快速配置并完成的事情。这是一个过程，不断得练习审计系统，实施解决方案，评估日志和警报，重新评估需求等等的过程。保护系统，你需要保持警惕，随时评估和检测你实施的解决方案的结果。</p>
+<p>By Justin Ellingwood</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/"> #Linux </a>
+          
+            <a href="/tags/VPS/"> #VPS </a>
+          
+            <a href="/tags/安全/"> #安全 </a>
+          
+            <a href="/tags/翻译/"> #翻译 </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/09/An Introduction to Raspberry Pi/">树莓派快速入门指南</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/06/software-of-Ubuntu/">记录一些我在Ubuntu下的软件</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/03/08/An Introduction to Securing your Linux VPS/"
+               data-title="如何保护你的 Linux VPS" data-url="http://1994.github.io/2015/03/08/An Introduction to Securing your Linux VPS/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://7xawrk.com1.z0.glb.clouddn.com/blogIMG_0476.jpg" alt="reeco" />
+          <p class="site-author-name">reeco</p>
+        </div>
+        <p class="site-description motion-element">reeco's blog</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tages">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://twitter.com/guoreeco" target="_blank">twitter</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/reeco" target="_blank">zhihu</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://v2ex.com/member/reeco" target="_blank">v2ex</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://segmentfault.com/u/reeco" target="_blank">segmentfault</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用防火墙阻止连接"><span class="nav-number">2.</span> <span class="nav-text">使用防火墙阻止连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UFW"><span class="nav-number">2.1.</span> <span class="nav-text">UFW</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IPTables"><span class="nav-number">2.2.</span> <span class="nav-text">IPTables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP6Tables"><span class="nav-number">2.3.</span> <span class="nav-text">IP6Tables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFTables"><span class="nav-number">2.4.</span> <span class="nav-text">NFTables</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用SSH安全得远程登录"><span class="nav-number">3.</span> <span class="nav-text">使用SSH安全得远程登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#密码_vs_SSH-Key_登录"><span class="nav-number">3.1.</span> <span class="nav-text">密码 vs SSH-Key 登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现fail2ban拉黑恶意IP地址"><span class="nav-number">3.2.</span> <span class="nav-text">实现fail2ban拉黑恶意IP地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现入侵检测系统检测非法入侵"><span class="nav-number">4.</span> <span class="nav-text">实现入侵检测系统检测非法入侵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tripwire"><span class="nav-number">4.1.</span> <span class="nav-text">Tripwire</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Aide"><span class="nav-number">4.2.</span> <span class="nav-text">Aide</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Psad"><span class="nav-number">4.3.</span> <span class="nav-text">Psad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bro"><span class="nav-number">4.4.</span> <span class="nav-text">Bro</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RKHunter"><span class="nav-number">4.5.</span> <span class="nav-text">RKHunter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常规的安全建议"><span class="nav-number">5.</span> <span class="nav-text">常规的安全建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意更新和有规律得更新"><span class="nav-number">5.1.</span> <span class="nav-text">注意更新和有规律得更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过非官方渠道下载软件时要小心"><span class="nav-number">5.2.</span> <span class="nav-text">通过非官方渠道下载软件时要小心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#了解你的服务并约束它们"><span class="nav-number">5.3.</span> <span class="nav-text">了解你的服务并约束它们</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不要使用FTP并用SFTP代替"><span class="nav-number">5.4.</span> <span class="nav-text">不要使用FTP并用SFTP代替</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现合理的用户安全策略"><span class="nav-number">5.5.</span> <span class="nav-text">实现合理的用户安全策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意权限设置"><span class="nav-number">5.6.</span> <span class="nav-text">注意权限设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何保护你使用的特定软件"><span class="nav-number">5.7.</span> <span class="nav-text">如何保护你使用的特定软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">6.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">reeco</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"reeco"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+</body>
+</html>

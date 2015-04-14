@@ -118,6 +118,17 @@
         </span>
 
         
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
 
         
           
@@ -206,6 +217,17 @@
         </span>
 
         
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
 
         
           
@@ -283,6 +305,394 @@
           
           
             
+              <a class="post-title-link" href="/2015/03/21/what-happen/">
+                从输入 URL 到页面加载完成发生了什么事
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-21
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/21/what-happen/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/21/what-happen/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>看到 <a href="http://div.io/topic/457" target="_blank" rel="external">这篇文章</a>，重拾计算机网络的知识，决定班门弄斧写一篇</p>
+</blockquote>
+<p>下面的讨论基于最简单的情景：HTTP、无代理、不讨论功夫王、IPv4，并简单得从三个方面阐述。</p>
+<h2 id="浏览器会做些什么">浏览器会做些什么</h2>
+<ol>
+<li>接收 URL，并拆分成协议，网络地址，资源路径</li>
+<li>与缓存进行比对，如果请求的对象在缓存中，则直接进行第九步</li>
+<li>如果网络地址不是一个 IP 地址，向操作系统询问，操作系统返回一个IP地址</li>
+<li>浏览器向服务器发起一个 TCP 连接</li>
+<li>浏览器通过 TCP 连接向服务器发起 HTTP 请求，HTTP 三次握手，HTTPS 握手过程则复杂得多</li>
+<li>浏览器接受 HTTP 响应，这时候它能关闭 TCP 连接也能为另一个连接保留。</li>
+<li>检查 HTTP header 里的状态码，并做出不同的处理方式。比如：错误（<code>4XX</code>、<code>5XX</code>），重定向（<code>3XX</code>），授权请求（<code>2XX</code>）</li>
+<li>如果是可以缓存的，这个响应则会被存储起来</li>
+<li>浏览器进行解码响应，并决定如何处理该响应（比如HTML页面，图像，声音等等）</li>
+<li>浏览器渲染响应，或者为不能识别的类型提供下载的提示框
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/21/what-happen/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Web/"> #Web </a>
+          
+            <a href="/tags/Server/"> #Server </a>
+          
+            <a href="/tags/interview/"> #interview </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/03/09/An Introduction to Raspberry Pi/">
+                树莓派快速入门指南
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/09/An Introduction to Raspberry Pi/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/09/An Introduction to Raspberry Pi/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h3 id="前言">前言</h3>
+<hr>
+<p>接触树莓派已经有一年多的时间了，主要用于Linux服务器。前一段时间树莓派2发售了，树莓派又小火了一把。现在我介绍一下我的经验，希望对于各位读者有多帮助吧。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/09/An Introduction to Raspberry Pi/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Raspberry/"> #Raspberry </a>
+          
+            <a href="/tags/Linux/"> #Linux </a>
+          
+            <a href="/tags/Debian/"> #Debian </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/03/08/An Introduction to Securing your Linux VPS/">
+                如何保护你的 Linux VPS
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-08
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/08/An Introduction to Securing your Linux VPS/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/08/An Introduction to Securing your Linux VPS/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>本文翻译自DigitalOcean的<a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-securing-your-linux-vps" target="_blank" rel="external">An Introduction to Securing your Linux VPS</a>，建议阅读原文</p>
+</blockquote>
+<h2 id="前言">前言</h2>
+<p>利用这个伟大平台的强大功能和灵活性，掌控你自己的Linux服务器是学习新事物的良好机会。不过Linux服务器管理员必须对任何可联网的机器采取同样的谨慎措施，以确保它的安全。</p>
+<p>归类在”Linux security”的主题各种各样，至于怎样恰当的安全级别才看起来像Linux服务器有很多不同的意见。</p>
+<p>你必须自己决定什么样的安全保护措施是必要的。在你做之前需要知道风险，并在实用性和安全性之间做出权衡，合理得做出决定。</p>
+<p>这篇文章旨在提供一些Linux服务器环境下最常见的安全措施供你参考。这不是一份详尽的清单，也不包括推荐的配置，但是提供了更加全面的资源的链接，并讨论为什么每个组件是系统的重要组成部分。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/08/An Introduction to Securing your Linux VPS/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/"> #Linux </a>
+          
+            <a href="/tags/VPS/"> #VPS </a>
+          
+            <a href="/tags/安全/"> #安全 </a>
+          
+            <a href="/tags/翻译/"> #翻译 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/03/06/software-of-Ubuntu/">
+                记录一些我在Ubuntu下的软件
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-06
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/06/software-of-Ubuntu/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/06/software-of-Ubuntu/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>我使用的版本是<code>Ubuntu 14.04 LTS</code>，比较常见的如git这些就不说了嘛，说一下稍微冷门的</p>
+<h3 id="shadowsocks">shadowsocks</h3>
+<p>由于众所周知的原因，有些网站无法访问或者访问很慢。相较于VPN，优势在于比较灵活。作者的README写得非常详细了，不需要多解释什么了。<br><a href="https://github.com/librehat/shadowsocks-qt5/wiki。" target="_blank" rel="external">https://github.com/librehat/shadowsocks-qt5/wiki。</a><br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/06/software-of-Ubuntu/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Ubuntu/"> #Ubuntu </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/03/04/my-sublime-text3-setting/">
                 我的sublime text设置
               </a>
@@ -296,6 +706,17 @@
           发表于 2015-03-04
         </span>
 
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
         
 
         
@@ -356,9 +777,307 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
 
     
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/03/03/study-of-git/">
+                整理一下学习Git的免费资料
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-03
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/03/study-of-git/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/03/study-of-git/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>网上关于Git的资料非常多，下面罗列一些个人感觉比较好的学习资料。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/03/study-of-git/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/"> #git </a>
+          
+            <a href="/tags/study/"> #study </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/10/05/use-vs2013-to-develop-phonegap/">
+                使用visual studio 2013 快速搭建Phonegap开发环境
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-10-05
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/10/05/use-vs2013-to-develop-phonegap/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/05/use-vs2013-to-develop-phonegap/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>  前一段时间开发了一款简单的Phonegap应用，遇到了很多坑，其中有一个坑就是在搭建开发环境上。由于Phonegap 2.x 与3.x 区别比较大，导致了开发环境也有所不同。<br>2.x 是这样的<br><a href="http://www.cnblogs.com/Random/archive/2011/12/28/2305398.html" target="_blank" rel="external">http://www.cnblogs.com/Random/archive/2011/12/28/2305398.html</a><br>这一系列的文章有些没讲清楚版本号，也是入坑的一个原因吧。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/05/use-vs2013-to-develop-phonegap/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Phonegap/"> #Phonegap </a>
+          
+            <a href="/tags/IDE/"> #IDE </a>
+          
+            <a href="/tags/VS2013/"> #VS2013 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/09/20/install-of-tomcat7/">
+                通过源安装的tomcat7的安装路径
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-09-20
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/09/20/install-of-tomcat7/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/20/install-of-tomcat7/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>比较坑爹得拆成了三个路径，所以这个版本只能用来部署，开发的话还是选择编译安装吧。</p>
+<h3 id="/etc/tomcat7">/etc/tomcat7</h3>
+<pre><code>├── Catalina
+
+│   └── localhost
+
+├── catalina<span class="built_in">.</span>properties
+
+├── context<span class="built_in">.</span><span class="built_in">xml</span>
+
+├── logging<span class="built_in">.</span>properties
+
+├── policy<span class="built_in">.</span>d
+
+│   ├── <span class="number">01</span>system<span class="built_in">.</span>policy
+
+│   ├── <span class="number">02</span>debian<span class="built_in">.</span>policy
+
+│   ├── <span class="number">03</span>catalina<span class="built_in">.</span>policy
+
+│   ├── <span class="number">04</span>webapps<span class="built_in">.</span>policy
+
+│   └── <span class="number">50</span><span class="built_in">local</span><span class="built_in">.</span>policy
+
+├── server<span class="built_in">.</span><span class="built_in">xml</span>
+
+├── tomcat<span class="attribute">-users</span><span class="built_in">.</span><span class="built_in">xml</span>
+
+└── web<span class="built_in">.</span><span class="built_in">xml</span>
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/09/20/install-of-tomcat7/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tomcat7/"> #tomcat7 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+    </div>
+  </div>
+
+
+    
   </div>
 
   
+  <div class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+  </div>
+
 
         </div>
       </div>
@@ -387,21 +1106,21 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             
-              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">分类</span>
               
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tages">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

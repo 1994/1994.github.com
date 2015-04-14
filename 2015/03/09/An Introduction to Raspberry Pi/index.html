@@ -1,0 +1,1052 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="reeco's blog" />
+
+
+
+  <meta name="keywords" content="Raspberry,Linux,Debian," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+
+  <title> 树莓派快速入门指南 // reeco's blog </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">reeco's blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tages">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              树莓派快速入门指南
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/09/An Introduction to Raspberry Pi/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/09/An Introduction to Raspberry Pi/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h3 id="前言">前言</h3>
+<hr>
+<p>接触树莓派已经有一年多的时间了，主要用于Linux服务器。前一段时间树莓派2发售了，树莓派又小火了一把。现在我介绍一下我的经验，希望对于各位读者有多帮助吧。<br><a id="more"></a> </p>
+<h3 id="准备">准备</h3>
+<hr>
+<ul>
+<li>树莓派</li>
+<li>路由器</li>
+<li>网线</li>
+<li>电源</li>
+<li>SD</li>
+<li>计算机</li>
+</ul>
+<blockquote>
+<p>不用路由器也可以，参考<a href="http://tieba.baidu.com/p/2632749888" target="_blank" rel="external">这篇文章</a>。不过还是建议用吧，能省下不少工作。</p>
+</blockquote>
+<h3 id="刻录镜像">刻录镜像</h3>
+<hr>
+<ol>
+<li>在<a href="http://www.raspberrypi.org/downloads/" target="_blank" rel="external">这里</a>下载喜欢的镜像，我选择的是RASPBIAN，Debian大法好！</li>
+<li>下载<a href="http://www.softpedia.com/get/CD-DVD-Tools/Data-CD-DVD-Burning/Win32-Disk-Imager.shtml" target="_blank" rel="external">Win32DiskImager</a></li>
+<li>插上SD卡并刻录<br><img src="http://segmentfault.net/img/bVk1iJ" alt="raspberry-pi-diskimager.png"></li>
+</ol>
+<h3 id="组装并启动">组装并启动</h3>
+<hr>
+<p>这块我想不用仔细讲了吧，看到树莓派两个绿灯亮起则表示启动成功。</p>
+<h3 id="SSH连接">SSH连接</h3>
+<hr>
+<blockquote>
+<p>如果不了解SSH是什么，点击<a href="http://zh.wikipedia.org/wiki/Secure_Shell" target="_blank" rel="external">这里</a></p>
+</blockquote>
+<p>树莓派默认已经启动了ssh服务</p>
+<ul>
+<li><p>获取树莓派ip地址，如果用了路由器的话这点轻而易举，进入管理界面就能找到。比如我的是<code>192.168.1.104</code></p>
+<p> <img src="http://segmentfault.net/img/bVk1i7" alt="图片描述"></p>
+</li>
+<li><p>绑定静态IP，方便以后管理。绑定静态地址有很多种方法，我这里选择的是最偷懒的一种，比如通过修改<a href="https://www.linode.com/docs/networking/linux-static-ip-configuration" target="_blank" rel="external">interface</a>。建议分配一些比较偏的IP，以免和DHCP分配的发生冲突。</p>
+<p> <img src="http://segmentfault.net/img/bVk1jc" alt="图片描述"></p>
+</li>
+<li><p>默认用户名为pi，默认密码为raspberry</p>
+<pre><code> <span class="title">ssh</span> pi@<span class="number">192.168.1.104</span>
+</code></pre></li>
+</ul>
+<ul>
+<li>如果前面一切正常就能看到<code>pi@raspberrypi ~ $</code> </li>
+</ul>
+<pre><code>![<span class="link_label">图片描述</span>][<span class="link_reference">9</span>]
+</code></pre><h3 id="快速设置">快速设置</h3>
+<hr>
+<pre><code><span class="built_in">sudo</span> raspi-config
+</code></pre><p><img src="http://segmentfault.net/img/bVk1jw" alt="图片描述"><br>如果你的SD卡大于4G，建议选择第一项Expand Filesystem，其他的视情况选择吧。<br>为了避免出现乱码的麻烦，推荐使用英文系统。</p>
+<h3 id="安装应用">安装应用</h3>
+<hr>
+<h4 id="搜索最快的源">搜索最快的源</h4>
+<p>令人鼓舞的是，国内很多高校已经开通了树莓派的镜像源，据我的不完全统计：</p>
+<ul>
+<li><a href="http://mirrors.zju.edu.cn/" target="_blank" rel="external">浙江大学</a></li>
+<li><a href="http://mirrors.cqu.edu.cn/" target="_blank" rel="external">重庆大学</a></li>
+<li><a href="http://mirrors.hust.edu.cn/" target="_blank" rel="external">华中科技大学</a></li>
+<li><a href="http://mirrors.hust.edu.cn/" target="_blank" rel="external">中山大学</a></li>
+</ul>
+<p>下面使用我们的小工具，自动查找最快的源：</p>
+<pre><code><span class="built_in">sudo</span> apt-get install apt-spy
+<span class="built_in">sudo</span> apt-get update
+<span class="built_in">sudo</span> apt-spy <span class="operator">-d</span> wheezy <span class="operator">-a</span> Asia
+</code></pre><p>也可以手动添加以上的地址到<code>/etc/apt/sources.list</code></p>
+<h4 id="安装tasksel">安装tasksel</h4>
+<pre><code><span class="built_in">sudo</span> apt-get install tasksel
+<span class="built_in">sudo</span> tasksel
+</code></pre><p><img src="http://segmentfault.net/img/bVk1ki" alt="图片描述"></p>
+<p>可以很方便得安装常见服务与应用</p>
+<h3 id="使用VNC显示图形界面">使用VNC显示图形界面</h3>
+<hr>
+<blockquote>
+<p>这部分不太推荐，除非你是特别想看看树莓派的桌面，因为这不仅卡还没什么意义</p>
+</blockquote>
+<pre><code><span class="comment">//安装</span>
+sudo apt-<span class="keyword">get</span> install tightvncserver
+
+<span class="comment">//运行</span>
+vncserver :<span class="number">1</span> 
+
+<span class="comment">//第一次运行VNC会让你输入密码，记住它</span>
+</code></pre><p>使用Remmia之类的客户端就能直接连接树莓派了，Windows自带的远程桌面能直接连接。</p>
+<h3 id="使用ssh_key登录">使用ssh key登录</h3>
+<hr>
+<blockquote>
+<p>从这部分开始为进阶内容</p>
+</blockquote>
+<p>每次登录都输入密码既麻烦又不安全，使用ssh key代替密码登录。</p>
+<h4 id="生成密钥">生成密钥</h4>
+<pre><code>ssh-keygen -t rsa
+</code></pre><p>然后会出现，强烈建议你使用默认，也就是只要Enter就好了</p>
+<pre><code>Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/Users/you/.ssh/id_rsa): [Press enter]
+</code></pre><p>出现类似以下信息就创建好了</p>
+<pre><code>Your identification has been saved <span class="keyword">in</span> /Users/you/<span class="string">.ssh</span>/id_rsa.
+# Your <span class="preprocessor">public</span> key has been saved <span class="keyword">in</span> /Users/you/<span class="string">.ssh</span>/id_rsa.pub.
+# The key fingerprint is:
+# <span class="number">01</span>:0f:f4:3b:ca:<span class="number">85</span>:d6:<span class="number">17</span>:a1:<span class="number">7d</span>:f0:<span class="number">68</span>:<span class="number">9d</span>:f0:a2:<span class="pseudo">db</span>
+</code></pre><h4 id="将key添加到ssh-agent">将key添加到ssh-agent</h4>
+<ul>
+<li><p>确保ssh-agent是可用的</p>
+<pre><code>$ <span class="built_in">eval</span> <span class="string">"<span class="variable">$(ssh-agent -s)</span>"</span>
+Agent pid <span class="number">12190</span>
+</code></pre></li>
+<li><p>打印出pid信息则表示正常</p>
+<pre><code>ssh-<span class="built_in">add</span> ~/.ssh/id_rsa
+</code></pre></li>
+</ul>
+<h4 id="将公钥添加到远程服务器">将公钥添加到远程服务器</h4>
+<blockquote>
+<p>这里的远程服务器指的就是pi</p>
+</blockquote>
+<ul>
+<li><p>首先检查一下本地的密钥</p>
+<pre><code> <span class="keyword">ls</span> -<span class="keyword">al</span> ~/.ssh
+</code></pre></li>
+</ul>
+<pre><code><span class="comment">可以看到先前创建的id_rsa</span><span class="string">,</span><span class="comment">id_rsa</span><span class="string">.</span><span class="comment">pub</span> 
+
+
+
+    <span class="comment">出现如下信息：</span>
+    <span class="comment">total</span> <span class="comment">24</span>
+    <span class="comment">drwx</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">2</span> <span class="comment">reeco</span> <span class="comment">reeco</span> <span class="comment">4096</span>  <span class="comment">3月</span>  <span class="comment">9</span> <span class="comment">18:59</span> <span class="string">.</span>
+    <span class="comment">drwxr</span><span class="literal">-</span><span class="comment">xr</span><span class="literal">-</span><span class="comment">x</span> <span class="comment">55</span> <span class="comment">reeco</span> <span class="comment">reeco</span> <span class="comment">4096</span>  <span class="comment">3月</span>  <span class="comment">9</span> <span class="comment">18:59</span> <span class="string">.</span><span class="string">.</span>
+    <span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">reeco</span> <span class="comment">reeco</span>   <span class="comment">47</span>  <span class="comment">3月</span>  <span class="comment">9</span> <span class="comment">18:59</span> <span class="comment">config</span>
+    <span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">reeco</span> <span class="comment">reeco</span> <span class="comment">1679</span>  <span class="comment">3月</span>  <span class="comment">4</span> <span class="comment">16:10</span> <span class="comment">id_rsa</span>
+    <span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">reeco</span> <span class="comment">reeco</span>  <span class="comment">399</span>  <span class="comment">3月</span>  <span class="comment">4</span> <span class="comment">16:10</span> <span class="comment">id_rsa</span><span class="string">.</span><span class="comment">pub</span>
+    <span class="literal">-</span><span class="comment">rw</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span><span class="comment">r</span><span class="literal">-</span><span class="literal">-</span>  <span class="comment">1</span> <span class="comment">reeco</span> <span class="comment">reeco</span> <span class="comment">2876</span>  <span class="comment">3月</span>  <span class="comment">9</span> <span class="comment">16:28</span> <span class="comment">known_hosts</span>
+</code></pre><ul>
+<li><p>我们要做的就是将id_rsa.pub 复制到树莓派里,推荐的做法是：</p>
+<pre><code> ssh-<span class="keyword">copy</span>-<span class="keyword">id</span> remote_host
+</code></pre></li>
+<li><p>如果你不甘寂寞，想挑战hard模式也可以：</p>
+<pre><code> <span class="comment">//树莓派下：</span>
+ sudo mkdir ~/.ssh
+
+ <span class="comment">//修改权限，不然无法写入</span>
+ sudo chmod <span class="number">777</span> ~/.ssh
+
+ <span class="comment">//计算机下：</span>
+ cat ~/.ssh/id_rsa.<span class="keyword">pub</span> | ssh pi@host 'cat - &gt;&gt; ~/.ssh/authorized_keys'
+
+ <span class="comment">//将权限修改回来</span>
+ chmod <span class="number">600</span> ~/.ssh/authorized_keys &amp;&amp; chmod <span class="number">700</span> ~/.ssh/
+</code></pre></li>
+</ul>
+<h4 id="测试连接">测试连接</h4>
+<pre><code><span class="title">ssh</span> pi<span class="variable">@host</span>
+pi<span class="variable">@raspberrypi</span> <span class="regexp">~ $</span>
+</code></pre><p> awesome!成功了！</p>
+<h4 id="修改ssh_config再次简化ssh连接">修改ssh config再次简化ssh连接</h4>
+<p>不需要密码了还觉得每次输入一大串麻烦，有的时候记不住IP地址，还有更简单的方法吗？当然有了，往下看：</p>
+<pre><code> touch ~/.ssh/config
+ vim ~/.ssh/config
+
+ //<span class="operator"><span class="keyword">INSERT</span> 以下内容:
+
+   Host <span class="keyword">pi</span>
+   HostName host_ip
+   <span class="keyword">User</span> <span class="keyword">pi</span>
+   Port <span class="number">22</span></span>
+</code></pre><p>接着</p>
+<pre><code>ssh <span class="constant">pi</span>
+</code></pre><p>也能成功连接上，是不是很cool！</p>
+<h3 id="参考更多">参考更多</h3>
+<hr>
+<p><a href="http://www.leiphone.com/news/201406/raspberry-pi-hands-on.html" target="_blank" rel="external">树莓派Raspberry Pi上手报告</a><br><a href="http://www.ithome.com/html/digi/121079.htm" target="_blank" rel="external">不可小觑！树莓派16个酷炫玩法</a><br><a href="http://www.raspberrypi.org/forums/viewforum.php?f=91" target="_blank" rel="external">Raspberry Pi Beginers</a><br><a href="https://github.com/search?utf8=%E2%9C%93&amp;q=raspberry" target="_blank" rel="external">Raspberry on github</a></p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Raspberry/"> #Raspberry </a>
+          
+            <a href="/tags/Linux/"> #Linux </a>
+          
+            <a href="/tags/Debian/"> #Debian </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/21/what-happen/">从输入 URL 到页面加载完成发生了什么事</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/08/An Introduction to Securing your Linux VPS/">如何保护你的 Linux VPS</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/03/09/An Introduction to Raspberry Pi/"
+               data-title="树莓派快速入门指南" data-url="http://1994.github.io/2015/03/09/An Introduction to Raspberry Pi/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://7xawrk.com1.z0.glb.clouddn.com/blogIMG_0476.jpg" alt="reeco" />
+          <p class="site-author-name">reeco</p>
+        </div>
+        <p class="site-description motion-element">reeco's blog</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tages">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://twitter.com/guoreeco" target="_blank">twitter</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/reeco" target="_blank">zhihu</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://v2ex.com/member/reeco" target="_blank">v2ex</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://segmentfault.com/u/reeco" target="_blank">segmentfault</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">2.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刻录镜像"><span class="nav-number">3.</span> <span class="nav-text">刻录镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组装并启动"><span class="nav-number">4.</span> <span class="nav-text">组装并启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH连接"><span class="nav-number">5.</span> <span class="nav-text">SSH连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速设置"><span class="nav-number">6.</span> <span class="nav-text">快速设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装应用"><span class="nav-number">7.</span> <span class="nav-text">安装应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#搜索最快的源"><span class="nav-number">7.1.</span> <span class="nav-text">搜索最快的源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装tasksel"><span class="nav-number">7.2.</span> <span class="nav-text">安装tasksel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用VNC显示图形界面"><span class="nav-number">8.</span> <span class="nav-text">使用VNC显示图形界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ssh_key登录"><span class="nav-number">9.</span> <span class="nav-text">使用ssh key登录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成密钥"><span class="nav-number">9.1.</span> <span class="nav-text">生成密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将key添加到ssh-agent"><span class="nav-number">9.2.</span> <span class="nav-text">将key添加到ssh-agent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将公钥添加到远程服务器"><span class="nav-number">9.3.</span> <span class="nav-text">将公钥添加到远程服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试连接"><span class="nav-number">9.4.</span> <span class="nav-text">测试连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改ssh_config再次简化ssh连接"><span class="nav-number">9.5.</span> <span class="nav-text">修改ssh config再次简化ssh连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考更多"><span class="nav-number">10.</span> <span class="nav-text">参考更多</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">reeco</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"reeco"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+</body>
+</html>
