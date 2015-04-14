@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="theme-next use-motion theme-next-next">
+<html class="theme-next use-motion theme-next-mist">
 <head>
   
 
@@ -13,14 +13,23 @@
   <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.1"/>
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
 
 
     <meta name="description" content="reeco's blog" />
 
 
 
-	<meta name="keywords" content="SSL,Nginx,Web," />
+  <meta name="keywords" content="SSL,Nginx,Web," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
 
   <title> Nginx上安装SSL证书 // reeco's blog </title>
 </head>
@@ -44,6 +53,7 @@
 
 
   <ul id="menu" class="menu">
+     
     
       
       <li class="menu-item menu-item-home">
@@ -79,12 +89,9 @@
       <div class="main-inner">
         <div id="content" class="content">
           
-            
-          
 
-          <div id="posts" class="posts-expand">
-            
-  
+  <div id="posts" class="posts-expand">
+    
 
   <div class="post post-type-normal ">
     <div class="post-header">
@@ -103,13 +110,9 @@
 
       <div class="post-meta">
         <span class="post-time">
-          
-            发表于 2015-04-13
-          
+          发表于 2015-04-13
         </span>
 
-        
-          
         
 
         
@@ -125,19 +128,20 @@
       </div>
     </div>
 
-    
-      <div class="post-body">
+    <div class="post-body">
 
-        
-        
+      
+      
 
-        
-          <blockquote>
+      
+        <blockquote>
 <p>长话短说，省去各种申请过程，讲讲扼要的部分</p>
 </blockquote>
 <h2 id="生成CRS和密钥">生成CRS和密钥</h2>
 <p>方便一点的做法是使用在线的生成器，或者通过openSSL生成：</p>
-<pre><code>openssl req -nodes -newkey rsa:<span class="number">2048</span> -nodes -keyout your_key_name.key -<span class="keyword">out</span> your_csr_name.csr -subj <span class="string">"/C=GB/ST=London/L=London/O=your_server/OU=IT/CN=your_server"</span>
+<pre><code>openssl req -nodes -newkey rs<span class="variable">a:2048</span> -nodes -keyout your_key_name.key 
+-out your_csr_name.csr -subj <span class="string">"/C=GB/ST=London/L=London/O=your_server
+</span>/OU=IT/CN=your_server"
 </code></pre>   <a id="more"></a> 
 <h2 id="将CRS提交给证书提供商">将CRS提交给证书提供商</h2>
 <p>每个提供商步骤不太一样，讲讲COMODO的吧。<br>通过验证之后，会向你的邮箱发送一个压缩包，压缩包里包含四个文件</p>
@@ -161,174 +165,164 @@
 </code></pre><p>一切顺利的话然后重启一下Nginx就能生效了</p>
 <pre><code><span class="built_in">sudo</span> nginx <span class="operator">-s</span> reload
 </code></pre>
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/SSL/">
-                #SSL
-              </a>
-            
-              <a href="/tags/Nginx/">
-                #Nginx
-              </a>
-            
-              <a href="/tags/Web/">
-                #Web
-              </a>
-            
-          </div>
-        
-
-        
-          <div class="post-nav">
-            <div class="post-nav-prev post-nav-item">
-              
-            </div>
-
-            <div class="post-nav-next post-nav-item">
-              
-                <a href="/2015/03/31/difference-of-wait() -and-sleep()/">Java中wait()与sleep()的区别</a>
-              
-            </div>
-          </div>
-        
-
-        
-        
-      </div>
-    
-  </div>
-
-
-
-  
-    <div class="comments" id="comments">
-      
-        <div class="ds-thread" data-thread-key="2015/04/13/how-to-install-SSL -on-nginx/"
-             data-title="Nginx上安装SSL证书" data-url="http://1994.github.io/2015/04/13/how-to-install-SSL -on-nginx/">
-        </div>
-
       
     </div>
-  
 
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SSL/"> #SSL </a>
+          
+            <a href="/tags/Nginx/"> #Nginx </a>
+          
+            <a href="/tags/Web/"> #Web </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
           </div>
 
-          
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/31/difference-of-wait() -and-sleep()/">Java中wait()与sleep()的区别</a>
+            
+          </div>
         </div>
+      
 
-        
-<div class="sidebar-toggle">
-  <div class="sidebar-toggle-line-wrap">
-    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+      
+      
+    </div>
   </div>
-</div>
 
-<div id="sidebar" class="sidebar">
-  <div class="sidebar-inner">
+
 
     
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview" data-target="site-overview">
-          站点概览
-        </li>
-      </ul>
-    
-
-    <div class="site-overview">
-      <div class="site-author motion-element">
-        <img class="site-author-image" src="http://7xawrk.com1.z0.glb.clouddn.com/blogIMG_0476.jpg" alt="reeco" />
-        <p class="site-author-name">reeco</p>
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/04/13/how-to-install-SSL -on-nginx/"
+               data-title="Nginx上安装SSL证书" data-url="http://1994.github.io/2015/04/13/how-to-install-SSL -on-nginx/">
+          </div>
+        
       </div>
-      <p class="site-description motion-element">reeco's blog</p>
-      <div class="site-state motion-element">
-        <div class="site-state-item site-state-posts">
-          <a href="/archives">
-            <span class="site-state-item-count">3</span>
-            <span class="site-state-item-name">日志</span>
-          </a>
-        </div>
+    
+  </div>
 
-        <div class="site-state-item site-state-categories">
-          
-            <span class="site-state-item-count">0</span>
-            <span class="site-state-item-name">分类</span>
-          
-        </div>
 
-        <div class="site-state-item site-state-tags">
-          <a href="/tages">
-            <span class="site-state-item-count">6</span>
-            <span class="site-state-item-name">标签</span>
-          </a>
         </div>
-
       </div>
 
       
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
 
-      <div class="links-of-author motion-element">
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://7xawrk.com1.z0.glb.clouddn.com/blogIMG_0476.jpg" alt="reeco" />
+          <p class="site-author-name">reeco</p>
+        </div>
+        <p class="site-description motion-element">reeco's blog</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tages">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
         
+
+        <div class="links-of-author motion-element">
           
-            <span class="links-of-author-item">
+            
+              <span class="links-of-author-item">
               <a href="https://twitter.com/guoreeco" target="_blank">twitter</a>
             </span>
-          
-            <span class="links-of-author-item">
+            
+              <span class="links-of-author-item">
               <a href="http://www.zhihu.com/people/reeco" target="_blank">zhihu</a>
             </span>
-          
-            <span class="links-of-author-item">
+            
+              <span class="links-of-author-item">
               <a href="https://v2ex.com/member/reeco" target="_blank">v2ex</a>
             </span>
-          
-            <span class="links-of-author-item">
+            
+              <span class="links-of-author-item">
               <a href="http://segmentfault.com/u/reeco" target="_blank">segmentfault</a>
             </span>
+            
           
+        </div>
+
         
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
       </div>
 
       
-      
-        <div class="cc-license motion-element">
-          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-            <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
-          </a>
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成CRS和密钥"><span class="nav-number">1.</span> <span class="nav-text">生成CRS和密钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将CRS提交给证书提供商"><span class="nav-number">2.</span> <span class="nav-text">将CRS提交给证书提供商</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合并证书"><span class="nav-number">3.</span> <span class="nav-text">合并证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传证书并配置Nginx"><span class="nav-number">4.</span> <span class="nav-text">上传证书并配置Nginx</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
         </div>
       
 
     </div>
-
-    
-      <div class="post-toc-wrap sidebar-panel-active">
-        <div class="post-toc-indicator-top post-toc-indicator"></div>
-        <div class="post-toc">
-          
-          
-            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成CRS和密钥"><span class="nav-number">1.</span> <span class="nav-text">生成CRS和密钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将CRS提交给证书提供商"><span class="nav-number">2.</span> <span class="nav-text">将CRS提交给证书提供商</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合并证书"><span class="nav-number">3.</span> <span class="nav-text">合并证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传证书并配置Nginx"><span class="nav-number">4.</span> <span class="nav-text">上传证书并配置Nginx</span></a></li></ol></div>
-          
-        </div>
-        <div class="post-toc-indicator-bottom post-toc-indicator"></div>
-      </div>
-    
-
   </div>
-</div>
 
 
-      </div>
     </div>
 
     <div id="footer" class="footer">
@@ -880,6 +874,7 @@
   
 
   
+  
 
   
     
@@ -898,6 +893,8 @@
   </script>
 
   
+
+
   
 </body>
 </html>
