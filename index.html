@@ -108,8 +108,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/03/04/xx/">
-                疯狂测试
+              <a class="post-title-link" href="/2015/04/13/how-to-install-SSL -on-nginx/">
+                Nginx上安装SSL证书
               </a>
             
           
@@ -119,7 +119,7 @@
       <div class="post-meta">
         <span class="post-time">
           
-            发表于 2015-03-04
+            发表于 2015-04-13
           
         </span>
 
@@ -131,8 +131,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/03/04/xx/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/04/xx/"></span>
+            <a href="/2015/04/13/how-to-install-SSL -on-nginx/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/13/how-to-install-SSL -on-nginx/"></span>
             </a>
           </span>
           
@@ -148,17 +148,15 @@
 
         
           
-            <h5 id="前言">前言</h5>
-<p>Sublime Text3 是一款非常优秀的跨平台编辑器，在此简单记录下我的Sublime Text3的配置。</p>
-<h5 id="安装">安装</h5>
-<p>首先打开<a href="http://www.sublimetext.com/3" target="_blank" rel="external">Sublme Text官网！废话:)</a><br>安装方法非常傻瓜式，下载下来双击就行了。<br>ubuntu 64 bit的话可以安装在终端下:</p>
-<pre><code>wget http:<span class="comment">//c758482.r82.cf2.rackcdn.com/sublime-text_build-3065_amd64.deb</span>
-</code></pre><p>或者通过源安装：</p>
-<pre><code>sudo <span class="built_in">add</span>-apt-repository <span class="keyword">pp</span><span class="variable">a:webupd8team</span>/sublime-text-<span class="number">3</span> 
-sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $ sudo apt-<span class="built_in">get</span> install sublime-text-installer
-</code></pre>
+            <blockquote>
+<p>长话短说，省去各种申请过程，讲讲扼要的部分</p>
+</blockquote>
+<h2 id="生成CRS和密钥">生成CRS和密钥</h2>
+<p>方便一点的做法是使用在线的生成器，或者通过openSSL生成：</p>
+<pre><code>openssl req -nodes -newkey rsa:<span class="number">2048</span> -nodes -keyout your_key_name.key -<span class="keyword">out</span> your_csr_name.csr -subj <span class="string">"/C=GB/ST=London/L=London/O=your_server/OU=IT/CN=your_server"</span>
+</code></pre>   
             <div class="post-more-link text-center">
-              <a class="btn" href="/2015/03/04/xx/#more">
+              <a class="btn" href="/2015/04/13/how-to-install-SSL -on-nginx/#more">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -169,6 +167,125 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
     
       <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/SSL/">
+                #SSL
+              </a>
+            
+              <a href="/tags/Nginx/">
+                #Nginx
+              </a>
+            
+              <a href="/tags/Web/">
+                #Web
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/03/31/difference-of-wait() -and-sleep()/">
+                Java中wait()与sleep()的区别
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          
+            发表于 2015-03-31
+          
+        </span>
+
+        
+          
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/31/difference-of-wait() -and-sleep()/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/31/difference-of-wait() -and-sleep()/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <blockquote>
+<p>最近在做面试题的时候看到这道题，复习了一遍《Thinking in Java》，在此记录这个答案</p>
+</blockquote>
+<h2 id="类的区别">类的区别</h2>
+<ul>
+<li>wait()来自于 <code>java.lang.Object</code>，任何对象都有此方法</li>
+<li>sleep()来自于 <code>java.lang.Thread</code>，调用的对象为线程</li>
+</ul>
+<h2 id="用法上的区别">用法上的区别</h2>
+<p>看一下jdk的描述：</p>
+<blockquote>
+<p><code>wait()</code>:Causes the current thread to wait until either another thread invokes the<br> java.lang.Object.notify() method or the java.lang.Object.notifyAll()method for this object, or a specified amount of time has elapsed.</p>
+</blockquote>
+
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2015/03/31/difference-of-wait() -and-sleep()/#more">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/interview/">
+                #interview
+              </a>
+            
+              <a href="/tags/Java/">
+                #Java
+              </a>
+            
+          </div>
         
 
         
@@ -299,14 +416,14 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://7xawrk.com1.z0.glb.clouddn.com/avater.png" alt="reeco" />
+        <img class="site-author-image" src="http://7xawrk.com1.z0.glb.clouddn.com/blogIMG_0476.jpg" alt="reeco" />
         <p class="site-author-name">reeco</p>
       </div>
       <p class="site-description motion-element">reeco's blog</p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
           <a href="/archives">
-            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-count">3</span>
             <span class="site-state-item-name">日志</span>
           </a>
         </div>
@@ -320,7 +437,7 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
         <div class="site-state-item site-state-tags">
           <a href="/tages">
-            <span class="site-state-item-count">1</span>
+            <span class="site-state-item-count">6</span>
             <span class="site-state-item-name">标签</span>
           </a>
         </div>
@@ -330,6 +447,24 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
       
 
       <div class="links-of-author motion-element">
+        
+          
+            <span class="links-of-author-item">
+              <a href="https://twitter.com/guoreeco" target="_blank">twitter</a>
+            </span>
+          
+            <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/reeco" target="_blank">zhihu</a>
+            </span>
+          
+            <span class="links-of-author-item">
+              <a href="https://v2ex.com/member/reeco" target="_blank">v2ex</a>
+            </span>
+          
+            <span class="links-of-author-item">
+              <a href="http://segmentfault.com/u/reeco" target="_blank">segmentfault</a>
+            </span>
+          
         
       </div>
 
