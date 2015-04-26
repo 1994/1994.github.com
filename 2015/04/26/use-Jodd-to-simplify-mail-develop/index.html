@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="interview,Java," />
+  <meta name="keywords" content="Java,Jodd,mail," />
 
 
 
@@ -31,7 +31,7 @@
 
 
 
-  <title> Java中wait()与sleep()的区别 // reeco's blog </title>
+  <title> 使用Jodd简化邮件开发 // reeco's blog </title>
 </head>
 
 <body>
@@ -102,7 +102,7 @@
           
           
             
-              Java中wait()与sleep()的区别
+              使用Jodd简化邮件开发
             
           
         </h1>
@@ -110,7 +110,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-03-31
+          发表于 2015-04-26
         </span>
 
         
@@ -130,8 +130,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/03/31/difference-of-wait() -and-sleep()/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/31/difference-of-wait() -and-sleep()/"></span>
+            <a href="/2015/04/26/use-Jodd-to-simplify-mail-develop/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/26/use-Jodd-to-simplify-mail-develop/"></span>
             </a>
           </span>
           
@@ -145,43 +145,166 @@
       
 
       
-        <blockquote>
-<p>最近在做面试题的时候看到这道题，复习了一遍《Thinking in Java》，在此记录这个答案</p>
-</blockquote>
-<h2 id="类的区别">类的区别</h2>
+        <p>最近需要做一个邮件相关的功能，考虑到自建邮件服务器维护起来比较麻烦，于是选择第三方邮件服务。邮件发送服务的对比可以看<a href="http://segmentfault.com/a/1190000000340133" target="_blank" rel="external">这篇文章</a></p>
+<p>最后我选择了：</p>
 <ul>
-<li>wait()来自于 <code>java.lang.Object</code>，任何对象都有此方法</li>
-<li>sleep()来自于 <code>java.lang.Thread</code>，调用的对象为线程</li>
+<li><a href="https://sendcloud.sohu.com/" target="_blank" rel="external">sendCloud</a></li>
+<li><a href="http://www.mailgun.com/" target="_blank" rel="external">mailgun</a></li>
 </ul>
-<h2 id="用法上的区别">用法上的区别</h2>
-<p>看一下jdk的描述：</p>
-<blockquote>
-<p><code>wait()</code>:Causes the current thread to wait until either another thread invokes the<br> java.lang.Object.notify() method or the java.lang.Object.notifyAll()method for this object, or a specified amount of time has elapsed.</p>
-</blockquote>
 <a id="more"></a> 
-<p>使当前线程挂起，当对象调用<code>java.lang.Object.notify()</code>或者<code>java.lang.Object.notifyAll()</code>或者时间到期，则从wait()中恢复执行</p>
-<blockquote>
-<p><code>sleep()</code>:Causes the currently executing thread to sleep (temporarily cease execution) for the specified number of milliseconds, subject to the precision and accuracy of system timers and schedulers. The thread does not lose ownership of any monitors.</p>
-</blockquote>
-<p>在指定的时间内使当前执行的线程睡眠（暂停执行）</p>
-<h2 id="同步与锁的不同">同步与锁的不同</h2>
-<p>wait()与sleep()最主要的区别就在于同步与锁，wiat()必须放在synchronized block中，否则会在program runtime时扔出<code>java.lang.IllegalMonitorStateException</code>异常。</p>
+<p>sendCloud向QQ用户发送，mailgun则负责其他用户。这就需要我同时为这两种服务编写相应的接口。但是它们的文档里给出的示例代码又各不相同，有的还不够优雅，比如sendcloud的<a href="http://sendcloud.sohu.com/doc/downloads/code/java/#webapi" title="java示例" target="_blank" rel="external">java示例</a>。两者依赖的库又不相同，比如mailgun依赖</p>
 <ul>
-<li>wait()期间对象锁是释放的</li>
-<li><p>调用sleep()的时候锁并没有被释放，调用yield()也属于这种情况</p>
-<pre><code> synchronized(<span class="operator"><span class="keyword">LOCK</span>) {   
-     Thread.<span class="keyword">sleep</span>(<span class="number">1000</span>);</span> // <span class="operator"><span class="keyword">LOCK</span> <span class="keyword">is</span> held
- }
-
- synchronized(<span class="keyword">LOCK</span>) {   
-     <span class="keyword">LOCK</span>.wait();</span> // <span class="operator"><span class="keyword">LOCK</span> <span class="keyword">is</span> <span class="keyword">not</span> held
- }</span>
-</code></pre></li>
+<li>jersey-client.jar (version ~ 1.17 - 1.18.1)</li>
+<li>jersey-core.jar (version ~ 1.17 - 1.18.1)</li>
+<li>jersey-multipart.jar (version ~ 1.17 - 1.18.1)</li>
 </ul>
-<p>一般而言，wait()用于线程间的通信，sleep()用于线程状态的控制</p>
-<h2 id="参考资料">参考资料</h2>
-<p><a href="http://stackoverflow.com/questions/1036754/difference-between-wait-and-sleep" target="_blank" rel="external">http://stackoverflow.com/questions/1036754/difference-between-wait-and-sleep</a><br><a href="http://howtodoinjava.com/2013/03/08/difference-between-sleep-and-wait/" target="_blank" rel="external">http://howtodoinjava.com/2013/03/08/difference-between-sleep-and-wait/</a><br><a href="http://www.qat.com/using-waitnotify-instead-thread-sleep-java/" target="_blank" rel="external">http://www.qat.com/using-waitnotify-instead-thread-sleep-java/</a></p>
+<p>sendCloud则依赖<code>HttpClient</code>。有没有一种既能简化代码又能实现功能的方案呢，然后我发现了<a href="http://jodd.org/" target="_blank" rel="external">Jodd</a></p>
+<p>Jodd介绍：</p>
+<blockquote>
+<p>Jodd is set of Java micro frameworks, tools and utilities, under 1.5 MB.<br>Designed with common sense to make things simple, but not simpler.<br>Get things done! Build your Beautiful Ideas! Kickstart your Startup!<br>And enjoy the coding.</p>
+</blockquote>
+<p>很喜欢Jodd的理念：</p>
+<blockquote class="blockquote-center">Think Lightweight, Be Awesome, Get Things Done!</blockquote>
 
+<hr>
+<p>下面开始正题：需要用到的依赖如下：</p>
+<pre><code>  <span class="tag">&lt;<span class="title">properties</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">jodd.version</span>&gt;</span>3.6.5<span class="tag">&lt;/<span class="title">jodd.version</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">properties</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.jodd<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>jodd-http<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">version</span>&gt;</span>${jodd.version}<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+         <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.jodd<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+         <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>jodd-mail<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+         <span class="tag">&lt;<span class="title">version</span>&gt;</span>${jodd.version}<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+</code></pre><hr>
+<p>Talk is cheap，贴出代码。以下仅仅给出简单的发送功能，起抛砖引玉的作用，其他功能详见官网文档。</p>
+<p>mailgun:</p>
+<pre><code><span class="keyword">import</span> jodd.http.HttpRequest;
+<span class="keyword">import</span> jodd.mail.Email;
+<span class="keyword">import</span> jodd.mail.SendMailSession;
+<span class="keyword">import</span> jodd.mail.SmtpServer;
+
+<span class="keyword">import</span> java.util.HashMap;
+<span class="keyword">import</span> java.util.Map;
+
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MailGun</span> </span>{
+
+    <span class="keyword">private</span> String SMTP_HOST = <span class="string">"smtp.mailgun.org"</span>;
+
+    <span class="keyword">private</span> String SMTP_USER=<span class="string">"YOUR_USER"</span>;
+
+    <span class="keyword">private</span> String SMTP_PASS = <span class="string">"YOUR_PASSWORD"</span>;
+
+    <span class="keyword">private</span> String HTTP_URL=<span class="string">"https://api.mailgun.net/v3/YOUR_DOMAIN/messages"</span>;
+
+    <span class="keyword">private</span> String HTTP_API=<span class="string">"YOUR_API"</span>;
+
+
+    <span class="javadoc">/**
+     * 使用SMTP触发发送
+     *<span class="javadoctag"> @param</span> from 发件人
+     *<span class="javadoctag"> @param</span> to 收件人
+     *<span class="javadoctag"> @param</span> subject 主题
+     *<span class="javadoctag"> @param</span> text 内容
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendBySMTP</span>(String from,String to,String subject,String text){
+        SmtpServer smtpServer = SmtpServer.create(SMTP_HOST)
+                .authenticateWith(SMTP_USER, SMTP_PASS);
+        SendMailSession session = smtpServer.createSession();
+        session.open();
+
+        Email email = Email.create()
+                .from(from)
+                .to(to)
+                .subject(subject)
+                .addHtml(text);
+        session.sendMail(email);
+        session.close();
+    }
+
+    <span class="javadoc">/**
+     * 使用HTTP方式发送
+     *<span class="javadoctag"> @param</span> from 发件人
+     *<span class="javadoctag"> @param</span> to 收件人
+     *<span class="javadoctag"> @param</span> subject 主题
+     *<span class="javadoctag"> @param</span> text 内容
+     */</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendByHTTP</span>(String from,String to,String subject,String text){
+        Map&lt;String, Object&gt; formData = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();
+        formData.put(<span class="string">"from"</span>, from);
+        formData.put(<span class="string">"to"</span>, to);
+        formData.put(<span class="string">"subject"</span>, subject);
+        formData.put(<span class="string">"text"</span>, text);
+        HttpRequest
+                .post(HTTP_URL)
+                .basicAuthentication(<span class="string">"api"</span>,HTTP_API)
+                .form(formData).send();
+    }
+}
+</code></pre><hr>
+<p>sendCloud:</p>
+<pre><code><span class="keyword">import</span> jodd<span class="built_in">.</span>http<span class="built_in">.</span>HttpRequest;
+<span class="keyword">import</span> jodd<span class="built_in">.</span>mail<span class="built_in">.</span>Email;
+<span class="keyword">import</span> jodd<span class="built_in">.</span>mail<span class="built_in">.</span>SendMailSession;
+<span class="keyword">import</span> jodd<span class="built_in">.</span>mail<span class="built_in">.</span>SmtpServer;
+
+<span class="keyword">import</span> java<span class="built_in">.</span>util<span class="built_in">.</span>HashMap;
+<span class="keyword">import</span> java<span class="built_in">.</span>util<span class="built_in">.</span><span class="built_in">Map</span>;
+
+<span class="keyword">public</span> class SendCloud {
+
+    <span class="keyword">private</span> <span class="built_in">String</span> HTTP_URL <span class="subst">=</span><span class="string">"http://sendcloud.sohu.com/webapi/mail.send.json"</span>;
+
+    <span class="keyword">private</span> <span class="built_in">String</span> HTTP_API_USER <span class="subst">=</span><span class="string">"YOUR_API_USER"</span>;
+
+    <span class="keyword">private</span> <span class="built_in">String</span> HTTP_API_KEY <span class="subst">=</span> <span class="string">"YOUR_API_KEY"</span>;
+
+    <span class="keyword">private</span> <span class="built_in">String</span> FROM <span class="subst">=</span> <span class="string">"YPUR_DOMAIN_EMAIL"</span>;
+
+    <span class="keyword">private</span> <span class="built_in">String</span> SMTP_HOST <span class="subst">=</span> <span class="string">"smtpcloud.sohu.com"</span>;
+
+    <span class="keyword">private</span> <span class="built_in">String</span> SMTP_USER<span class="subst">=</span><span class="string">"YOUR_USER"</span>;
+
+    <span class="keyword">private</span> <span class="built_in">String</span> SMTP_PASS <span class="subst">=</span> <span class="string">"YOUR_PASS"</span>;
+
+    <span class="keyword">public</span> <span class="literal">void</span> sendBySMTP(<span class="built_in">String</span> <span class="keyword">to</span>, <span class="built_in">String</span> subject, <span class="built_in">String</span> text){
+        SmtpServer smtpServer <span class="subst">=</span> SmtpServer<span class="built_in">.</span>create(SMTP_HOST)
+                <span class="built_in">.</span>authenticateWith(SMTP_USER, SMTP_PASS);
+        SendMailSession session <span class="subst">=</span> smtpServer<span class="built_in">.</span>createSession();
+        session<span class="built_in">.</span>open();
+
+        Email email <span class="subst">=</span> Email<span class="built_in">.</span>create()
+                <span class="built_in">.</span>from(FROM)
+                <span class="built_in">.</span><span class="keyword">to</span>(<span class="keyword">to</span>)
+                <span class="built_in">.</span>subject(subject)
+                <span class="built_in">.</span>addHtml(text);
+        session<span class="built_in">.</span>sendMail(email);
+        session<span class="built_in">.</span>close();
+    }
+
+    <span class="keyword">public</span> <span class="literal">void</span> sendByHTTP(<span class="built_in">String</span> <span class="keyword">to</span>, <span class="built_in">String</span> subject, <span class="built_in">String</span> text){
+        <span class="built_in">Map</span><span class="subst">&lt;</span><span class="built_in">String</span>, Object<span class="subst">&gt;</span> formData <span class="subst">=</span> <span class="literal">new</span> HashMap<span class="subst">&lt;</span><span class="built_in">String</span>, Object<span class="subst">&gt;</span>();
+        formData<span class="built_in">.</span>put(<span class="string">"api_user"</span>, HTTP_API_USER);
+        formData<span class="built_in">.</span>put(<span class="string">"api_key"</span>, HTTP_API_KEY);
+        formData<span class="built_in">.</span>put(<span class="string">"from"</span>, FROM);
+        formData<span class="built_in">.</span>put(<span class="string">"to"</span>, <span class="keyword">to</span>);
+        formData<span class="built_in">.</span>put(<span class="string">"subject"</span>, subject);
+        formData<span class="built_in">.</span>put(<span class="string">"html"</span>, text);
+        HttpRequest
+                <span class="built_in">.</span>post(HTTP_URL)
+                <span class="built_in">.</span>form(formData)
+                <span class="built_in">.</span>send();
+    }
+}
+</code></pre>
       
     </div>
 
@@ -189,9 +312,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/interview/"> #interview </a>
-          
             <a href="/tags/Java/"> #Java </a>
+          
+            <a href="/tags/Jodd/"> #Jodd </a>
+          
+            <a href="/tags/mail/"> #mail </a>
           
         </div>
       
@@ -200,13 +325,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/13/how-to-install-SSL -on-nginx/">Nginx上安装SSL证书</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/21/what-happen/">从输入 URL 到页面加载完成发生了什么事</a>
+              <a href="/2015/04/13/how-to-install-SSL -on-nginx/">Nginx上安装SSL证书</a>
             
           </div>
         </div>
@@ -222,8 +345,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/03/31/difference-of-wait() -and-sleep()/"
-               data-title="Java中wait()与sleep()的区别" data-url="http://1994.github.io/2015/03/31/difference-of-wait() -and-sleep()/">
+          <div class="ds-thread" data-thread-key="2015/04/26/use-Jodd-to-simplify-mail-develop/"
+               data-title="使用Jodd简化邮件开发" data-url="http://1994.github.io/2015/04/26/use-Jodd-to-simplify-mail-develop/">
           </div>
         
       </div>
@@ -329,7 +452,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类的区别"><span class="nav-number">1.</span> <span class="nav-text">类的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法上的区别"><span class="nav-number">2.</span> <span class="nav-text">用法上的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步与锁的不同"><span class="nav-number">3.</span> <span class="nav-text">同步与锁的不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
