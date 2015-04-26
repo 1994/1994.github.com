@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="Ubuntu,网卡,你是一个好人," />
+  <meta name="keywords" content="reeco,blog" />
 
 
 
@@ -31,7 +31,7 @@
 
 
 
-  <title> Ubuntu下无线网卡禁用一次之后无法再开启的问题 // reeco's blog </title>
+  <title> 20150426 // reeco's blog </title>
 </head>
 
 <body>
@@ -102,7 +102,7 @@
           
           
             
-              Ubuntu下无线网卡禁用一次之后无法再开启的问题
+              20150426
             
           
         </h1>
@@ -110,14 +110,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-03-20
+          发表于 2015-04-26
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/好人修电脑/">好人修电脑</a>
+              <a href="/categories/谈谈人生/">谈谈人生</a>
 
               
               
@@ -130,8 +130,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/20/network-of-Ubuntu/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/network-of-Ubuntu/"></span>
+            <a href="/2015/04/26/2015-4-26/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/26/2015-4-26/"></span>
             </a>
           </span>
           
@@ -145,49 +145,30 @@
       
 
       
-        <h2 id="症状描述">症状描述</h2>
-<hr>
-<p>Ubuntu下使用默认网络管理禁用无线网卡后无法再次启用，无线网络管理处显示该设备已被硬件设备禁用。切换到其他系统，比如Windows也显示已经禁用。<br>Ubuntu版本12.04LTS<br><a id="more"></a> </p>
-<h2 id="解决方法">解决方法</h2>
-<hr>
-<p>查看无线网卡是否被屏蔽</p>
-<pre><code><span class="built_in">sudo</span> rfkill list
-</code></pre><p>如果有no的，继续往下看吧，如果都是yes，请自行google其他方法，不过死马当活马医，也可以使用一下以下方法。<br>解除屏蔽</p>
-<pre><code><span class="built_in">sudo</span> rfkill unblock all
-</code></pre><p>为了防止这样的事情再发生,推荐使用<code>wicd</code>来管理网络。<br>卸载自带的网络管理</p>
-<pre><code>sudo apt-<span class="built_in">get</span> <span class="built_in">remove</span> network-manager-gnome
-sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>
-sudo apt-<span class="built_in">get</span> install wicd
-sudo wicd-client
-</code></pre><p>不过感觉<code>wicd</code>的界面没有<code>network-manager-gnome</code>好看,好处是在命令行界面也能连接无线网络</p>
+        <blockquote class="blockquote-center">既然选择了远方，便只顾风雨兼程。</blockquote>
+
+<blockquote>
+<p>2015年4月26日凌晨两点十分，汪国真去世，享年59岁</p>
+</blockquote>
+<p>斯人已去，诗歌不死。</p>
 
       
     </div>
 
     <div class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Ubuntu/"> #Ubuntu </a>
-          
-            <a href="/tags/网卡/"> #网卡 </a>
-          
-            <a href="/tags/你是一个好人/"> #你是一个好人 </a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/03/20/run-VC++6.0-on-windows8.1/">Windows 8.1上运行VC++6.0的方法</a>
+              <a href="/2015/04/26/use-Jodd-to-simplify-mail-develop/">使用Jodd简化邮件服务的开发</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/03/20/MatLab/">MatLab7在Windows7，Windows8中安装问题摘要</a>
+              <a href="/2015/04/13/how-to-install-SSL -on-nginx/">Nginx上安装SSL证书</a>
             
           </div>
         </div>
@@ -203,8 +184,8 @@ sudo wicd-client
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2014/03/20/network-of-Ubuntu/"
-               data-title="Ubuntu下无线网卡禁用一次之后无法再开启的问题" data-url="http://1994.github.io/2014/03/20/network-of-Ubuntu/">
+          <div class="ds-thread" data-thread-key="2015/04/26/2015-4-26/"
+               data-title="20150426" data-url="http://1994.github.io/2015/04/26/2015-4-26/">
           </div>
         
       </div>
@@ -310,7 +291,7 @@ sudo wicd-client
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#症状描述"><span class="nav-number">1.</span> <span class="nav-text">症状描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方法"><span class="nav-number">2.</span> <span class="nav-text">解决方法</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
