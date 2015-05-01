@@ -150,12 +150,69 @@
 
       
         
-          <p>Microsoft 今天在其 Build 开发者大会上正式宣布了 Visual Studio Code 项目：一个运行于 OS X，Windows 和 Linux 之上的，针对于编写现代web和云应用的跨平台编辑器。<br>作为编辑器控的我，得知消息后立马下载体验了一下。Windows上优秀的编辑器实在太多了，<code>Sublime Text</code>，<code>EditPlus</code>，<code>Notepad++</code>……还有诸如国产的<code>EverEdit</code>等后起之秀。所以这次我这次把测评的环境放在了编辑器相对匮乏的Linux桌面上。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/30/first-VSCode/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          <p>Microsoft 今天在其 Build 开发者大会上正式宣布了 Visual Studio Code 项目：一个运行于 OS X，Windows 和 Linux 之上的，针对于编写现代web和云应用的跨平台编辑器。</p>
+<p>作为编辑器控的我，得知消息后立马下载体验了一下。Windows上优秀的编辑器实在太多了，<code>Sublime Text</code>，<code>EditPlus</code>，<code>Notepad++</code>……还有诸如国产的<code>EverEdit</code>等后起之秀。所以这次我这次把测评的环境放在了编辑器相对匮乏的Linux桌面上。</p>
+<h2 id="环境&amp;安装">环境&amp;安装</h2>
+<ul>
+<li>Ubuntu 14.04 LTS</li>
+<li>Visual Studio Code 0.1.0</li>
+</ul>
+<p>主要对比对象是<code>Sublime Text3</code></p>
+<pre><code>    wget http:<span class="comment">//download.microsoft.com/download/0/D/5/0D57186C-834B-463A-AECB-BC55A8E466AE/VSCode-linux-x64.zip</span>
+
+    <span class="comment">//注意不要使用归档解压会报错</span>
+    unzip  unzip VSCode-linux-x64 -d VS
+
+    <span class="comment">//双击VS里的Code就能运行了</span>
+</code></pre><h2 id="颜值">颜值</h2>
+<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/c08cce9034f37cc93fc026bba9a9e326_b.jpg" alt="VSCode"></p>
+<p>可以看到VSCode颜值不算太糟糕，绿色的注释散发着一股浓浓的VS的风格，Theme里一共两款主题可以选择，另外一款是白色主题。题外话，我最喜欢的主题是Sublime Text的<code>Monokai</code>。</p>
+<h2 id="性能">性能</h2>
+<p>总体来说输入的体验比Sublime Text3稍微要差一点，但是比同类WEB IDE <code>ATOM</code>，<code>Brackets</code>要快太多，ATOM、Brackets已经迭代很多个版本了，VSCode基于ATOM SHELL的，估计ATOM要哭晕在厕所。看到一些网友的测试，在打开大文件上，VSCode已经秒杀了<code>Sublime Text3</code>。</p>
+<h2 id="特性">特性</h2>
+<h3 id="智能提示">智能提示</h3>
+<p>VSCode提供了强大的自动补全、悬浮提示、定义跳转等功能，支持以下语言：</p>
+<pre><code><span class="keyword">C</span>++, jade, PHP, Python, XML, Batch, F#, DockerFile, Coffee Script, Java, HandleBars, R,Objective-<span class="keyword">C</span>, PowerShell, Luna, Visual Basic, Markdown
+</code></pre><p>我测试了下在Javascript、Typscript上体验不错，HTML还支持Angular标签，悬浮提示很详细包括了注解，但是试了下C#貌似没有什么效果，不知道是不是需要特殊的环境。不管怎样，在某些语言上的智能提示已经比其他的同类编辑器已经强太多了，可以和一些IDE媲美。</p>
+<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/b3041588c25e63c108d34519c1ed7435_b.jpg" alt="enter image description here"></p>
+<p>下面贴几张官网的示例图片:</p>
+<p>参数提示：<br><img src="https://code.visualstudio.com/Content/images/editing_evolved_parameterhints.png" alt="enter image description here"></p>
+<p>定义跳转：<br><img src="https://code.visualstudio.com/Content/images/editing_evolved_ctrl_hover.png" alt="enter image description here"></p>
+<p>引用提示：<br><img src="https://code.visualstudio.com/Content/images/editing_evolved_reference_info.png" alt="enter image description here"></p>
+<p>方法定位：<br><img src="https://code.visualstudio.com/Content/images/editing_evolved_symbol.png" alt="enter image description here"></p>
+<p>还有其他很酷炫的功能我没测试，大家<a href="https://code.visualstudio.com/Docs/editingevolved" target="_blank" rel="external">官网</a>看吧。</p>
+<h3 id="Markdown">Markdown</h3>
+<p>在Linux桌面上，好用的Markdown编辑器可以说没有，<code>ReText</code>和记事本一样简陋，Sublime Text3虽然可以装插件支持，但是体验不是很好，不支持中文。因此我一直使用的在线Markdown代替。</p>
+<p>这回VSCode支持Markdown重新让我看到了点希望。快捷键<code>ctr+shift+v</code>预览，可以看到这个布局还是非常人性化的。</p>
+<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/d01756018f5c5bb172180a81522badec_b.jpg" alt="enter image description here"></p>
+<p>但是缺点也很明显，首先中文支持不好，编辑器里的中文输入可以改，但是预览还是出现口口，目前找到解决方法。还有不支持快捷键输入，那种像写代码般的快感没有了。没有能自定义CSS的功能，不管在哪种Theme下，<code>&gt;</code> 代码高亮都看不出有什么效果。</p>
+<h3 id="版本控制">版本控制</h3>
+<p>自带了一个git工具，并且放在了一个比较显要的位置上，不过功能不是很全，只能<code>commit</code>等几个操作。自带了类似于git diff的文件比较功能：</p>
+<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/ab4461ceb4d7121a0dc7276a0e47c0c4_b.jpg" alt="enter image description here"></p>
+<h3 id="Debug">Debug</h3>
+<p>Debug需要MONO，所以就没进行测试。详情大家看<a href="https://code.visualstudio.com/Docs/debugging" target="_blank" rel="external">官网</a>吧。</p>
+<h2 id="缺陷">缺陷</h2>
+<h3 id="中文支持">中文支持</h3>
+<p>默认的字体是不支持中文的，输入中文的时候会出现口口。需要设置一下字体，我使用的是文泉驿，思源也行。</p>
+<p>没安装的首先安装这个字体。</p>
+<pre><code>sudo apt-get install fonts-wqy-microhei fonts-wqy-zenhei
+File -&gt; Preference -&gt; User Settings
+<span class="comment">//在右侧添加一句：</span>
+<span class="string">"editor.fontFamily"</span>: <span class="string">"WenQuanYi Micro Hei Mono"</span>
+</code></pre><p>不过这只能解决编辑器内的中文乱码问题，其他的比如标题栏，markdown预览，该口的还是口。对了还有一点需要注意的是输入法需要是<code>Fctix</code>或者基于<code>Fctix</code>的。</p>
+<p>Sublime Text3同样有这问题，事实上Sublime Text3全平台对于中文的支持都不是很好。Linux桌面上的解决方法也是<a href="http://my.oschina.net/tsl0922/blog/113495" target="_blank" rel="external">奇技淫巧</a>。</p>
+<h3 id="插件化">插件化</h3>
+<p>不过插件化已经提到议程上了，以微软的实力实现这个不难。</p>
+<h3 id="Markdown-1">Markdown</h3>
+<p>缺陷在上面已经提到了</p>
+<h3 id="设置">设置</h3>
+<p>用户设置是直接以JSON形式出现了，虽然说鼠标悬浮上去会看到详细的解释，但还是没有图形化来的简便，而且没有搜索的功能，想要搜索还得以文本的形式复制出来，修改起来略费劲。</p>
+<h2 id="结论">结论</h2>
+<p>总体而言，VSCode表现出来的潜力还是不俗的，毕竟还是个预览版，我对接下来的版本比较看好，至少比<code>Brackets</code>要好吧。希望Sublime Text的作者能够更加上心一点，能解决中文问题那就最好了，喜欢Sublime Text3的童鞋们可以看我这篇博文<a href="http://reecoblog.info/2015/03/04/my-sublime-text3-setting/" target="_blank" rel="external">《我的Sublime Text3设置》</a>。</p>
+<p>最后，人生苦短，我用<code>geany</code>。</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://code.visualstudio.com/Docs" target="_blank" rel="external">https://code.visualstudio.com/Docs</a><br><a href="http://www.zhihu.com/question/29984607" target="_blank" rel="external">http://www.zhihu.com/question/29984607</a></p>
+
         
       
     </div>
