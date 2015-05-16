@@ -114,7 +114,7 @@
           
           
             
-              <a class="post-title-link" href="/2015/05/16/An Introduction To The SQLite C++ Interface/">
+              <a class="post-title-link" href="/2015/05/16/An-Introduction-To-The-SQLite-C++-Interface/">
                 SQLite C/C++接口简介
               </a>
             
@@ -144,8 +144,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/05/16/An Introduction To The SQLite C++ Interface/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/16/An Introduction To The SQLite C++ Interface/"></span>
+            <a href="/2015/05/16/An-Introduction-To-The-SQLite-C++-Interface/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/16/An-Introduction-To-The-SQLite-C++-Interface/"></span>
             </a>
           </span>
           
@@ -161,25 +161,17 @@
       
         
           <blockquote>
-<p>翻译自<a href="https://www.sqlite.org/cintro.html，建议阅读原文" target="_blank" rel="external">https://www.sqlite.org/cintro.html，建议阅读原文</a></p>
+<p>翻译自<a href="https://www.sqlite.org/cintro.html" target="_blank" rel="external">An Introduction To The SQLite C/C++ Interface</a>,建议阅读原文</p>
 </blockquote>
 <h2 id="摘要">摘要</h2>
 <p>接下来的两个对象和八个方法包含了SQLite接口的基本要素:</p>
 <ul>
-<li><a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>           数据库连接对象. 由sqlite3_open()创建，由sqlite3_close()销毁。</li>
-<li><a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>            预编译语句对象. 由<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>创建，由<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>销毁。</li>
-<li><a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a>            打开已存在或者新建数据库的连接。<a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的构造函数。</li>
-<li><a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>        将SQL文本编译成字节码，以便于执行查询或者更新数据库的操作 <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的构造函数。</li>
-<li><a href="https://www.sqlite.org/c3ref/bind_blob.html" target="_blank" rel="external">sqlite3_bind()</a>            将应用程序的数据与原始SQL中的<a href="https://www.sqlite.org/lang_expr.html#varparam" target="_blank" rel="external">参数</a>绑定</li>
-<li><a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>            执行<a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>到下一个结果或者结束</li>
-<li><a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>            当前结果行所在的列值</li>
-<li><a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>           <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的析构函数。</li>
-<li><a href="https://www.sqlite.org/c3ref/close.html" target="_blank" rel="external">sqlite3_close()</a>                <a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的析构函数。</li>
-<li><a href="https://www.sqlite.org/c3ref/exec.html" target="_blank" rel="external">sqlite3_exec()</a>            一个包装函数，为一条或多条SQL语句包装了<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>, <a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>, <a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>, 和<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>。</li>
-</ul>
-
+<li><a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>       数据库连接对象. 由sqlite3_open()创建，由sqlite3_close()销毁。</li>
+<li><a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>        预编译语句对象. 由<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>创建，由<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>销毁。</li>
+<li><a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a>        打开已存在或者新建数据库的连接。<a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的构造函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>    将SQL文本编译成字节码，以便于执行查询或者更新数据库的操作 <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的构造函数。
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/05/16/An Introduction To The SQLite C++ Interface/#more">
+            <a class="btn" href="/2015/05/16/An-Introduction-To-The-SQLite-C++-Interface/#more">
               阅读全文 &raquo;
             </a>
           </div>
