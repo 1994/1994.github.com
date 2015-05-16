@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="Web,Server,interview," />
+  <meta name="keywords" content="SQLite3,翻译,C/C++," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> 从输入 URL 到页面加载完成发生了什么事 // reeco's blog </title>
+  <title> SQLite C/C++接口简介 // reeco's blog </title>
 </head>
 
 <body>
@@ -112,7 +112,7 @@
           
           
             
-              从输入 URL 到页面加载完成发生了什么事
+              SQLite C/C++接口简介
             
           
         </h1>
@@ -120,7 +120,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-03-21
+          发表于 2015-05-16
         </span>
 
         
@@ -140,8 +140,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/03/21/what-happen/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/21/what-happen/"></span>
+            <a href="/2015/05/16/An Introduction To The SQLite C++ Interface/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/16/An Introduction To The SQLite C++ Interface/"></span>
             </a>
           </span>
           
@@ -156,48 +156,134 @@
 
       
         <blockquote>
-<p>看到 <a href="http://div.io/topic/457" target="_blank" rel="external">这篇文章</a>，重拾计算机网络的知识，决定班门弄斧写一篇</p>
+<p>翻译自<a href="https://www.sqlite.org/cintro.html，建议阅读原文" target="_blank" rel="external">https://www.sqlite.org/cintro.html，建议阅读原文</a></p>
 </blockquote>
-<p>下面的讨论基于最简单的情景：HTTP、无代理、不讨论功夫王、IPv4，并简单得从三个方面阐述。</p>
-<h2 id="浏览器会做些什么">浏览器会做些什么</h2>
-<ol>
-<li>接收 URL，并拆分成协议，网络地址，资源路径</li>
-<li>与缓存进行比对，如果请求的对象在缓存中，则直接进行第九步</li>
-<li>如果网络地址不是一个 IP 地址，向操作系统询问，操作系统返回一个IP地址</li>
-<li>浏览器向服务器发起一个 TCP 连接</li>
-<li>浏览器通过 TCP 连接向服务器发起 HTTP 请求，HTTP 三次握手，HTTPS 握手过程则复杂得多</li>
-<li>浏览器接受 HTTP 响应，这时候它能关闭 TCP 连接也能为另一个连接保留。</li>
-<li>检查 HTTP header 里的状态码，并做出不同的处理方式。比如：错误（<code>4XX</code>、<code>5XX</code>），重定向（<code>3XX</code>），授权请求（<code>2XX</code>）</li>
-<li>如果是可以缓存的，这个响应则会被存储起来</li>
-<li>浏览器进行解码响应，并决定如何处理该响应（比如HTML页面，图像，声音等等）</li>
-<li>浏览器渲染响应，或者为不能识别的类型提供下载的提示框<a id="more"></a> 
-浏览器主要组件：</li>
-</ol>
-<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/1117356169-550cf41fb8229_articlex.png" alt="浏览器主要组件"></p>
-<h2 id="操作系统会做些什么">操作系统会做些什么</h2>
-<h3 id="客户端">客户端</h3>
-<ol>
-<li>检查域名是否在本地的 host 的文件中，在则直接返回 IP 地址，不在则向 DNS 服务器请求</li>
-<li>DNS 服务器一级一级往上查询，直到查询到 IP 地址</li>
-</ol>
-<h3 id="服务器端">服务器端</h3>
-<ol>
-<li>验证连接是否合法，如客户端 IP 地址是否符合防火墙的规则，端口号是否开启等</li>
-<li>将请求转发到相应的端口</li>
-<li>记录相应事件</li>
-</ol>
-<h2 id="Web_服务器会做些什么">Web 服务器会做些什么</h2>
-<ol>
-<li>建立连接：接受一个客户端，或者如果不希望与这个客户端不能简历连接，就将其关闭</li>
-<li>接收请求：从网络中读取一条 HTTP 请求报文</li>
-<li>处理请求：对请求报文进行解释，并采取行动</li>
-<li>访问资源：访问报文中指定的资源</li>
-<li>构建响应：创建带有正确首部的 HTTP 响应报文</li>
-<li>发送响应：将响应回送给客户端</li>
-<li>记录事务处理过程：将已完成事务相关的内容记录在一个日志文件中</li>
-</ol>
-<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/2756120589-550cfbcab25ea_articlex.png" alt="Screenshot from 2015-03-21 12:58:43.png"></p>
-<p><br><br>输入 URL 便能浏览互联网，其背后的计算机系统却要完成无数工作。上述过程中的每一步的背后都蕴含着无数人的智慧，每一步都可以展开成庞大的课题，真实的情景也要比提到的复杂很多。我想这正是科技最大的魅力，身处其中并得益于此，感谢各个领域的无数工程师为此付出的努力。</p>
+<h2 id="摘要">摘要</h2>
+<p>接下来的两个对象和八个方法包含了SQLite接口的基本要素:</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>           数据库连接对象. 由sqlite3_open()创建，由sqlite3_close()销毁。</li>
+<li><a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>            预编译语句对象. 由<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>创建，由<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>销毁。</li>
+<li><a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a>            打开已存在或者新建数据库的连接。<a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的构造函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>        将SQL文本编译成字节码，以便于执行查询或者更新数据库的操作 <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的构造函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/bind_blob.html" target="_blank" rel="external">sqlite3_bind()</a>            将应用程序的数据与原始SQL中的<a href="https://www.sqlite.org/lang_expr.html#varparam" target="_blank" rel="external">参数</a>绑定</li>
+<li><a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>            执行<a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>到下一个结果或者结束</li>
+<li><a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>            当前结果行所在的列值</li>
+<li><a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>           <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的析构函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/close.html" target="_blank" rel="external">sqlite3_close()</a>                <a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的析构函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/exec.html" target="_blank" rel="external">sqlite3_exec()</a>            一个包装函数，为一条或多条SQL语句包装了<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>, <a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>, <a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>, 和<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>。</li>
+</ul>
+<a id="more"></a> 
+<h2 id="简介">简介</h2>
+<p>早期的SQLite只支持五个C/C++接口,所以非常容易学习。但是随着SQLite的不断壮大，新的C/C++接口不断加入，目前已有超过200个不同的接口。这能轻易压倒一个新手程序员。幸运的是，大部分SQLite的C/C++接口非常专业并且你不需要去关心。尽管有如此多的切入点，SQLite的核心API依然比较简单易于学习，易于编程。这篇文章旨在提供所有必需的背景信息以便于让你理解SQLite是如何工作的。</p>
+<p>这份单独的文档，<a href="https://www.sqlite.org/c3ref/intro.html" target="_blank" rel="external">SQLite C/C++接口</a>，提供了所有SQLite C/C++ 接口的详细说明。当读者理解了SQLite操作的基本原则，这份文档可以作为参考指南使用。本文章目的仅仅是介绍，而不是SQLite API 的完整或者权威的指南。</p>
+<h2 id="核心对象和接口">核心对象和接口</h2>
+<p>SQL数据库引擎的主要任务是执行SQL语句。为了实现这个目的，开发者需要知道这两个对象：</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">数据库连接</a>对象：sqlite3</li>
+<li><a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">预编译语句</a>对象：sqlite3_stmt</li>
+</ul>
+<p>严格得讲，有了便捷的包装接口预编译语句对象，sqlite3_exec 或者 sqlite3_get_table之后，<a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">预编译语句</a>对象不再是必须的。因为可以使用这些便捷的包装器封装和隐藏<a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">预编译语句</a>对象。但是要充分利用SQLite需要理解预编译语句对象。</p>
+<p><a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">数据库连接</a>和<a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">预编译语句</a>对象是由以下列出的一部分接口控制：</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/close.html" target="_blank" rel="external">sqlite3_close()</a></li>
+</ul>
+<p>这六个C/C++接口程序和上述的两个对象来自于SQLite基础功能的核心。理解了它们，开发者将能更好得使用SQLite。</p>
+<p>请注意上述的程序是概念性的而不是实际上的。这些程序大都存在多个版本。比如上面列表只显示了单个名为 <a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a>的程序，但实际上有三个独立的程序以不同的方式完成同样的事情： <a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a>, <a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open16()</a> 和 <a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open_v2()</a>。另外列表里还提及了 <a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>,但实际上并没有这样的程序存在。列表中显示的”sqlite3_column()”代表的是这个程序整个家族，它们被用于提取不同类型的列数据。</p>
+<p>这里总结一下核心接口会做什么：</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a>    用来打开一个数据库文件的连接并返回数据库连接对象。这通常是应用调用的第一个SQLite API，低于大多数其他的SQLite API这是先决条件。许多SQLite接口需要一个指向数据库连接的指针作为第一个参数，也可以认为是数据库连接对象的方法。sqlite3_open()是数据库连接对象的构造方法。</li>
+</ul>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>    将SQ文本转换为预编译语句对象并返回该对象的指针。这个接口需要一个由sqlite3_open()创建的指向数据库连接的指针和一段包含SQL语句的文本。这个API并非真正得执行SQL语句，仅仅准备需要执的SQL语句。<br>把每条SQL语句想象成一个小的计算机程序。sqlite3_prepare()的目的是将程序编译成目标代码。预编译语句是目标代码。接着sqlite3_step()接口运行目标代码并得到结果。</li>
+</ul>
+<p>请注意对于新的应用不建议使用sqlite3_prepare()，而应使用架构更新的程序sqlite3_prepare_v2()代替。</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a> 用来执行之前由sqlite3_prepare()接口创建的预编译语句。这语句执行到第一行可用的位置。若要执行结果的第二行，需要再次调用sqlite3_step()。继续调用 sqlite3_step()直到语句结束。对于那些不返回结果的语句（比如： INSERT, UPDATE, 或者DELETE），只需调用一次sqlite3_step()。</li>
+</ul>
+<ul>
+<li><p><a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>    从sqlite3_step()执行的准备语句得到的结果集的当前行中返回一个列。每次sqlite3_step()得到一个结果集的列后，这个过程就可以被多次调用去查询这个行的各列的值。正如上面提到的那样，在SQLite API中并没有这个一个”sqlite3_column()”函数。取而代之的是整个 “sqlite3_column()”家族，用于返回不同数据类型的结果。在这个家族里也有函数用来返回结果的大小（如果类型是string或者BLOB）和结果集列的数量。</p>
+<pre><code>      -<span class="ruby"> sqlite3_column_blob()
+</span>      -<span class="ruby"> sqlite3_column_bytes()
+</span>      -<span class="ruby"> sqlite3_column_bytes16()
+</span>      -<span class="ruby"> sqlite3_column_count()
+</span>      -<span class="ruby"> sqlite3_column_double()
+</span>      -<span class="ruby"> sqlite3_column_int()
+</span>      -<span class="ruby"> sqlite3_column_int64()
+</span>      -<span class="ruby"> sqlite3_column_text()
+</span>      -<span class="ruby"> sqlite3_column_text16()
+</span>      -<span class="ruby"> sqlite3_column_type()
+</span>      -<span class="ruby"> sqlite3_column_value()</span>
+</code></pre></li>
+<li><p><a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>    销毁由sqlite3_prepare()创建的预编译语句。为了防止内存泄露，每条预编译语句必须调用这个方法进行销毁。</p>
+</li>
+<li><a href="https://www.sqlite.org/c3ref/close.html" target="_blank" rel="external">sqlite3_close()</a>    关闭由sqlite3_open()创建的数据库连接。在关闭连接之前，所有的预编译语句都应该被finalize。</li>
+</ul>
+<h2 id="核心程序和接口的典型用法">核心程序和接口的典型用法</h2>
+<p>应用若要使用SQLite通常的做法是在初始化的时候通过sqlite3_open()创建单个数据库连接。注意sqlite3_open()可以用来打开存在的数据库文件也能创建新的数据库文件。尽管很多的应用仅仅使用单个数据库连接时，但也没有任何理由不能多次调用 sqlite3_open()创建多个数据库连接，同一个数据库或者不同的数据库。多线程的应有时会为每个线程创建不同的数据库连接。还要注意，没有必要为了访问两个或者多个数据库而创建不同的数据库连接。单个数据库连接可以使用 ATTACH SQL命令同时访问两个或者多个数据库。</p>
+<p>大多数应用的做法是在关闭时调用sqlite3_close()销毁数据库连接。或者例如一个应用使用SQLite作为文件格式，在文件/打开菜单操作时打开数据库连接，在文件/关闭菜单时销毁相应的数据库连接。</p>
+<p>若要运行SQL语句，请遵循以下步骤：</p>
+<ul>
+<li>使用 <a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>.创建预编译语句对象。</li>
+<li>调用<a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>一次或者多次执行预编译语句对象</li>
+<li>对于查询来说，调用<a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>提取执行<a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>得到的结果集</li>
+<li>使用 <a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>来销毁预编译语句</li>
+</ul>
+<p>为了更加有效得使用SQLite，以上是需要了解的。剩下的就只有细枝末节。</p>
+<h2 id="方便的包装器">方便的包装器</h2>
+<p> <a href="https://www.sqlite.org/c3ref/exec.html" target="_blank" rel="external">sqlite3_exec()</a>接口是一个方便的包装器，调用一个方法便可执行上面的四个步骤。传递到<a href="https://www.sqlite.org/c3ref/exec.html" target="_blank" rel="external">sqlite3_exec()</a>中的回调函数将用于处理每行结果集。 <a href="https://www.sqlite.org/c3ref/free_table.html" target="_blank" rel="external">sqlite3_get_table()</a>是另一个方便的包装器，同样可以用上述的四个步骤。与 <a href="https://www.sqlite.org/c3ref/exec.html" target="_blank" rel="external">sqlite3_exec()</a>不同的是，<a href="https://www.sqlite.org/c3ref/free_table.html" target="_blank" rel="external">sqlite3_get_table()</a>将结果存储在堆存储器里而非调用回调函数。</p>
+<p>无论是 <a href="https://www.sqlite.org/c3ref/exec.html" target="_blank" rel="external">sqlite3_exec()</a>还是 <a href="https://www.sqlite.org/c3ref/free_table.html" target="_blank" rel="external">sqlite3_get_table()</a>做的任何事情都可以由核心程序来完成，认识到这一点很重要。事实上，这些包装器仅仅实现了核心程序。</p>
+<h2 id="绑定参数与重用预编译语句">绑定参数与重用预编译语句</h2>
+<p>在之前的讨论中，假设了每条SQL语句只准备，执行了一次然后销毁。但是SQLite允许相同的预编译语句执行多次。这由以下的程序完成：</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/reset.html" target="_blank" rel="external">sqlite3_reset()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/bind_blob.html" target="_blank" rel="external">sqlite3_bind()</a></li>
+</ul>
+<p>在<a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">预编译语句</a>被一次或多次调用 <a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>执行之后，它可以通过调用 <a href="https://www.sqlite.org/c3ref/reset.html" target="_blank" rel="external">sqlite3_reset()</a>重置以便于再次执行。对已存在的预编译语句对象使用 <a href="https://www.sqlite.org/c3ref/reset.html" target="_blank" rel="external">sqlite3_reset()</a>而不是创建一个新的预编译语句，避免不必要得调用 <a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>。对于很多SQL语句来说，执行sqlite3_prepare()的时间等于或者超过执行sqlite3_step()的时间。所以避免调用sqlite3_prepare(）可以显著提升性能。</p>
+<p>通常情况下，尽管多次执行相同的SQL语句并非有用。更多时候，执行的是相似的语句。比如你可能想要多次执行一条插入语句，但插入的值不同。为了使用这类的灵活性，SQLite允许将要执行的SQL语句包含之前绑定的参数。这些值可以在后面更改，这样相同的预编译语句可以使用新的值执行第二次。</p>
+<p>在SQLite中，无论是否有效得包含字符串，都可以选取以下的形式作为参数：</p>
+<ul>
+<li>?</li>
+<li>?NNN</li>
+<li>:AAA</li>
+<li>$AAA</li>
+<li>@AAA</li>
+</ul>
+<p>在上面的例子中，NNN是整数值，AAA是标识符。参数初始化值为NULL。首先先调用<a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>或者在<a href="https://www.sqlite.org/c3ref/reset.html" target="_blank" rel="external">sqlite3_reset()</a>立即调用。应用可以调用其中一个sqlite3_bind()接口附加到参数上。每次调用 <a href="https://www.sqlite.org/c3ref/bind_blob.html" target="_blank" rel="external">sqlite3_bind()</a>将覆盖先前的参数绑定。</p>
+<p>应用程序可以提前准备多条SQL语句，并根据需要对其执行。对于准备的语句在数量上没有任何限制。</p>
+<h2 id="配置SQLite">配置SQLite</h2>
+<p>对于大多数应用来说SQLite的默认配置已经足够了。但是有时开发者想要调整设，以尽量提升一点性能，或者使用一些不起眼的特性。</p>
+<p><a href="https://www.sqlite.org/c3ref/config.html" target="_blank" rel="external">sqlite3_config()</a>接口用于创建SQLite全局的，进程级的配置更改。在任何数据库连接被创建前，sqlite3_config()接口必须被调用。 <a href="https://www.sqlite.org/c3ref/config.html" target="_blank" rel="external">sqlite3_config()</a>接口允许程序员做这样的事情:</p>
+<ul>
+<li>调整SQLite内存分配，包括为实时嵌入系统设置内存分配器和设置应用定义的<a href="https://www.sqlite.org/malloc.html" target="_blank" rel="external">内存分配器</a>。</li>
+<li>设置进程级的<a href="https://www.sqlite.org/errlog.html" target="_blank" rel="external">错误日志</a></li>
+<li>指定应用定义的页面缓存</li>
+<li>调整互斥体使之适合于不同的<a href="https://www.sqlite.org/threadsafe.html" target="_blank" rel="external">线程模型</a>，或者替换应用定义的互斥系统<br>进程级的配置完成之后<a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">数据库连接</a>便会建立。个别的数据库连接可以调用 <a href="https://www.sqlite.org/c3ref/limit.html" target="_blank" rel="external">sqlite3_limit()</a>和 <a href="https://www.sqlite.org/c3ref/db_config.html" target="_blank" rel="external">sqlite3_db_config()</a>进行配置。</li>
+</ul>
+<h2 id="扩展SQLite">扩展SQLite</h2>
+<p>SQLite还包括了用来扩展功能的接口，这些程序包括：</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/create_collation.html" target="_blank" rel="external">sqlite3_create_collation()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/create_function.html" target="_blank" rel="external">sqlite3_create_function()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/create_module.html" target="_blank" rel="external">sqlite3_create_module()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/vfs_find.html" target="_blank" rel="external">sqlite3_vfs_register()</a></li>
+</ul>
+<p>sqlite3_create_collation()接口用来为排序文本创建新的排序序列。<a href="https://www.sqlite.org/c3ref/create_module.html" target="_blank" rel="external">sqlite3_create_module()</a> 接口用来注册新的<a href="https://www.sqlite.org/vtab.html" target="_blank" rel="external">虚拟表</a>实现。<a href="https://www.sqlite.org/c3ref/vfs_find.html" target="_blank" rel="external">sqlite3_vfs_register(</a>)接口创建新的<a href="https://www.sqlite.org/vfs.html" target="_blank" rel="external">VFSes</a>。</p>
+<p><a href="https://www.sqlite.org/c3ref/create_function.html" target="_blank" rel="external">sqlite3_create_function()</a>接口创建新的SQL功能 - 无论是标量还是聚合。新功能的实现通常使用了以下几个附加接口:</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/aggregate_context.html" target="_blank" rel="external">sqlite3_aggregate_context()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/result_blob.html" target="_blank" rel="external">sqlite3_result()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/user_data.html" target="_blank" rel="external">sqlite3_user_data()</a></li>
+<li><a href="https://www.sqlite.org/c3ref/value_blob.html" target="_blank" rel="external">sqlite3_value()</a></li>
+</ul>
+<p>SQLite所有内置的SQL函数正式使用这些接口来创建的。参考SQLite源码，特别是date.c和func.c源文件的例子。</p>
+<p>共享的库或 Dll 可以用作 SQLite 的<a href="https://www.sqlite.org/loadext.html" target="_blank" rel="external">可加载扩展</a>。</p>
+<h2 id="其他接口">其他接口</h2>
+<p>这篇文章仅仅提及了SQLite接口的基础功能。SQLite库还包含了很多其他有用的特性但是这里没有描述。你能在<a href="https://www.sqlite.org/c3ref/intro.html" target="_blank" rel="external">C/C++接口规范</a>中找到SQLite完整的功能列表。请参阅关于SQLite所有接口的权威文档。</p>
 
       
     </div>
@@ -206,11 +292,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Web/"> #Web </a>
+            <a href="/tags/SQLite3/"> #SQLite3 </a>
           
-            <a href="/tags/Server/"> #Server </a>
+            <a href="/tags/翻译/"> #翻译 </a>
           
-            <a href="/tags/interview/"> #interview </a>
+            <a href="/tags/C-C/"> #C/C++ </a>
           
         </div>
       
@@ -219,13 +305,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/03/31/difference-of-wait() -and-sleep()/">Java中wait()与sleep()的区别</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/09/An Introduction to Raspberry Pi/">树莓派快速入门指南</a>
+              <a href="/2015/04/30/first-VSCode/">VSCode初体验</a>
             
           </div>
         </div>
@@ -241,8 +325,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/03/21/what-happen/"
-               data-title="从输入 URL 到页面加载完成发生了什么事" data-url="http://1994.github.io/2015/03/21/what-happen/">
+          <div class="ds-thread" data-thread-key="2015/05/16/An Introduction To The SQLite C++ Interface/"
+               data-title="SQLite C/C++接口简介" data-url="http://1994.github.io/2015/05/16/An Introduction To The SQLite C++ Interface/">
           </div>
         
       </div>
@@ -348,7 +432,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器会做些什么"><span class="nav-number">1.</span> <span class="nav-text">浏览器会做些什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统会做些什么"><span class="nav-number">2.</span> <span class="nav-text">操作系统会做些什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">2.1.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器端"><span class="nav-number">2.2.</span> <span class="nav-text">服务器端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web_服务器会做些什么"><span class="nav-number">3.</span> <span class="nav-text">Web 服务器会做些什么</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心对象和接口"><span class="nav-number">3.</span> <span class="nav-text">核心对象和接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心程序和接口的典型用法"><span class="nav-number">4.</span> <span class="nav-text">核心程序和接口的典型用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方便的包装器"><span class="nav-number">5.</span> <span class="nav-text">方便的包装器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定参数与重用预编译语句"><span class="nav-number">6.</span> <span class="nav-text">绑定参数与重用预编译语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置SQLite"><span class="nav-number">7.</span> <span class="nav-text">配置SQLite</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展SQLite"><span class="nav-number">8.</span> <span class="nav-text">扩展SQLite</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他接口"><span class="nav-number">9.</span> <span class="nav-text">其他接口</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

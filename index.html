@@ -114,6 +114,114 @@
           
           
             
+              <a class="post-title-link" href="/2015/05/16/An Introduction To The SQLite C++ Interface/">
+                SQLite C/C++接口简介
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-05-16
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/05/16/An Introduction To The SQLite C++ Interface/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/16/An Introduction To The SQLite C++ Interface/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>翻译自<a href="https://www.sqlite.org/cintro.html，建议阅读原文" target="_blank" rel="external">https://www.sqlite.org/cintro.html，建议阅读原文</a></p>
+</blockquote>
+<h2 id="摘要">摘要</h2>
+<p>接下来的两个对象和八个方法包含了SQLite接口的基本要素:</p>
+<ul>
+<li><a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>           数据库连接对象. 由sqlite3_open()创建，由sqlite3_close()销毁。</li>
+<li><a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>            预编译语句对象. 由<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>创建，由<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>销毁。</li>
+<li><a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a>            打开已存在或者新建数据库的连接。<a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的构造函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>        将SQL文本编译成字节码，以便于执行查询或者更新数据库的操作 <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的构造函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/bind_blob.html" target="_blank" rel="external">sqlite3_bind()</a>            将应用程序的数据与原始SQL中的<a href="https://www.sqlite.org/lang_expr.html#varparam" target="_blank" rel="external">参数</a>绑定</li>
+<li><a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>            执行<a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>到下一个结果或者结束</li>
+<li><a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>            当前结果行所在的列值</li>
+<li><a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>           <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的析构函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/close.html" target="_blank" rel="external">sqlite3_close()</a>                <a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的析构函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/exec.html" target="_blank" rel="external">sqlite3_exec()</a>            一个包装函数，为一条或多条SQL语句包装了<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>, <a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>, <a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>, 和<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>。</li>
+</ul>
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/05/16/An Introduction To The SQLite C++ Interface/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SQLite3/"> #SQLite3 </a>
+          
+            <a href="/tags/翻译/"> #翻译 </a>
+          
+            <a href="/tags/C-C/"> #C/C++ </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/30/first-VSCode/">
                 VSCode初体验
               </a>
@@ -954,101 +1062,6 @@
 
       
       
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/04/my-sublime-text3-setting/">
-                我的sublime text设置
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-03-04
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Develop/">Develop</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/04/my-sublime-text3-setting/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/04/my-sublime-text3-setting/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h5 id="前言">前言</h5>
-<p>Sublime Text3 是一款非常优秀的跨平台编辑器，在此简单记录下我的Sublime Text3的配置。</p>
-<h5 id="安装">安装</h5>
-<p>首先打开<a href="http://www.sublimetext.com/3" target="_blank" rel="external">Sublme Text官网！废话:)</a><br>安装方法非常傻瓜式，下载下来双击就行了。<br>ubuntu 64 bit的话可以安装在终端下:</p>
-<pre><code>wget http:<span class="comment">//c758482.r82.cf2.rackcdn.com/sublime-text_build-3065_amd64.deb</span>
-</code></pre><p>或者通过源安装：</p>
-<pre><code>sudo <span class="built_in">add</span>-apt-repository <span class="keyword">pp</span><span class="variable">a:webupd8team</span>/sublime-text-<span class="number">3</span> 
-sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $ sudo apt-<span class="built_in">get</span> install sublime-text-installer
-</code></pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/03/04/my-sublime-text3-setting/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Text/"> #Text </a>
-          
-        </div>
-      
-
-      
-
-      
-      
     </div>
   </div>
 
@@ -1089,7 +1102,7 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1103,7 +1116,7 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
           <div class="site-state-item site-state-tags">
             <a href="/tages">
-              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
