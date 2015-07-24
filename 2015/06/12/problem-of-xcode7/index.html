@@ -155,9 +155,9 @@
       
 
       
-        <p>今年的<code>WWDC2015</code>对于开发者来说真是好事，「大快所有开发者的大好事」、让开发者「真的笑、笑出声」:-)。其中一个特性是<code>xcode</code>不需要证书就能真机调试了，这意味着调试这块不用再向苹果交保护费了，于是我赶紧升级到最新的beta版来测试下。<br><a id="more"></a><br>首先需要说明的是真机调试需要<code>xcode</code>上的Apple ID和真机的Apple ID一致。新建一个简单的cocos2dx工程，build and run，出现了下面这个问题：<br><img src="http://segmentfault.com/img/img/bVmklK" alt="图片描述"><br>为了方便被搜索引擎收录，我把这异常打一遍：</p>
+        <p>今年的<code>WWDC2015</code>对于开发者来说真是好事，「大快所有开发者的大好事」、让开发者「真的笑、笑出声」:-)。其中一个特性是<code>xcode</code>不需要证书就能真机调试了，这意味着调试这块不用再向苹果交保护费了，于是我赶紧升级到最新的beta版来测试下。<br><a id="more"></a><br>首先需要说明的是真机调试需要<code>xcode</code>上的Apple ID和真机的Apple ID一致。新建一个简单的cocos2dx工程，build and run，出现了下面这个问题：<br><img src="http://segmentfault.com/img/bVmklK" alt="图片描述"><br>为了方便被搜索引擎收录，我把这异常打一遍：</p>
 <pre><code>Command <span class="regexp">/Applications/</span>Xcode-beta.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Toolchains/</span>XcodeDefault.xctoolchain<span class="regexp">/usr/</span>bin<span class="regexp">/clang failed with exit code 11</span>
-</code></pre><p><img src="http://segmentfault.com/img/img/bVmklO" alt="图片描述"></p>
+</code></pre><p><img src="http://segmentfault.com/img/bVmklO" alt="图片描述"></p>
 <p>解决方法也很简单，在<code>Building Settings</code>里搜索pch，然后删除掉如下内容即可。</p>
 
       
