@@ -440,7 +440,15 @@
 <li><a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>       数据库连接对象. 由sqlite3_open()创建，由sqlite3_close()销毁。</li>
 <li><a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>        预编译语句对象. 由<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>创建，由<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>销毁。</li>
 <li><a href="https://www.sqlite.org/c3ref/open.html" target="_blank" rel="external">sqlite3_open()</a>        打开已存在或者新建数据库的连接。<a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的构造函数。</li>
-<li><a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>    将SQL文本编译成字节码，以便于执行查询或者更新数据库的操作 <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的构造函数。
+<li><a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>    将SQL文本编译成字节码，以便于执行查询或者更新数据库的操作 <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的构造函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/bind_blob.html" target="_blank" rel="external">sqlite3_bind()</a>        将应用程序的数据与原始SQL中的<a href="https://www.sqlite.org/lang_expr.html#varparam" target="_blank" rel="external">参数</a>绑定</li>
+<li><a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>        执行<a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>到下一个结果或者结束</li>
+<li><a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>        当前结果行所在的列值</li>
+<li><a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>       <a href="https://www.sqlite.org/c3ref/stmt.html" target="_blank" rel="external">sqlite3_stmt</a>的析构函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/close.html" target="_blank" rel="external">sqlite3_close()</a>            <a href="https://www.sqlite.org/c3ref/sqlite3.html" target="_blank" rel="external">sqlite3</a>的析构函数。</li>
+<li><a href="https://www.sqlite.org/c3ref/exec.html" target="_blank" rel="external">sqlite3_exec()</a>        一个包装函数，为一条或多条SQL语句包装了<a href="https://www.sqlite.org/c3ref/prepare.html" target="_blank" rel="external">sqlite3_prepare()</a>, <a href="https://www.sqlite.org/c3ref/step.html" target="_blank" rel="external">sqlite3_step()</a>, <a href="https://www.sqlite.org/c3ref/column_blob.html" target="_blank" rel="external">sqlite3_column()</a>, 和<a href="https://www.sqlite.org/c3ref/finalize.html" target="_blank" rel="external">sqlite3_finalize()</a>。</li>
+</ul>
+
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/05/16/An-Introduction-To-The-SQLite-C++-Interface/#more">
               阅读全文 &raquo;
@@ -1016,7 +1024,9 @@
 <li>检查 HTTP header 里的状态码，并做出不同的处理方式。比如：错误（<code>4XX</code>、<code>5XX</code>），重定向（<code>3XX</code>），授权请求（<code>2XX</code>）</li>
 <li>如果是可以缓存的，这个响应则会被存储起来</li>
 <li>浏览器进行解码响应，并决定如何处理该响应（比如HTML页面，图像，声音等等）</li>
-<li>浏览器渲染响应，或者为不能识别的类型提供下载的提示框
+<li>浏览器渲染响应，或者为不能识别的类型提供下载的提示框</li>
+</ol>
+
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/03/21/what-happen/#more">
               阅读全文 &raquo;
