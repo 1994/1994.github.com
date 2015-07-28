@@ -1,0 +1,1228 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="reeco's blog" />
+
+
+
+  <meta name="keywords" content="Java,JFinal," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?c99269cda5e73423005fa138398d4c62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> 快速上手JFinal // reeco's blog </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">reeco's blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tages">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              快速上手JFinal
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-07-22
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/22/jfinal-demo/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/22/jfinal-demo/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>JFinal是国产的MVC框架，由 Handler、Interceptor、Controller、Render、Plugin 五大部分组成。本文通过一个例子上手JFinal，旨在熟悉JFinal中各组件的用法。</p>
+<h3 id="目标">目标</h3>
+<ul>
+<li>用户登录/注册</li>
+<li>用户上传图片</li>
+<li>登录权限验证</li>
+</ul>
+<a id="more"></a> 
+<h4 id="访问路径">访问路径</h4>
+<p>用户登录:IP/user/login<br>用户注册：IP/user/register<br>用户上传图片：IP/user/image<br>登录后能访问： IP/user/show</p>
+<h3 id="AppConfig">AppConfig</h3>
+<p>JFinal需要一个继承 <code>JFinalConfig</code> 的子类，我们这里取名叫AppConfig，这个类的名字是随便取的，我这里取AppConfig。</p>
+<pre><code><span class="keyword">import</span> com.jfinal.config.*;
+<span class="keyword">import</span> com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+<span class="keyword">import</span> com.jfinal.plugin.druid.DruidPlugin;
+<span class="keyword">import</span> com.jfinal.render.ViewType;
+<span class="keyword">import</span> controller.IndexController;
+<span class="keyword">import</span> controller.UserController;
+<span class="keyword">import</span> model.User;
+
+<span class="javadoc">/**
+ * Created by reeco_000 on 2015/7/22.
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppConfig</span> <span class="keyword">extends</span> <span class="title">JFinalConfig</span></span>{
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configConstant</span>(Constants constants) {
+    constants.setEncoding(<span class="string">"UTF-8"</span>);
+    constants.setDevMode(<span class="keyword">true</span>);
+    constants.setViewType(ViewType.JSP);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configRoute</span>(Routes routes) {
+    routes.add(<span class="string">"/"</span>, IndexController.class);
+    routes.add(<span class="string">"/user"</span>, UserController.class);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configPlugin</span>(Plugins plugins) {
+    <span class="comment">//这里启用Jfinal插件</span>
+
+    PropKit.use(<span class="string">"jdbc.properties"</span>);
+    <span class="keyword">final</span> String URL =PropKit.get(<span class="string">"jdbcUrl"</span>);
+    <span class="keyword">final</span> String USERNAME = PropKit.get(<span class="string">"user"</span>);
+    <span class="keyword">final</span> String PASSWORD =PropKit.get(<span class="string">"password"</span>);
+    <span class="keyword">final</span> Integer INITIALSIZE = PropKit.getInt(<span class="string">"initialSize"</span>);
+    <span class="keyword">final</span> Integer MIDIDLE = PropKit.getInt(<span class="string">"minIdle"</span>);
+    <span class="keyword">final</span> Integer MAXACTIVEE = PropKit.getInt(<span class="string">"maxActivee"</span>);
+
+    DruidPlugin druidPlugin = <span class="keyword">new</span> DruidPlugin(URL,USERNAME,PASSWORD);
+    druidPlugin.set(INITIALSIZE,MIDIDLE,MAXACTIVEE);
+    druidPlugin.setFilters(<span class="string">"stat,wall"</span>);
+    plugins.add(druidPlugin);
+
+    ActiveRecordPlugin activeRecordPlugin = <span class="keyword">new</span> ActiveRecordPlugin(druidPlugin);
+    activeRecordPlugin.addMapping(<span class="string">"user"</span>,<span class="string">"userid"</span>, User.class);
+    plugins.add(activeRecordPlugin);
+
+}
+
+<span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configInterceptor</span>(Interceptors interceptors) {
+        <span class="comment">//这里用于配置全局的拦截器，对所有请求进行拦截</span>
+
+}
+
+<span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configHandler</span>(Handlers handlers) {
+
+}
+}
+</code></pre><h3 id="配置文件">配置文件</h3>
+<h4 id="Jdbc-properties">Jdbc.properties</h4>
+<p>在根目录下新建一个Jdbc.properties,用来保存数据库连接信息。我们在AppConfig中需要加载它，使用了JFinal的工具类PropKit。</p>
+<pre><code><span class="variable">driverClass=</span>com.mysql.jdbc.Driver
+<span class="variable">jdbcUrl=</span>jdbc:mysql://localhost:<span class="number">3306</span>/school
+<span class="variable">user=</span>root
+<span class="variable">password=</span>root
+
+<span class="variable">initialSize=</span><span class="number">1</span>
+<span class="variable">minIdle=</span><span class="number">1</span>
+<span class="variable">maxActivee=</span><span class="number">20</span>
+</code></pre><h4 id="log4j-properties">log4j.properties</h4>
+<p>这样就能使用log4j进行日志统计，在需要记录的地方获取logger对象即可</p>
+<pre><code>log4j.rootLogger=INFO, stdout, <span class="keyword">file</span>
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.<span class="keyword">layout</span>=org.apache.log4j.PatternLayout
+log4j.appender.stdout.<span class="keyword">layout</span>.ConversionPattern=<span class="variable">%n</span><span class="variable">%-</span>d{yyyy-MM-dd HH:mm:ss}<span class="variable">%n</span>[<span class="variable">%p</span>]-[Thread: <span class="variable">%t</span>]-[<span class="variable">%C</span>.<span class="variable">%M</span>()]: <span class="variable">%m</span><span class="variable">%n</span>
+
+# Output to the File
+log4j.appender.<span class="keyword">file</span>=org.apache.log4j.FileAppender
+log4j.appender.<span class="keyword">file</span>.File=./web.<span class="keyword">log</span>
+log4j.appender.<span class="keyword">file</span>.<span class="keyword">layout</span>=org.apache.log4j.PatternLayout
+log4j.appender.<span class="keyword">file</span>.<span class="keyword">layout</span>.ConversionPattern=<span class="variable">%n</span><span class="variable">%-</span>d{yyyy-MM-dd HH:mm:ss}<span class="variable">%n</span>[<span class="variable">%p</span>]-[Thread: <span class="variable">%t</span>]-[<span class="variable">%C</span>.<span class="variable">%M</span>()]: <span class="variable">%m</span><span class="variable">%n</span>
+
+# Druid
+log4j.logger.druid.sql=warn,stdout
+log4j.logger.druid.sql.DataSource=warn,stdout
+log4j.logger.druid.sql.Connection=warn,stdout
+log4j.logger.druid.sql.Statement=debug,stdout
+log4j.logger.druid.sql.ResultSet=warn,stdout
+</code></pre><h3 id="web-xml">web.xml</h3>
+<p>然后在web.xml里配置JFinal的核心filter和我们写好的AppConfig</p>
+<pre><code>  <span class="variable">&lt;filter&gt;</span>
+        <span class="variable">&lt;filter-name&gt;</span>jfinal<span class="variable">&lt;/filter-name&gt;</span>
+        <span class="variable">&lt;filter-class&gt;</span>com.jfinal.core.JFinalFilter<span class="variable">&lt;/filter-class&gt;</span>
+        <span class="variable">&lt;init-param&gt;</span>
+            <span class="variable">&lt;param-name&gt;</span>configClass<span class="variable">&lt;/param-name&gt;</span>
+            <span class="variable">&lt;param-value&gt;</span>AppConfig<span class="variable">&lt;/param-value&gt;</span>
+        <span class="variable">&lt;/init-param&gt;</span>
+    <span class="variable">&lt;/filter&gt;</span>
+
+    <span class="variable">&lt;filter-mapping&gt;</span>
+        <span class="variable">&lt;filter-name&gt;</span>jfinal<span class="variable">&lt;/filter-name&gt;</span>
+        <span class="variable">&lt;url-pattern&gt;</span>/<span class="keyword">*</span><span class="variable">&lt;/url-pattern&gt;</span>
+    <span class="variable">&lt;/filter-mapping&gt;</span>
+</code></pre><h3 id="Model">Model</h3>
+<p>定义用户实体，代码非常简单</p>
+<pre><code><span class="keyword">package</span> model;
+
+<span class="keyword">import</span> com.jfinal.plugin.activerecord.Model;
+
+<span class="javadoc">/**
+ * Created by reeco_000 on 2015/7/22.
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span>&lt;<span class="title">User</span>&gt;</span>{
+}
+</code></pre><p>继承Model就行了，无需 getter、setter 方法，无需Annotation，无需xml</p>
+<p>这里数据库中user设计也很简单，就三个字段，userid,username,password,贴下sql:</p>
+<pre><code><span class="operator"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`user`</span>;</span>
+<span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> (
+  <span class="string">`userid`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,
+  <span class="string">`username`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,
+  <span class="string">`password`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,
+  <span class="keyword">PRIMARY</span> <span class="keyword">KEY</span> (<span class="string">`userid`</span>)
+) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">4</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span>
+</code></pre><h3 id="Service">Service</h3>
+<p>service层，封装业务逻辑。这里用到了ActiveRecord插件，需要在AppConfig中注册。</p>
+<pre><code>   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configPlugin</span>(Plugins plugins) {
+        <span class="comment">//这里启用JFinal插件</span>
+
+        DruidPlugin druidPlugin = <span class="keyword">new</span> DruidPlugin(URL,USERNAME,PASSWORD);
+        druidPlugin.<span class="keyword">set</span>(INITIALSIZE,MIDIDLE,MAXACTIVEE);
+        druidPlugin.setFilters(<span class="string">"stat,wall"</span>);
+        plugins.add(druidPlugin);
+
+        ActiveRecordPlugin activeRecordPlugin = <span class="keyword">new</span> ActiveRecordPlugin(druidPlugin);
+        <span class="comment">//添加Model类和数据库表的映射。user指的是表名，userid指的是主键</span>
+        activeRecordPlugin.addMapping(<span class="string">"user"</span>,<span class="string">"userid"</span>, User.class);
+        plugins.add(activeRecordPlugin);
+
+    }
+</code></pre><p>数据库连接池使用的是Druid，JFinal还支持C3P0。<br>JFinal使用的是Db+Record 完成ORM。Db类提供了大量查询的方法，这种模式类似于ruby on rails。</p>
+<pre><code>package service;
+
+<span class="keyword">import</span> com.jfinal.plugin.activerecord.<span class="type">Db</span>;
+<span class="keyword">import</span> com.jfinal.plugin.activerecord.<span class="type">Record</span>;
+
+/**
+ * <span class="type">Created</span> by reeco_000 on <span class="number">2015</span>/<span class="number">7</span>/<span class="number">22</span>.
+ */
+public class <span class="type">UserService</span> {
+
+    public boolean add(<span class="type">String</span> username,<span class="type">String</span> password){
+        <span class="type">String</span> <span class="type">SQL</span> = <span class="string">"SELECT userid FROM user WHERE username =?"</span>;
+        <span class="type">Integer</span> <span class="literal">result</span> = <span class="type">Db</span>.queryFirst(<span class="type">SQL</span>, username);
+        <span class="keyword">if</span>(<span class="literal">result</span>==null){
+            <span class="type">Record</span> user = new <span class="type">Record</span>().<span class="type">set</span>(<span class="string">"username"</span>, username).<span class="type">set</span>(<span class="string">"password"</span>, password);
+            <span class="type">Db</span>.save(<span class="string">"user"</span>, user);
+            <span class="keyword">return</span> <span class="literal">true</span>;
+        }
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    }
+
+    public boolean login(<span class="type">String</span> username,<span class="type">String</span> password){
+        <span class="type">String</span> <span class="type">SQL</span> = <span class="string">"SELECT userid FROM user WHERE username =? and password=?"</span>;
+        <span class="type">Integer</span> <span class="literal">result</span> = <span class="type">Db</span>.queryFirst(<span class="type">SQL</span>, username, password);
+        <span class="keyword">if</span>(<span class="literal">result</span>!=null)
+            <span class="keyword">return</span> <span class="literal">true</span>;
+        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;
+    }
+}
+</code></pre><h3 id="Interceptor">Interceptor</h3>
+<p>JFinal里的拦截器有三个作用域，全局，类和方法。利用JFinal的AOP，使用起来也非常方便。拦截器定义也非常简单，只需继承Interceptor接口重写intercept方法。全局的拦截器是在AppConfig里配置：</p>
+<pre><code> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configInterceptor</span>(Interceptors interceptors) {
+        <span class="comment">//这里用于配置全局的拦截器，对所有请求进行拦截</span>
+
+        <span class="comment">// 添加控制层全局拦截器</span>
+        interceptors.addGlobalActionInterceptor(<span class="keyword">new</span> GlobalActionInterceptor());
+        <span class="comment">// 添加业务层全局拦截器</span>
+        interceptors.addGlobalServiceInterceptor(<span class="keyword">new</span> GlobalServiceInterceptor());
+}
+</code></pre><p>类和方法使用@Before(Class.class)即能使用，具体可以看下面Controller的例子。在JFinal2还提供了Inject拦截器，不过我们的例子里没这需求，所以没用到，具体各位还是看官网文档吧。</p>
+<h4 id="AuthInterceptor">AuthInterceptor</h4>
+<p>简易的权限拦截器，这里的作用是只有登录的才能执行。在session里设置了一个变量flag，当是true时就执行。</p>
+<pre><code><span class="keyword">package</span> interceptor;
+
+
+<span class="keyword">import</span> com.jfinal.aop.Interceptor;
+<span class="keyword">import</span> com.jfinal.aop.Invocation;
+<span class="keyword">import</span> com.jfinal.core.Controller;
+
+<span class="javadoc">/**
+ * Created by reeco_000 on 2015/7/22.
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthInterceptor</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>{
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">intercept</span>(Invocation invocation) {
+        Controller controller = invocation.getController();
+        Boolean loginUser = controller.getSessionAttr(<span class="string">"flag"</span>);
+        <span class="keyword">if</span> (loginUser ==<span class="keyword">true</span> )
+            invocation.invoke();
+        <span class="keyword">else</span>
+            controller.redirect(<span class="string">"/"</span>);
+    }
+}
+</code></pre><h4 id="LoginValidator">LoginValidator</h4>
+<p>Validator是JFinal提供的校验组件。其核心是Interceptor，所以用法和Interceptor类似，继承Validator类即可。</p>
+<ul>
+<li><p>validate<br> 提供了一系列的validateXXX方法</p>
+</li>
+<li><p>handleError<br> 处理错误，常见的用法是 </p>
+<pre><code> controller.keepPara();
+ controller.<span class="keyword">render</span>(<span class="string">"register.html"</span>);
+</code></pre><p> 意思是返回原页面，保持传入的参数。</p>
+</li>
+</ul>
+<p><br></p>
+<pre><code><span class="keyword">package</span> validator;
+
+<span class="keyword">import</span> com.jfinal.core.Controller;
+<span class="keyword">import</span> com.jfinal.validate.Validator;
+
+<span class="javadoc">/**
+ * Created by reeco_000 on 2015/7/28.
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginValidator</span> <span class="keyword">extends</span> <span class="title">Validator</span> </span>{
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">validate</span>(Controller c) {
+        validateRequiredString(<span class="string">"username"</span>,<span class="string">"nameError"</span>,<span class="string">"username is null"</span>);
+        validateRequiredString(<span class="string">"password"</span>,<span class="string">"passError"</span>,<span class="string">"username is null"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">handleError</span>(Controller c) {
+
+    }
+}
+</code></pre><h3 id="Controller">Controller</h3>
+<p>JFinal的Controller需要继承Controller类，类的映射是在AppConfig中配置：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configRoute</span>(Routes routes) {
+    routes.add(<span class="string">"/"</span>, IndexController.class);
+    routes.add(<span class="string">"/user"</span>, UserController.class);
+}
+</code></pre><p>我们这里配置意思是/访问到IndexController这个类，/user 访问到UserController。/user/login 默认访问UserController.login()方法，这点类似于struct2,如果之前有基础，上手会非常快。</p>
+<h4 id="UserController">UserController</h4>
+<p>映射 /user,在login()上使用了校验拦截器LoginValidator，show()使用了权限拦截器AuthInterceptor。</p>
+<pre><code><span class="keyword">package</span> controller;
+
+<span class="keyword">import</span> com.jfinal.aop.Before;
+<span class="keyword">import</span> com.jfinal.core.Controller;
+<span class="keyword">import</span> interceptor.AuthInterceptor;
+<span class="keyword">import</span> service.UserService;
+<span class="keyword">import</span> validator.LoginValidator;
+
+<span class="javadoc">/**
+ * Created by reeco_000 on 2015/7/22.
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span>{
+
+    <span class="keyword">private</span> UserService userService = <span class="keyword">new</span> UserService();
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">index</span>(){}
+
+    <span class="annotation">@Before</span>(LoginValidator.class)
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span>(){
+        String username = getPara(<span class="string">"username"</span>);
+        String password = getPara(<span class="string">"password"</span>);
+        <span class="keyword">boolean</span> loginCheck = userService.login(username,password);
+        <span class="keyword">if</span>(loginCheck){
+            renderJson(<span class="string">"10000"</span>);
+            getSession().setAttribute(<span class="string">"flag"</span>,<span class="keyword">true</span>);
+        }
+
+        <span class="keyword">else</span>
+            renderJson(<span class="string">"10001"</span>);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span>(){
+        String username = getPara(<span class="string">"username"</span>);
+        String password = getPara(<span class="string">"password"</span>);
+        <span class="keyword">boolean</span> result = userService.add(username,password);
+        <span class="keyword">if</span>(result)
+            renderJson(<span class="string">"10010"</span>);
+        <span class="keyword">else</span>
+            renderJson(<span class="string">"10011"</span>);
+    }
+
+    <span class="annotation">@Before</span>(AuthInterceptor.class)
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span>(){
+        renderJsp(<span class="string">"user.jsp"</span>);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">image</span>(){
+        <span class="keyword">try</span>{
+            getFile(getPara(<span class="string">"img"</span>),<span class="string">"UTF-8"</span>);
+            renderJson(<span class="string">"20010"</span>);
+        } <span class="keyword">catch</span> (Exception e){
+            renderJson(<span class="string">"20012"</span>);
+        }
+    }
+}
+</code></pre><ul>
+<li>getPara() 从请求中获取参数</li>
+<li>getFile()  支持文件上传</li>
+<li>renderJson() 返回JSON，JFinal提供了一系列的render方法，目前支持的视图类型有：<br>FreeMarker、JSP、Velocity、JSON、File、Text、Html 等等。</li>
+</ul>
+<h4 id="IndexController">IndexController</h4>
+<pre><code><span class="keyword">package</span> controller;
+
+<span class="keyword">import</span> com.jfinal.core.Controller;
+
+<span class="javadoc">/**
+ * Created by reeco_000 on 2015/7/22.
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IndexController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span>{
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">index</span>(){
+        renderJsp(<span class="string">"index.jsp"</span>);
+    }
+}
+</code></pre><p>index是Controller默认调用的方法</p>
+<h3 id="总结">总结</h3>
+<p><img src="http://img-storage.qiniudn.com/15-7-28/60814655.jpg" alt=""><br>最后整个工程的文件如上图所示，代码非常简单，我也就不上传献丑了。主要介绍了JFinal的Interceptor、Controller、Render、Plugin，Handler是对Controller和Interceptor的补充。ORM使用的是Db+ActiveRecord。JFinal还有很多组件没有提到，各位请到官网查看详细文档。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/"> #Java </a>
+          
+            <a href="/tags/JFinal/"> #JFinal </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/24/hashmap-of-java8/">初探Java8中的HashMap</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/26/Java-collection/">Java容器知识整理</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/07/22/jfinal-demo/"
+               data-title="快速上手JFinal" data-url="http://1994.github.io/2015/07/22/jfinal-demo/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://7xawrk.com1.z0.glb.clouddn.com/blogIMG_0476.jpg" alt="reeco" />
+          <p class="site-author-name">reeco</p>
+        </div>
+        <p class="site-description motion-element">reeco's blog</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tages">
+              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://twitter.com/guoreeco" target="_blank">twitter</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/reeco" target="_blank">zhihu</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://v2ex.com/member/reeco" target="_blank">v2ex</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://segmentfault.com/u/reeco" target="_blank">segmentfault</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#访问路径"><span class="nav-number">1.1.</span> <span class="nav-text">访问路径</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AppConfig"><span class="nav-number">2.</span> <span class="nav-text">AppConfig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-number">3.</span> <span class="nav-text">配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Jdbc-properties"><span class="nav-number">3.1.</span> <span class="nav-text">Jdbc.properties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#log4j-properties"><span class="nav-number">3.2.</span> <span class="nav-text">log4j.properties</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-xml"><span class="nav-number">4.</span> <span class="nav-text">web.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model"><span class="nav-number">5.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service"><span class="nav-number">6.</span> <span class="nav-text">Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Interceptor"><span class="nav-number">7.</span> <span class="nav-text">Interceptor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AuthInterceptor"><span class="nav-number">7.1.</span> <span class="nav-text">AuthInterceptor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LoginValidator"><span class="nav-number">7.2.</span> <span class="nav-text">LoginValidator</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller"><span class="nav-number">8.</span> <span class="nav-text">Controller</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UserController"><span class="nav-number">8.1.</span> <span class="nav-text">UserController</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IndexController"><span class="nav-number">8.2.</span> <span class="nav-text">IndexController</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">reeco</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"reeco"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+</body>
+</html>

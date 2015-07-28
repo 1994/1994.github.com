@@ -114,6 +114,114 @@
           
           
             
+              <a class="post-title-link" href="/2015/03/21/what-happen/">
+                从输入 URL 到页面加载完成发生了什么事
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-03-21
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/03/21/what-happen/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/21/what-happen/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>看到 <a href="http://div.io/topic/457" target="_blank" rel="external">这篇文章</a>，重拾计算机网络的知识，决定班门弄斧写一篇</p>
+</blockquote>
+<p>下面的讨论基于最简单的情景：HTTP、无代理、不讨论功夫王、IPv4，并简单得从三个方面阐述。</p>
+<h2 id="浏览器会做些什么">浏览器会做些什么</h2>
+<ol>
+<li>接收 URL，并拆分成协议，网络地址，资源路径</li>
+<li>与缓存进行比对，如果请求的对象在缓存中，则直接进行第九步</li>
+<li>如果网络地址不是一个 IP 地址，向操作系统询问，操作系统返回一个IP地址</li>
+<li>浏览器向服务器发起一个 TCP 连接</li>
+<li>浏览器通过 TCP 连接向服务器发起 HTTP 请求，HTTP 三次握手，HTTPS 握手过程则复杂得多</li>
+<li>浏览器接受 HTTP 响应，这时候它能关闭 TCP 连接也能为另一个连接保留。</li>
+<li>检查 HTTP header 里的状态码，并做出不同的处理方式。比如：错误（<code>4XX</code>、<code>5XX</code>），重定向（<code>3XX</code>），授权请求（<code>2XX</code>）</li>
+<li>如果是可以缓存的，这个响应则会被存储起来</li>
+<li>浏览器进行解码响应，并决定如何处理该响应（比如HTML页面，图像，声音等等）</li>
+<li>浏览器渲染响应，或者为不能识别的类型提供下载的提示框</li>
+</ol>
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/21/what-happen/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Web/"> #Web </a>
+          
+            <a href="/tags/Server/"> #Server </a>
+          
+            <a href="/tags/interview/"> #interview </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/03/09/An Introduction to Raspberry Pi/">
                 树莓派快速入门指南
               </a>
@@ -953,99 +1061,6 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
       
       
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/20/network-of-Ubuntu/">
-                Ubuntu下无线网卡禁用一次之后无法再开启的问题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-20
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/好人修电脑/">好人修电脑</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/20/network-of-Ubuntu/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/network-of-Ubuntu/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="症状描述">症状描述</h2>
-<hr>
-<p>Ubuntu下使用默认网络管理禁用无线网卡后无法再次启用，无线网络管理处显示该设备已被硬件设备禁用。切换到其他系统，比如Windows也显示已经禁用。<br>Ubuntu版本12.04LTS<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/03/20/network-of-Ubuntu/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Ubuntu/"> #Ubuntu </a>
-          
-            <a href="/tags/网卡/"> #网卡 </a>
-          
-            <a href="/tags/你是一个好人/"> #你是一个好人 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
     </div>
   </div>
 
@@ -1086,7 +1101,7 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1100,7 +1115,7 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
           <div class="site-state-item site-state-tags">
             <a href="/tages">
-              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-count">39</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
