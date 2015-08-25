@@ -114,8 +114,106 @@
           
           
             
-              <a class="post-title-link" href="/2015/07/29/Windows10/">
+              <a class="post-title-link" href="/2015/07/29/index-btree-hash/">
                 Windows10升级小记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-07-29
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/29/index-btree-hash/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/29/index-btree-hash/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>2015年7月29日，微软正式推送Windows10，作为不升级不舒服斯基，当然要第一时间升级。之前装过预览版，由于图标太丑的原因就没当主力用。</p>
+<h3 id="升级">升级</h3>
+<p>升级有两种方式：</p>
+<ul>
+<li>自动更新升级<br>微软通过自动更新推送，如果迟迟没有等到微软的推送，可以尝试在CMD下运行<code>wuauclt.exe /updatenow</code>。360，腾讯管家也提供了在线升级。</li>
+<li><p>离线升级<br>下载ISO镜像进行升级，可以通过微软的<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="external">小工具</a>，或者直接使用网友分享的链接：</p>
+<pre><code> ed2k:<span class="comment">//|file|cn_windows_10_multiple_editions_x64_dvd_6848463.iso|4303300608|94FD861E82458005A9CA8E617379856A|/</span>
+</code></pre></li>
+</ul>
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/29/index-btree-hash/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Windows/"> #Windows </a>
+          
+            <a href="/tags/WIndows10/"> #WIndows10 </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/07/29/Windows10/">
+                B-Tree索引与Hash索引的比较
               </a>
             
           
@@ -160,16 +258,10 @@
 
       
         
-          <p>2015年7月29日，微软正式推送Windows10，作为不升级不舒服斯基，当然要第一时间升级。之前装过预览版，由于图标太丑的原因就没当主力用。</p>
-<h3 id="升级">升级</h3>
-<p>升级有两种方式：</p>
-<ul>
-<li>自动更新升级<br>微软通过自动更新推送，如果迟迟没有等到微软的推送，可以尝试在CMD下运行<code>wuauclt.exe /updatenow</code>。360，腾讯管家也提供了在线升级。</li>
-<li><p>离线升级<br>下载ISO镜像进行升级，可以通过微软的<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="external">小工具</a>，或者直接使用网友分享的链接：</p>
-<pre><code> ed2k:<span class="comment">//|file|cn_windows_10_multiple_editions_x64_dvd_6848463.iso|4303300608|94FD861E82458005A9CA8E617379856A|/</span>
-</code></pre></li>
-</ul>
-
+          <blockquote>
+<p>翻译自<a href="http://dev.mysql.com/doc/refman/5.6/en/index-btree-hash.html" target="_blank" rel="external">http://dev.mysql.com/doc/refman/5.6/en/index-btree-hash.html</a></p>
+</blockquote>
+<p>理解B-Tree和Hash的数据结构能够帮助我们预测不同存储引擎下的查询性能差异。存储引擎在索引中使用这些数据结构，尤其是<code>MEMORY</code> 同时提供了B-Tree和Hash索引让你选择。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/07/29/Windows10/#more">
               阅读全文 &raquo;
@@ -183,9 +275,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Windows/"> #Windows </a>
+            <a href="/tags/MySql/"> #MySql </a>
           
-            <a href="/tags/WIndows10/"> #WIndows10 </a>
+            <a href="/tags/Index/"> #Index </a>
+          
+            <a href="/tags/B-Tree/"> #B-Tree </a>
+          
+            <a href="/tags/Hash/"> #Hash </a>
           
         </div>
       
@@ -938,105 +1034,6 @@
 
       
       
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/13/how-to-install-SSL -on-nginx/">
-                Nginx上安装SSL证书
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-04-13
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Develop/">Develop</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/13/how-to-install-SSL -on-nginx/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/13/how-to-install-SSL -on-nginx/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>长话短说，省去各种申请过程，讲讲扼要的部分</p>
-</blockquote>
-<h2 id="生成CRS和密钥">生成CRS和密钥</h2>
-<p>方便一点的做法是使用在线的生成器，或者通过openSSL生成：</p>
-<pre><code>openssl req -nodes -newkey rs<span class="variable">a:2048</span> -nodes -keyout your_key_name.key 
--out your_csr_name.csr -subj <span class="string">"/C=GB/ST=London/L=London/O=your_server
-</span>/OU=IT/CN=your_server"
-</code></pre>   
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/13/how-to-install-SSL -on-nginx/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/SSL/"> #SSL </a>
-          
-            <a href="/tags/Nginx/"> #Nginx </a>
-          
-            <a href="/tags/Web/"> #Web </a>
-          
-        </div>
-      
-
-      
-
-      
-      
     </div>
   </div>
 
@@ -1077,7 +1074,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1091,7 +1088,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tages">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

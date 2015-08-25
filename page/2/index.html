@@ -114,6 +114,105 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/13/how-to-install-SSL -on-nginx/">
+                Nginx上安装SSL证书
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-04-13
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/13/how-to-install-SSL -on-nginx/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/13/how-to-install-SSL -on-nginx/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>长话短说，省去各种申请过程，讲讲扼要的部分</p>
+</blockquote>
+<h2 id="生成CRS和密钥">生成CRS和密钥</h2>
+<p>方便一点的做法是使用在线的生成器，或者通过openSSL生成：</p>
+<pre><code>openssl req -nodes -newkey rs<span class="variable">a:2048</span> -nodes -keyout your_key_name.key 
+-out your_csr_name.csr -subj <span class="string">"/C=GB/ST=London/L=London/O=your_server
+</span>/OU=IT/CN=your_server"
+</code></pre>   
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/04/13/how-to-install-SSL -on-nginx/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SSL/"> #SSL </a>
+          
+            <a href="/tags/Nginx/"> #Nginx </a>
+          
+            <a href="/tags/Web/"> #Web </a>
+          
+        </div>
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/03/31/difference-of-wait() -and-sleep()/">
                 Java中wait()与sleep()的区别
               </a>
@@ -979,99 +1078,6 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
       
       
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/04/29/printer/">
-                打印机问题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-04-29
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/好人修电脑/">好人修电脑</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/04/29/printer/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/29/printer/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="症状描述">症状描述</h2>
-<hr>
-<p>打印机服务print spooler服务启动一会儿，就会自动关闭。</p>
-<p>点击打印出现找不到打印机这个错误选项。</p>
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/04/29/printer/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/打印机/"> #打印机 </a>
-          
-            <a href="/tags/你是一个好人/"> #你是一个好人 </a>
-          
-        </div>
-      
-
-      
-
-      
-      
     </div>
   </div>
 
@@ -1112,7 +1118,7 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1126,7 +1132,7 @@ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span> $
 
           <div class="site-state-item site-state-tags">
             <a href="/tages">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
