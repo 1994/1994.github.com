@@ -1,0 +1,31 @@
+title: 打印机问题
+date: 2014-04-29 20:23:00
+categories: 好人修电脑
+tags: [打印机,你是一个好人]
+---
+
+##症状描述
+
+----------
+
+打印机服务print spooler服务启动一会儿，就会自动关闭。
+
+点击打印出现找不到打印机这个错误选项。
+
+<!-- more --> 
+
+![image][1]
+
+##解决方法
+
+----------
+
+删除注册表这个键值下的version -3
+
+	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print\Environments\Windows NT x86\Drivers
+
+删除这个文件夹下所有文件
+
+	C:\Windows\System32\spool\PRINTERS
+
+[1]: http://7xawrk.com1.z0.glb.clouddn.com/200722_cSsp_853361.png

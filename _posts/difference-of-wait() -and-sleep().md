@@ -1,0 +1,46 @@
+title: Java中wait()与sleep()的区别
+date: 2015-03-31 10:14:40
+categories: Develop
+tags: [interview,Java]
+---
+
+>最近在做面试题的时候看到这道题，复习了一遍《Thinking in Java》，在此记录这个答案
+
+##类的区别
+
+- wait()来自于 `java.lang.Object`，任何对象都有此方法
+- sleep()来自于 `java.lang.Thread`，调用的对象为线程
+
+##用法上的区别
+
+看一下jdk的描述：
+>`wait()`:Causes the current thread to wait until either another thread invokes the
+ java.lang.Object.notify() method or the java.lang.Object.notifyAll()method for this object, or a specified amount of time has elapsed.
+
+<!-- more --> 
+使当前线程挂起，当对象调用`java.lang.Object.notify()`或者`java.lang.Object.notifyAll()`或者时间到期，则从wait()中恢复执行
+
+>`sleep()`:Causes the currently executing thread to sleep (temporarily cease execution) for the specified number of milliseconds, subject to the precision and accuracy of system timers and schedulers. The thread does not lose ownership of any monitors.
+
+在指定的时间内使当前执行的线程睡眠（暂停执行）
+
+##同步与锁的不同
+wait()与sleep()最主要的区别就在于同步与锁，wiat()必须放在synchronized block中，否则会在program runtime时扔出`java.lang.IllegalMonitorStateException`异常。
+
+ - wait()期间对象锁是释放的
+ - 调用sleep()的时候锁并没有被释放，调用yield()也属于这种情况
+
+        synchronized(LOCK) {   
+            Thread.sleep(1000); // LOCK is held
+        }
+        
+        synchronized(LOCK) {   
+            LOCK.wait(); // LOCK is not held
+        }
+    
+一般而言，wait()用于线程间的通信，sleep()用于线程状态的控制
+
+##参考资料
+http://stackoverflow.com/questions/1036754/difference-between-wait-and-sleep
+http://howtodoinjava.com/2013/03/08/difference-between-sleep-and-wait/
+http://www.qat.com/using-waitnotify-instead-thread-sleep-java/

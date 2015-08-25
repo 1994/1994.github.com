@@ -1,0 +1,31 @@
+title: 整理一下学习Git的免费资料
+date: 2015-03-03 15:20:20
+categories: Develop
+tags: [git,study]
+---
+
+网上关于Git的资料非常多，下面罗列一些个人感觉比较好的学习资料。
+<!-- more --> 
+###在线学习
+[Code School][1]
+
+###在线文档
+[git在线文档[简体中文]][2] 当然，还是推荐阅读英文版本。这官网访问起来有点慢，耐心等待
+[github help][3] 几乎是step by step
+
+###博文&&教程
+[廖雪峰：git教程][4]
+[git命令][5]
+[Git参考手册][6]，想在一页全部显示，看下面这个
+[Git参考手册2][7]
+[玩转git之webhook应用初探][8]
+
+
+  [1]: https://try.github.io/levels/1/challenges/1
+  [2]: http://git-scm.com/book/zh/v1
+  [3]: https://help.github.com/
+  [4]: http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+  [5]: http://www.git-tower.com/blog/assets/2013-05-22-git-cheat-sheet/cheat-sheet-large01.png
+  [6]: http://gitref.org/zh/index.html
+  [7]: http://www.oschina.net/question/1397765_166368
+  [8]: http://ued.ctrip.com/blog/?p=3646?tn=gongxinjun.com

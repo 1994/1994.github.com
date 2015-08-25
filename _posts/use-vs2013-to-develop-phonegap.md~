@@ -1,0 +1,71 @@
+title: 使用visual studio 2013 快速搭建Phonegap开发环境
+date: 2014-10-05 22:14:20
+categories: Develop
+tags: [Phonegap,IDE,VS2013]
+---
+
+  前一段时间开发了一款简单的Phonegap应用，遇到了很多坑，其中有一个坑就是在搭建开发环境上。由于Phonegap 2.x 与3.x 区别比较大，导致了开发环境也有所不同。
+2.x 是这样的
+http://www.cnblogs.com/Random/archive/2011/12/28/2305398.html
+这一系列的文章有些没讲清楚版本号，也是入坑的一个原因吧。
+
+3.x 需要通过nodejs安装
+
+    npm install -g phonegap
+
+生成相应平台的工程文件，然后再开发。
+
+另外，在这再解释一下cordova和phonegap的关系，某百科上这么解释的
+
+> ordova是贡献给Apache后的开源项目，是从PhoneGap中抽出的核心代码，是驱动PhoneGap的核心引擎。你可以把他想象成类似于Webkit和Google
+> Chrome的关系。
+
+但我用下来发现这两个除了名字和一些命令写法之外，没有什么区别，几乎可以等同起来。
+
+好了，废话说了那么多，开始进入正题了，使用visual studio 2013 快速搭建开发环境
+首先需要将visual studio 2013 升级到 update3。
+
+> 工具->扩展与更新->update 3
+
+![update 3][1]
+
+
+将近6个G，需要等待一段时间
+然后安装
+[Multi-Device Hybrid Apps][2]
+
+
+安装的时候会提示你安装所需环境
+![安装环境][3]
+
+简直so easy，对于新手来说实在太棒了，一键配置各种环境。
+
+接着重启vs，就能在
+
+> 文件->新建->项目->Javascript/Typescript
+
+下面找到Blank App
+
+![blank app][4]
+
+点击确认，一个项目就新建好了
+
+主要的配置在config.xml中，有一项非常便捷的地方在于可以直接配置plugin。
+![图片描述][5]
+![图片描述][6]
+
+在Debug下的配置管理器能选择相应的平台
+
+![图片描述][7]
+
+
+  [1]: http://segmentfault.com/img/bVc8Nh
+  [2]: http://www.visualstudio.com/en-US/explore/cordova-vs
+  [3]: http://segmentfault.com/img/bVc8Nf
+  [4]: http://segmentfault.com/img/bVc8Nr
+  [5]: http://segmentfault.com/img/bVc8Nu
+  [6]: http://segmentfault.com/img/bVc8Nt
+
+  [7]: http://segmentfault.com/img/bVc8Ny
+
+值得一提的是，netbeans也支持cordova开发，但总体来说没VS2013方便，优势也显而易见就是免费。

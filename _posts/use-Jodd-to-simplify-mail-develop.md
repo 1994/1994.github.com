@@ -1,0 +1,183 @@
+title: 使用Jodd简化邮件服务的开发
+date: 2015-04-26 20:57:00
+categories: Develop
+tags: [Java,Jodd,mail]
+---
+
+最近需要做一个邮件相关的功能，考虑到自建邮件服务器维护起来比较麻烦，于是选择第三方邮件服务。邮件发送服务的对比可以看[这篇文章](http://segmentfault.com/a/1190000000340133)。
+
+最后我选择了：
+
+ - [sendCloud](https://sendcloud.sohu.com/)
+ - [mailgun](http://www.mailgun.com/)
+
+<!-- more --> 
+sendCloud向QQ用户发送，mailgun则负责其他用户。这就需要我同时为这两种服务编写相应的接口。但是它们的文档里给出的示例代码又各不相同，有的还不够优雅，比如sendcloud的[java示例](http://sendcloud.sohu.com/doc/downloads/code/java/#webapi "java示例")。两者依赖的库又不相同，比如mailgun依赖
+ - jersey-client.jar (version ~ 1.17 - 1.18.1)
+ - jersey-core.jar (version ~ 1.17 - 1.18.1)
+ - jersey-multipart.jar (version ~ 1.17 - 1.18.1)
+
+sendCloud则依赖`HttpClient`。有没有一种既能简化代码又能实现功能的方案呢，然后我发现了[Jodd](http://jodd.org/)。
+
+Jodd介绍：
+>Jodd is set of Java micro frameworks, tools and utilities, under 1.5 MB.
+Designed with common sense to make things simple, but not simpler.
+Get things done! Build your Beautiful Ideas! Kickstart your Startup!
+And enjoy the coding.
+
+很喜欢Jodd的理念：
+
+<blockquote class="blockquote-center">Think Lightweight, Be Awesome, Get Things Done!</blockquote>
+
+----------
+
+下面开始正题：需要用到的依赖如下：
+
+      <properties>
+        <jodd.version>3.6.5</jodd.version>
+      </properties>
+   
+      <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-http</artifactId>
+            <version>${jodd.version}</version>
+      </dependency>
+   
+      <dependency>
+             <groupId>org.jodd</groupId>
+             <artifactId>jodd-mail</artifactId>
+             <version>${jodd.version}</version>
+      </dependency>
+      
+      
+
+----------
+
+Talk is cheap，贴出代码。以下仅仅给出简单的发送功能，起抛砖引玉的作用，其他功能详见官网文档。
+
+mailgun:
+	
+	import jodd.http.HttpRequest;
+	import jodd.mail.Email;
+	import jodd.mail.SendMailSession;
+	import jodd.mail.SmtpServer;
+	
+	import java.util.HashMap;
+	import java.util.Map;
+	
+	
+	public class MailGun {
+	
+	    private String SMTP_HOST = "smtp.mailgun.org";
+	
+	    private String SMTP_USER="YOUR_USER";
+	
+	    private String SMTP_PASS = "YOUR_PASSWORD";
+	
+	    private String HTTP_URL="https://api.mailgun.net/v3/YOUR_DOMAIN/messages";
+	
+	    private String HTTP_API="YOUR_API";
+	
+	
+	    /**
+	     * 使用SMTP触发发送
+	     * @param from 发件人
+	     * @param to 收件人
+	     * @param subject 主题
+	     * @param text 内容
+	     */
+	    public void sendBySMTP(String from,String to,String subject,String text){
+	        SmtpServer smtpServer = SmtpServer.create(SMTP_HOST)
+	                .authenticateWith(SMTP_USER, SMTP_PASS);
+	        SendMailSession session = smtpServer.createSession();
+	        session.open();
+	
+	        Email email = Email.create()
+	                .from(from)
+	                .to(to)
+	                .subject(subject)
+	                .addHtml(text);
+	        session.sendMail(email);
+	        session.close();
+	    }
+	
+	    /**
+	     * 使用HTTP方式发送
+	     * @param from 发件人
+	     * @param to 收件人
+	     * @param subject 主题
+	     * @param text 内容
+	     */
+	    public void sendByHTTP(String from,String to,String subject,String text){
+	        Map<String, Object> formData = new HashMap<String, Object>();
+	        formData.put("from", from);
+	        formData.put("to", to);
+	        formData.put("subject", subject);
+	        formData.put("text", text);
+	        HttpRequest
+	                .post(HTTP_URL)
+	                .basicAuthentication("api",HTTP_API)
+	                .form(formData).send();
+	    }
+	}
+
+
+----------
+sendCloud:
+
+	
+	import jodd.http.HttpRequest;
+	import jodd.mail.Email;
+	import jodd.mail.SendMailSession;
+	import jodd.mail.SmtpServer;
+	
+	import java.util.HashMap;
+	import java.util.Map;
+	
+	public class SendCloud {
+	
+	    private String HTTP_URL ="http://sendcloud.sohu.com/webapi/mail.send.json";
+	
+	    private String HTTP_API_USER ="YOUR_API_USER";
+	
+	    private String HTTP_API_KEY = "YOUR_API_KEY";
+	
+	    private String FROM = "YPUR_DOMAIN_EMAIL";
+	
+	    private String SMTP_HOST = "smtpcloud.sohu.com";
+	
+	    private String SMTP_USER="YOUR_USER";
+	
+	    private String SMTP_PASS = "YOUR_PASS";
+	
+	    public void sendBySMTP(String to, String subject, String text){
+	        SmtpServer smtpServer = SmtpServer.create(SMTP_HOST)
+	                .authenticateWith(SMTP_USER, SMTP_PASS);
+	        SendMailSession session = smtpServer.createSession();
+	        session.open();
+	
+	        Email email = Email.create()
+	                .from(FROM)
+	                .to(to)
+	                .subject(subject)
+	                .addHtml(text);
+	        session.sendMail(email);
+	        session.close();
+	    }
+	
+	    public void sendByHTTP(String to, String subject, String text){
+	        Map<String, Object> formData = new HashMap<String, Object>();
+	        formData.put("api_user", HTTP_API_USER);
+	        formData.put("api_key", HTTP_API_KEY);
+	        formData.put("from", FROM);
+	        formData.put("to", to);
+	        formData.put("subject", subject);
+	        formData.put("html", text);
+	        HttpRequest
+	                .post(HTTP_URL)
+	                .form(formData)
+	                .send();
+	    }
+	}
+
+
