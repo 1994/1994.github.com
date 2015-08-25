@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="Windows,WIndows10," />
+  <meta name="keywords" content="MySql,Index,B-Tree,Hash,翻译,数据结构," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> Windows10升级小记 // reeco's blog </title>
+  <title> B-Tree索引与Hash索引的比较 // reeco's blog </title>
 </head>
 
 <body>
@@ -112,7 +112,7 @@
           
           
             
-              Windows10升级小记
+              B-Tree索引与Hash索引的比较
             
           
         </h1>
@@ -120,7 +120,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-07-29
+          发表于 2015-08-21
         </span>
 
         
@@ -140,8 +140,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/07/29/index-btree-hash/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/29/index-btree-hash/"></span>
+            <a href="/2015/08/21/index-btree-hash/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/21/index-btree-hash/"></span>
             </a>
           </span>
           
@@ -155,47 +155,59 @@
       
 
       
-        <p>2015年7月29日，微软正式推送Windows10，作为不升级不舒服斯基，当然要第一时间升级。之前装过预览版，由于图标太丑的原因就没当主力用。</p>
-<h3 id="升级">升级</h3>
-<p>升级有两种方式：</p>
+        <blockquote>
+<p>翻译自<a href="http://dev.mysql.com/doc/refman/5.6/en/index-btree-hash.html" target="_blank" rel="external">http://dev.mysql.com/doc/refman/5.6/en/index-btree-hash.html</a></p>
+</blockquote>
+<p>理解B-Tree和Hash的数据结构能够帮助我们预测不同存储引擎下的查询性能差异。存储引擎在索引中使用这些数据结构，尤其是<code>MEMORY</code> 同时提供了B-Tree和Hash索引让你选择。<br><a id="more"></a> </p>
+<h3 id="B-Tree索引特性">B-Tree索引特性</h3>
+<hr>
+<p>B-Tree索引可以在表达式中使用=, &gt;, &gt;=, &lt;, &lt;=用作列比较或者 BETWEEN 运算符。还能使用LIKE比较，如果参数是一个不以通配符开头的常量。举个例子，下面的SELECT语句使用了索引：</p>
+<pre><code><span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tbl_name <span class="keyword">WHERE</span> key_col <span class="keyword">LIKE</span> <span class="string">'Patrick%'</span>;</span>
+<span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tbl_name <span class="keyword">WHERE</span> key_col <span class="keyword">LIKE</span> <span class="string">'Pat%_ck%'</span>;</span>
+</code></pre><p>第一条语句中，只有’Patrick’ &lt;= key_col &lt; ‘Patricl’ 的行会被考虑。第二条语句中，只有’Pat’ &lt;= key_col &lt; ‘Pau’ 的行会被考虑。</p>
+<p>下面的<code>SELECT</code>语句没有使用索引：</p>
+<pre><code><span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tbl_name <span class="keyword">WHERE</span> key_col <span class="keyword">LIKE</span> <span class="string">'%Patrick%'</span>;</span>
+<span class="operator"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tbl_name <span class="keyword">WHERE</span> key_col <span class="keyword">LIKE</span> other_col;</span>
+</code></pre><p>第一条语句是因为它以通配符开头，第二条语句是因为没有使用常量。</p>
+<p>如果你使用… LIKE ‘%string%’而且<code>string</code>超过三个字符，那么MYSQL会使用<code>Turbo Boyer-Moore algorithm</code>算法来初始化查询表达式，然后用这个表达式来让查询更迅速。</p>
+<p>查询中有col_name IS NULL可以使用col_name索引。</p>
+<p>任何一个没有覆盖所有WHERE中AND级别条件的索引是不会被使用的。也就是说，要使用一个索引，这个索引中的第一列需要在每个AND组中出现。</p>
+<p>下面的WHERE条件会使用索引：</p>
+<pre><code><span class="keyword">...</span> WHERE index_part1=<span class="number">1</span> AND index_part2=<span class="number">2</span> AND other_column=<span class="number">3</span>
+
+    /* index = <span class="number">1</span> OR index = <span class="number">2</span> */
+<span class="keyword">...</span> WHERE index=<span class="number">1</span> OR A=<span class="number">10</span> AND index=<span class="number">2</span>
+
+    /* optimized like <span class="string">"index_part1='hello'"</span> */
+<span class="keyword">...</span> WHERE index_part1=<span class="string">'hello'</span> AND index_part3=<span class="number">5</span>
+
+    /* Can use index on index1 but not on index2 or index3 */
+<span class="keyword">...</span> WHERE index1=<span class="number">1</span> AND index2=<span class="number">2</span> OR index1=<span class="number">3</span> AND index3=<span class="number">3</span>;
+</code></pre><p>下面的WHERE条件不会使用索引：</p>
+<pre><code>    /* index_part1 is not used */
+<span class="keyword">...</span> WHERE index_part2=<span class="number">1</span> AND index_part3=<span class="number">2</span>
+
+    /*  Index is not used <span class="keyword">in</span> both parts of the WHERE clause  */
+<span class="keyword">...</span> WHERE index=<span class="number">1</span> OR A=<span class="number">10</span>
+
+    /* No index spans all rows  */
+<span class="keyword">...</span> WHERE index_part1=<span class="number">1</span> OR index_part2=<span class="number">10</span>
+</code></pre><p>有时候mysql不会使用索引，即使在可用的情况下。例如当mysql预估使用索引会读取大部分的行数据时。（在这种情况下，一次全表扫描可能比使用索引更快，因为它需要更少的检索）。然而，假如语句中使用LIMIT来限定返回的行数，mysql则会使用索引。因为当结果行数较少的情况下使用索引的效率会更高。</p>
+<h3 id="Hash索引特性">Hash索引特性</h3>
+<hr>
+<p>Hash类型的索引有一些区别于以上所述的特征：</p>
 <ul>
-<li>自动更新升级<br>微软通过自动更新推送，如果迟迟没有等到微软的推送，可以尝试在CMD下运行<code>wuauclt.exe /updatenow</code>。360，腾讯管家也提供了在线升级。</li>
-<li><p>离线升级<br>下载ISO镜像进行升级，可以通过微软的<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="external">小工具</a>，或者直接使用网友分享的链接：</p>
-<pre><code> ed2k:<span class="comment">//|file|cn_windows_10_multiple_editions_x64_dvd_6848463.iso|4303300608|94FD861E82458005A9CA8E617379856A|/</span>
-</code></pre></li>
+<li>它们只能用于对等比较，例如=和&lt;=&gt;操作符（但是快很多）。它们不能被用于像&lt;这样的范围查询条件。假如系统只需要使用像“键值对”的这样的存储结构，尽量使用hash类型索引。</li>
 </ul>
-<a id="more"></a> 
-<p>我推荐用第二种方式进行升级，如果有强迫症，可以全新安装，而且全新安装比升级要快。<br>下图是我的血泪史，总共更新了15次全部失败，图中只截了11次 :-(<br><img src="http://img-storage.qiniudn.com/15-7-29/25731670.jpg" alt=""></p>
-<h3 id="流畅度">流畅度</h3>
-<p>先说说可能是大家最关心的问题，结合亲身体验和网友的反映，Windows10还是比较流畅的，我用起来和之前的Windows8.1无差，加上一些细节上的优化，总的来说会比Windows8.1要流畅些。<br>有兴趣可以看看这篇文章<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDQ4MzU5NQ==&amp;mid=308897618&amp;idx=1&amp;sn=a3ffc57a1681177687535b4707848c1d#rd" target="_blank" rel="external">《Windows10在老爷机上的表现》</a>。</p>
-<h3 id="软件兼容性">软件兼容性</h3>
-<p>我电脑上一共装了147个软件，目前来看全都运行正常。</p>
-<h3 id="肉眼可见的提升">肉眼可见的提升</h3>
-<h4 id="搜索">搜索</h4>
-<p>Windows8习惯用Win+Q，然后输入关键字进行应用或者文件的全局搜索。这一习惯在Windows10得以保留，并且功能更加强大。</p>
 <ul>
-<li><p>速度更快<br>从输入完到显示结果一气呵成，完成了我多年的夙愿：终于能在Windows上只用键盘快速得打开某个应用。</p>
-</li>
-<li><p>更加智能<br><img src="http://img-storage.qiniudn.com/15-7-29/77641274.jpg" alt=""><br><img src="http://img-storage.qiniudn.com/15-7-29/68982107.jpg" alt=""></p>
-</li>
+<li>优化器不能用hash索引来为ORDER BY操作符加速。（这类索引不能被用于搜索下一个次序的值）</li>
 </ul>
-<p>搜索界面整合了<code>CORTANA</code>，显示一些你感兴趣的资讯，目前有股票，天气，今日头条，微博等。还能联想搜索拼音内容，尽管还在输入中。<br>但是全局搜索文件方面还是差强人意，<code>Everything</code>还是必不可少的软件。</p>
-<h4 id="输入法">输入法</h4>
-<p>自带的必应输入法比以前流畅了，用了一下午，没有出现卡顿现象。和Windows8.1另一点不同是任务栏现在能显示第三方的输入法，这点也算是提升吧。<br> <img src="http://img-storage.qiniudn.com/15-7-29/14370617.jpg" alt=""></p>
-<h4 id="Edge">Edge</h4>
-<p>第一感觉就是启动速度飞快，加载速度也是飞快。目前打算作为主力浏览器使用一段时间，我的Chrome因为装了N多插件已经臃肿不堪了。但是Edge缺点也很明显，功能略简陋，插件缺乏，甚至不能添加搜索引擎。逛逛收藏夹里的网站，看看视频什么的还是完全没问题的。当然开发的话还是得用Chrome，Firefox。<br><img src="http://img-storage.qiniudn.com/15-7-29/23752244.jpg" alt=""></p>
-<h4 id="虚拟桌面">虚拟桌面</h4>
-<p><img src="http://img-storage.qiniudn.com/15-7-29/56044765.jpg" alt=""><br>用过Linux桌面的对这个功能应该不会太陌生，可以新建一个桌面然后将应用放入其中，快捷键是Win+Tab，不仅可以快捷得切换桌面，还能切换应用。不过我还是更加喜欢Vista/7的任务切换方式。</p>
-<h4 id="驱动更新">驱动更新</h4>
-<p>Windows10能通过自动更新的方式下载所欠缺的驱动，虽然这个功能在Windows8.1上就有了，不过Windows10的更加完善了。如果你的电脑是联网的，并且硬件不那么奇葩，可以彻底摒弃驱动精灵之类的软件了。</p>
-<h4 id="Metro应用窗口化">Metro应用窗口化</h4>
-<p>让我第一次有了想用用Metro应用的冲动，如果应用质量能够再提升的话。<br><img src="http://img-storage.qiniudn.com/15-7-29/2940707.jpg" alt=""></p>
-<h4 id="更加细化的网络设置">更加细化的网络设置</h4>
-<p>这点提升是在太赞了，Windows8.1是将宽带连接，VPN等统统归在一起放在charmbar上，并且更加糟糕的是默认是不保存密码的，用过的童鞋肯定有印象，在体验上甚至远远不如Windows7。Windows10这回算是回归。<br><img src="http://img-storage.qiniudn.com/15-7-29/42522898.jpg" alt=""></p>
-<h4 id="颜值">颜值</h4>
-<p>这点因人而异，除了图标之外，开始菜单，窗口显示等方面我觉得还是有提升了，尤其是一些本来窗口比较简陋的程序：<br><img src="http://img-storage.qiniudn.com/15-7-29/66468038.jpg" alt=""><br>但有的又变丑了，比如Sublime Text使用暗色的主题，割裂感太强了，而且Sublime Text还是万年不更新系列<br><img src="http://img-storage.qiniudn.com/15-7-29/61741859.jpg" alt=""></p>
-<h3 id="总结">总结</h3>
-<p>总的来说，我认为Windows10还是非常值得升级的，我觉得比较遗憾的是那几个图标竟然保留了下来，微软又要再次引领一次设计革命吗？</p>
+<ul>
+<li>MySQL不能判断出两个值之间有多少条数据（这需要使用范围查询操作符来决定使用哪个索引）。假如你将一个MyISAM表或InnoDB表转为一个依靠hash索引的MEMORY表，这可能会影响一些查询。</li>
+</ul>
+<ul>
+<li>只有完整的键才能被用于搜索一行数据（使用了B-Tree索引，那么任何一个键的前缀都可以用于查找）。</li>
+</ul>
 
       
     </div>
@@ -204,9 +216,17 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Windows/"> #Windows </a>
+            <a href="/tags/MySql/"> #MySql </a>
           
-            <a href="/tags/WIndows10/"> #WIndows10 </a>
+            <a href="/tags/Index/"> #Index </a>
+          
+            <a href="/tags/B-Tree/"> #B-Tree </a>
+          
+            <a href="/tags/Hash/"> #Hash </a>
+          
+            <a href="/tags/翻译/"> #翻译 </a>
+          
+            <a href="/tags/数据结构/"> #数据结构 </a>
           
         </div>
       
@@ -219,7 +239,7 @@
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/29/Windows10/">B-Tree索引与Hash索引的比较</a>
+              <a href="/2015/07/29/WIndows10/">Windows10升级小记</a>
             
           </div>
         </div>
@@ -235,8 +255,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/07/29/index-btree-hash/"
-               data-title="Windows10升级小记" data-url="http://1994.github.io/2015/07/29/index-btree-hash/">
+          <div class="ds-thread" data-thread-key="2015/08/21/index-btree-hash/"
+               data-title="B-Tree索引与Hash索引的比较" data-url="http://1994.github.io/2015/08/21/index-btree-hash/">
           </div>
         
       </div>
@@ -294,7 +314,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tages">
-              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-count">45</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -342,7 +362,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#升级"><span class="nav-number">1.</span> <span class="nav-text">升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流畅度"><span class="nav-number">2.</span> <span class="nav-text">流畅度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件兼容性"><span class="nav-number">3.</span> <span class="nav-text">软件兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#肉眼可见的提升"><span class="nav-number">4.</span> <span class="nav-text">肉眼可见的提升</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#搜索"><span class="nav-number">4.1.</span> <span class="nav-text">搜索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输入法"><span class="nav-number">4.2.</span> <span class="nav-text">输入法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Edge"><span class="nav-number">4.3.</span> <span class="nav-text">Edge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟桌面"><span class="nav-number">4.4.</span> <span class="nav-text">虚拟桌面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#驱动更新"><span class="nav-number">4.5.</span> <span class="nav-text">驱动更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Metro应用窗口化"><span class="nav-number">4.6.</span> <span class="nav-text">Metro应用窗口化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更加细化的网络设置"><span class="nav-number">4.7.</span> <span class="nav-text">更加细化的网络设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#颜值"><span class="nav-number">4.8.</span> <span class="nav-text">颜值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#B-Tree索引特性"><span class="nav-number">1.</span> <span class="nav-text">B-Tree索引特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash索引特性"><span class="nav-number">2.</span> <span class="nav-text">Hash索引特性</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
