@@ -1,0 +1,1087 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="reeco's blog" />
+
+
+
+  <meta name="keywords" content="Maven," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?c99269cda5e73423005fa138398d4c62";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  <title> 关于Maven // reeco's blog </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">reeco's blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tages">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              关于Maven
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-09-12
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Develop/">Develop</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/09/12/something-about-maven/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/12/something-about-maven/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>之前虽然一直用Maven，但比较依赖于IDE的Maven-Plugins。最近抽了点时间决定系统得学习一下。</p>
+<h3 id="什么是Maven">什么是Maven</h3>
+<p>Maven是使用Java开发的项目构建工具，至于它的作用网上相关的文章数不胜数，在此也不再累述。对于内容如果你看得云里雾里的话，我建议你直接上手使用一下Maven，就能知道它的魅力所在了。简而言之，我认为Maven在Java项目的开发过程中完成了以下两件事情：</p>
+<ul>
+<li>统一管理jar</li>
+<li>统一开发规范</li>
+</ul>
+<a id="more"></a> 
+<h3 id="安装">安装</h3>
+<p>Ubuntu下安装非常简单:</p>
+<pre><code><span class="built_in">sudo</span> apt-get install maven
+</code></pre><p>终端下<code>mvn -v</code></p>
+<pre><code>Maven home: /opt/maven
+Java <span class="built_in">version</span>: <span class="number">1.8</span><span class="number">.0</span>_25, vendor: Oracle Corporation
+Java home: /opt/java/jre
+Default locale: en_US, <span class="built_in">platform</span> encoding: UTF-<span class="number">8</span>
+OS name: <span class="string">"linux"</span>, <span class="built_in">version</span>: <span class="string">"3.13.0-44-generic"</span>, arch: <span class="string">"amd64"</span>, family: <span class="string">"unix"</span>
+</code></pre><p>出现类似的信息就说明成功了。与上面类似Windows下安装Maven需要配置几个环境变量，在此也不再累述。</p>
+<h3 id="使用Maven新建一个项目">使用Maven新建一个项目</h3>
+<p>终端下输入：</p>
+<pre><code><span class="tag">mvn</span> <span class="tag">archetype</span><span class="pseudo">:generate</span>
+</code></pre><p><img src="http://7xawrk.com1.z0.glb.clouddn.com/15-10-8/28654626.jpg" alt=""><br>可以看到几百个archetype，archetype类似于模板，输入你想生成的模板的编号。比如最常见的<code>org.apache.maven.archetypes:maven-archetype-webapp</code>是19，然后我们输入19回车。接下来还会有各种各样的参数需要填，这里也作简单讲解。以国产优秀开源项目fastjson为例：</p>
+<ul>
+<li>groupId:com.alibaba</li>
+<li>arctifactId:fastjson</li>
+<li>version:1.1.15</li>
+</ul>
+<p>熟悉之后，其实通过一条命令来完成上面的操作：</p>
+<pre><code>mvn archetype:generate <span class="variable">-DarchetypeArtifactId=</span> maven-archetype-webapp -          <span class="variable">DarchetypeGroupId=</span> com.reeco <span class="variable">-DarchetypeArtifactId=</span> helloworld <span class="variable">-DarchetypeVersion=</span> <span class="number">1.0</span>-SNAPSHOT
+</code></pre><p>你一定会奇怪这么长一串怎么记得住，在类Unix中通过强大的终端功能是可以轻松完成的，输入mvn archetype:generate -D 按Tab提示，就会出现，然后你只需按照上面的提示输入几个首字母就能补全所有的选项了。<br><img src="http://7xawrk.com1.z0.glb.clouddn.com/15-10-8/52882100.jpg" alt=""></p>
+<h3 id="Maven推荐的目录结构">Maven推荐的目录结构</h3>
+<p>我直接复制了官方文档</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">PATH</th>
+<th style="text-align:right">ACTIVITY</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">src/main/java</td>
+<td style="text-align:right">Application/Library sources</td>
+</tr>
+<tr>
+<td style="text-align:left">src/main/resources</td>
+<td style="text-align:right">Application/Library resources</td>
+</tr>
+<tr>
+<td style="text-align:left">src/main/filters</td>
+<td style="text-align:right">Resource filter files</td>
+</tr>
+<tr>
+<td style="text-align:left">src/main/webapp</td>
+<td style="text-align:right">Web application sources</td>
+</tr>
+<tr>
+<td style="text-align:left">src/test/java</td>
+<td style="text-align:right">Test sources</td>
+</tr>
+<tr>
+<td style="text-align:left">src/test/resources</td>
+<td style="text-align:right">Test resources</td>
+</tr>
+<tr>
+<td style="text-align:left">src/test/filters</td>
+<td style="text-align:right">Test resource filter files</td>
+</tr>
+<tr>
+<td style="text-align:left">src/it</td>
+<td style="text-align:right">Integration Tests (primarily for plugins)</td>
+</tr>
+<tr>
+<td style="text-align:left">src/assembly</td>
+<td style="text-align:right">Assembly descriptors</td>
+</tr>
+<tr>
+<td style="text-align:left">src/site</td>
+<td style="text-align:right">Site</td>
+</tr>
+<tr>
+<td style="text-align:left">LICENSE.txt</td>
+<td style="text-align:right">Project’s license</td>
+</tr>
+<tr>
+<td style="text-align:left">NOTICE.txt</td>
+<td style="text-align:right">Notices and attributions required by libraries that the project depends on</td>
+</tr>
+<tr>
+<td style="text-align:left">README.txt</td>
+<td style="text-align:right">Project’s readme</td>
+</tr>
+</tbody>
+</table>
+<p>这是我们上面新建的项目目录结构<br>└── helloworld<br>    ├── pom.xml<br>    ├── src<br>    │   └── main<br>    │       ├── resources<br>    │       └── webapp<br>    │           ├── index.jsp<br>    │           └── WEB-INF<br>    │               └── web.xml</p>
+<p>与推荐的相比，我们还需要添加几个目录</p>
+<ul>
+<li>src/main/java</li>
+<li>src/test/java</li>
+<li>src/test/resources</li>
+</ul>
+<p>如果你觉得resources不够，还可以添加其他的资源文件夹，然后像下面这样在pom.xml中配置一下</p>
+<pre><code><span class="tag">&lt;<span class="title">build</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">resources</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">resource</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">targetPath</span>&gt;</span>.<span class="tag">&lt;/<span class="title">targetPath</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">directory</span>&gt;</span>src/main/config<span class="tag">&lt;/<span class="title">directory</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">resource</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">resources</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">build</span>&gt;</span>
+</code></pre><h3 id="pom-xml">pom.xml</h3>
+<p>pom.xml是我们需要关注的重点，平时我们在IDE里也只需要关注它。先来看下我们项目中的pom.xml</p>
+<pre><code><span class="tag">&lt;<span class="title">project</span> <span class="attribute">xmlns</span>=<span class="value">"http://maven.apache.org/POM/4.0.0"</span> <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+  <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="title">modelVersion</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.mycompany.helloworld<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>helloworld<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">packaging</span>&gt;</span>war<span class="tag">&lt;/<span class="title">packaging</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">name</span>&gt;</span>helloworld Maven Webapp<span class="tag">&lt;/<span class="title">name</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="title">url</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">dependencies</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="title">scope</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">dependencies</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">build</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">finalName</span>&gt;</span>helloworld<span class="tag">&lt;/<span class="title">finalName</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">build</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">project</span>&gt;</span>
+</code></pre><h4 id="Dependencies">Dependencies</h4>
+<p>dependencies中每一个dependency就是我们项目中的一个依赖，对应一个Maven项目。我们只要去<a href="http://mvnrepository.com/搜索想要的依赖，然后复制粘贴到pom.xml中即可。" target="_blank" rel="external">http://mvnrepository.com/搜索想要的依赖，然后复制粘贴到pom.xml中即可。</a><br>这里还有个scope属性，一共有五个值</p>
+<ul>
+<li>cpmpile:默认作用域，编译、测试、运行时有效</li>
+<li>test:测试时有效</li>
+<li>runtime:测试、运行时有效</li>
+<li>provided:编译、测试时有效</li>
+<li>system:：与provided类似，需要外在提供相应得元素</li>
+</ul>
+<p>举几个例子说明下：</p>
+<ul>
+<li>比如我们项目中的JUnit，我们只在测试时使用，并不需要包含在最终的项目中，所以设置为test</li>
+<li>Servlet和JSTL我们只需要在编译、测试时使用，运行时由于Servlet容器（比如Tomcat）自带了Servlet的lib，我们也不必自己提供Servlet，所以设置为provided</li>
+<li>MySQL数据库的驱动，我们并不需要编译它，只需要在运行时去加载它即可，所以设置为runtime</li>
+</ul>
+<h4 id="Build">Build</h4>
+<p>除了在上面提到的在build标签里配置resources之外,我们还可以配置plugins，各种plugin提供了一系列非常重要的功能</p>
+<pre><code><span class="tag">&lt;<span class="title">build</span>&gt;</span>  
+    <span class="tag">&lt;<span class="title">plugins</span>&gt;</span>  
+      <span class="tag">&lt;<span class="title">plugin</span>&gt;</span>  
+        <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>  
+        <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>maven-jar-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">version</span>&gt;</span>2.5.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">configuration</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="title">source</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="title">target</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">configuration</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">plugins</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">build</span>&gt;</span>
+</code></pre><p>例如上面的plugin指定了项目编译用的JDK版本为1.7，具体的plugin可以参考这两篇文章：</p>
+<p><a href="http://www.cnblogs.com/crazy-fox/archive/2012/02/09/2343722.html" target="_blank" rel="external">http://www.cnblogs.com/crazy-fox/archive/2012/02/09/2343722.html</a> <br><br><a href="http://maven.apache.org/plugins/index.html" target="_blank" rel="external">http://maven.apache.org/plugins/index.html</a></p>
+<h4 id="Lifecycle">Lifecycle</h4>
+<p>Maven一共有9种生命周期：</p>
+<ul>
+<li>clean:清理target目录</li>
+<li>validate:验证Maven项目文件</li>
+<li>compile:编译</li>
+<li>test:运行测试</li>
+<li>package:项目打包</li>
+<li>verify:验证包</li>
+<li>install:将项目安装到本地仓库</li>
+<li>site:生成项目站点</li>
+<li>deploy:将项目发布到远程仓库</li>
+</ul>
+<p>我们可以通过mvn&lt;生命周期&gt;的方式运行Maven命令，比如常见的</p>
+<pre><code>mvn clean <span class="operator"><span class="keyword">install</span> site</span>
+</code></pre><p>Maven允许多个命令，同时执行三个生命周期。这里值得一提的是，运行任何一个生命周期，前面的生命周期都会被执行，所以我们一般执行</p>
+<pre><code>mvn <span class="operator"><span class="keyword">install</span></span>
+</code></pre><p>就能完成编译、测试、打包。我们尝试着在我们之前的项目中运行这个命令，可以看到目录结构发生了变化：</p>
+<p>└── helloworld<br>    ├── pom.xml<br>    ├── src<br>    │   └── main<br>    │       ├── resources<br>    │       └── webapp<br>    │           ├── index.jsp<br>    │           └── WEB-INF<br>    │               └── web.xml<br>    └── target<br>        ├── classes<br>        ├── helloworld<br>        │   ├── index.jsp<br>        │   ├── META-INF<br>        │   └── WEB-INF<br>        │       ├── classes<br>        │       └── web.xml<br>        ├── helloworld.war<br>        └── maven-archiver<br>            └── pom.properties</p>
+<p>多了一个我们用于存放编译文件的目录target。那么怎么运行这个项目呢，对于Java Web项目来说，我们可以在build中通过plugin部署到tomcat下：</p>
+<pre><code>    <span class="tag">&lt;<span class="title">build</span>&gt;</span>  
+        <span class="tag">&lt;<span class="title">plugins</span>&gt;</span>  
+          <span class="tag">&lt;<span class="title">plugin</span>&gt;</span>  
+            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.apache.tomcat.maven<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>  
+            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>tomcat7-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">version</span>&gt;</span>2.2<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+            <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">plugins</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">build</span>&gt;</span>
+</code></pre><p>然后:</p>
+<pre><code><span class="tag">mvn</span> <span class="tag">tomcat7</span><span class="pseudo">:run-war</span>
+</code></pre><h3 id="setting-xml">setting.xml</h3>
+<p>setting.xml是Maven全局配置文件，我们可以在里面配置Maven依赖下载的镜像和本地仓库目录。<br>我目前使用的是oschina的Maven镜像，下面的使用说明也讲解得非常清楚。<br><a href="http://maven.oschina.net/help.html" target="_blank" rel="external">http://maven.oschina.net/help.html</a></p>
+<h3 id="总结">总结</h3>
+<p>至此介绍了Maven的基本使用方式，以上的功能在IDE中也有很好的支持。Maven当然还有很多高级用法和最佳实践，值得我们去探索。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Maven/"> #Maven </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/21/index-btree-hash/">B-Tree索引与Hash索引的比较</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/09/12/something-about-maven/"
+               data-title="关于Maven" data-url="http://1994.github.io/2015/09/12/something-about-maven/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://7xawrk.com1.z0.glb.clouddn.com/blogIMG_0476.jpg" alt="reeco" />
+          <p class="site-author-name">reeco</p>
+        </div>
+        <p class="site-description motion-element">reeco's blog</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tages">
+              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://twitter.com/guoreeco" target="_blank">twitter</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/reeco" target="_blank">zhihu</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://v2ex.com/member/reeco" target="_blank">v2ex</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://segmentfault.com/u/reeco" target="_blank">segmentfault</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Maven"><span class="nav-number">1.</span> <span class="nav-text">什么是Maven</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Maven新建一个项目"><span class="nav-number">3.</span> <span class="nav-text">使用Maven新建一个项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maven推荐的目录结构"><span class="nav-number">4.</span> <span class="nav-text">Maven推荐的目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pom-xml"><span class="nav-number">5.</span> <span class="nav-text">pom.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dependencies"><span class="nav-number">5.1.</span> <span class="nav-text">Dependencies</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Build"><span class="nav-number">5.2.</span> <span class="nav-text">Build</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lifecycle"><span class="nav-number">5.3.</span> <span class="nav-text">Lifecycle</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setting-xml"><span class="nav-number">6.</span> <span class="nav-text">setting.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">reeco</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"reeco"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+</body>
+</html>
