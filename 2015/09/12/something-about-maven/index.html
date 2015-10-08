@@ -249,8 +249,17 @@ OS name: <span class="string">"linux"</span>, <span class="built_in">version</sp
 </tr>
 </tbody>
 </table>
-<p>这是我们上面新建的项目目录结构<br>└── helloworld<br>    ├── pom.xml<br>    ├── src<br>    │   └── main<br>    │       ├── resources<br>    │       └── webapp<br>    │           ├── index.jsp<br>    │           └── WEB-INF<br>    │               └── web.xml</p>
-<p>与推荐的相比，我们还需要添加几个目录</p>
+<p>这是我们上面新建的项目目录结构</p>
+<pre><code>└── helloworld
+    ├── pom<span class="built_in">.</span><span class="built_in">xml</span>
+    ├── src
+    │   └── main
+    │       ├── resources
+    │       └── webapp
+    │           ├── index<span class="built_in">.</span>jsp
+    │           └── WEB<span class="attribute">-INF</span>
+    │               └── web<span class="built_in">.</span><span class="built_in">xml</span>
+</code></pre><p>与推荐的相比，我们还需要添加几个目录</p>
 <ul>
 <li>src/main/java</li>
 <li>src/test/java</li>
@@ -338,8 +347,27 @@ OS name: <span class="string">"linux"</span>, <span class="built_in">version</sp
 </code></pre><p>Maven允许多个命令，同时执行三个生命周期。这里值得一提的是，运行任何一个生命周期，前面的生命周期都会被执行，所以我们一般执行</p>
 <pre><code>mvn <span class="operator"><span class="keyword">install</span></span>
 </code></pre><p>就能完成编译、测试、打包。我们尝试着在我们之前的项目中运行这个命令，可以看到目录结构发生了变化：</p>
-<p>└── helloworld<br>    ├── pom.xml<br>    ├── src<br>    │   └── main<br>    │       ├── resources<br>    │       └── webapp<br>    │           ├── index.jsp<br>    │           └── WEB-INF<br>    │               └── web.xml<br>    └── target<br>        ├── classes<br>        ├── helloworld<br>        │   ├── index.jsp<br>        │   ├── META-INF<br>        │   └── WEB-INF<br>        │       ├── classes<br>        │       └── web.xml<br>        ├── helloworld.war<br>        └── maven-archiver<br>            └── pom.properties</p>
-<p>多了一个我们用于存放编译文件的目录target。那么怎么运行这个项目呢，对于Java Web项目来说，我们可以在build中通过plugin部署到tomcat下：</p>
+<pre><code>└── helloworld
+    ├── pom.xml
+    ├── src
+    │   └── main
+    │       ├── resources
+    │       └── webapp
+    │           ├── index.jsp
+    │           └── WEB-<span class="built_in">INF</span>
+    │               └── web.xml
+    └── target
+        ├── classes
+        ├── helloworld
+        │   ├── index.jsp
+        │   ├── META-<span class="built_in">INF</span>
+        │   └── WEB-<span class="built_in">INF</span>
+        │       ├── classes
+        │       └── web.xml
+        ├── helloworld.war
+        └── maven-archiver
+            └── pom.properties
+</code></pre><p>多了一个我们用于存放编译文件的目录target。那么怎么运行这个项目呢，对于Java Web项目来说，我们可以在build中通过plugin部署到tomcat下：</p>
 <pre><code>    <span class="tag">&lt;<span class="title">build</span>&gt;</span>  
         <span class="tag">&lt;<span class="title">plugins</span>&gt;</span>  
           <span class="tag">&lt;<span class="title">plugin</span>&gt;</span>  
@@ -451,7 +479,7 @@ OS name: <span class="string">"linux"</span>, <span class="built_in">version</sp
 
           <div class="site-state-item site-state-tags">
             <a href="/tages">
-              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-count">46</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
