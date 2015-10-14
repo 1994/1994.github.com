@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="打印机,你是一个好人," />
+  <meta name="keywords" content="reeco,blog" />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> 打印机问题 // reeco's blog </title>
+  <title> Spring+Mybatis脚手架的使用 // reeco's blog </title>
 </head>
 
 <body>
@@ -112,7 +112,7 @@
           
           
             
-              打印机问题
+              Spring+Mybatis脚手架的使用
             
           
         </h1>
@@ -120,14 +120,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-04-29
+          发表于 2015-10-14
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/好人修电脑/">好人修电脑</a>
+              <a href="/categories/Develop/">Develop</a>
 
               
               
@@ -140,8 +140,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/04/29/printer/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/29/printer/"></span>
+            <a href="/2015/10/14/ssm-scaffold/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/14/ssm-scaffold/"></span>
             </a>
           </span>
           
@@ -155,44 +155,175 @@
       
 
       
-        <h2 id="症状描述">症状描述</h2>
-<hr>
-<p>打印机服务print spooler服务启动一会儿，就会自动关闭。</p>
-<p>点击打印出现找不到打印机这个错误选项。</p>
+        <h3 id="Github地址">Github地址</h3>
+<blockquote>
+<p><a href="https://github.com/1994/ssm-scaffold.git" target="_blank" rel="external">https://github.com/1994/ssm-scaffold.git</a></p>
+</blockquote>
 <a id="more"></a> 
-<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/200722_cSsp_853361.png" alt="image"></p>
-<h2 id="解决方法">解决方法</h2>
-<hr>
-<p>删除注册表这个键值下的version -3</p>
-<pre><code>HKEY_LOCAL_MACHINE<span class="command">\SYSTEM</span><span class="command">\CurrentControlSet</span><span class="command">\Control</span><span class="command">\Print</span><span class="command">\Environments</span><span class="command">\Windows</span> NT x86<span class="command">\Drivers</span>
-</code></pre><p>删除这个文件夹下所有文件</p>
-<pre><code>C:<span class="command">\Windows</span><span class="command">\System</span>32<span class="command">\spool</span><span class="command">\PRINTERS</span>
-</code></pre>
+<h3 id="简单说明">简单说明</h3>
+<p>这是一个Spring4+Mybatis3的脚手架项目，方便老鸟使用，新手学习。出于个人爱好，我还添加了其他的依赖，以下是全部依赖:</p>
+<pre><code>  <span class="tag">&lt;<span class="title">properties</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">junit-version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="title">junit-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">spring-version</span>&gt;</span>4.2.1.RELEASE<span class="tag">&lt;/<span class="title">spring-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">mybatis-version</span>&gt;</span>3.3.0<span class="tag">&lt;/<span class="title">mybatis-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">mybatis-spring-version</span>&gt;</span>1.2.3<span class="tag">&lt;/<span class="title">mybatis-spring-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">druid-version</span>&gt;</span>1.0.15<span class="tag">&lt;/<span class="title">druid-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">fastjson-version</span>&gt;</span>1.2.7<span class="tag">&lt;/<span class="title">fastjson-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">mysql-connection-version</span>&gt;</span>5.1.6<span class="tag">&lt;/<span class="title">mysql-connection-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">mybatis-generator-version</span>&gt;</span>1.3.2<span class="tag">&lt;/<span class="title">mybatis-generator-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">pagehelper-version</span>&gt;</span>4.0.1<span class="tag">&lt;/<span class="title">pagehelper-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">slf4j-version</span>&gt;</span>1.7.12<span class="tag">&lt;/<span class="title">slf4j-version</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">log4j-version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="title">log4j-version</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">properties</span>&gt;</span>
+</code></pre><p>在一些我觉得很有必要的地方我都加上了中文注释。</p>
+<h3 id="安装">安装</h3>
+<p>推荐使用IDEA:<br><img src="http://7xawrk.com1.z0.glb.clouddn.com/15-10-14/8288030.jpg" alt=""></p>
+<p>clone 完后会看到这样的目录结构</p>
+<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/15-10-14/31026011.jpg" alt=""></p>
+<h3 id="修改配置文件">修改配置文件</h3>
+<p>项目的配置文件均放在 src/main/resources下</p>
+<ul>
+<li>applicationContext.xml:Spring 配置文件</li>
+<li>generator.properties:Mybatis-generator 配置文件</li>
+<li>generatorConfig.xml:Mybatis-generator 配置文件</li>
+<li>jdbc.properties:jdbc配置文件</li>
+<li>log4j.properties:log4j 配置文件</li>
+<li>mvc-dispatcher-servlet.xml:SpringMVC配置文件</li>
+</ul>
+<p>主要需要修改的是</p>
+<ul>
+<li>generator.properties:Mybatis-generator 配置文件</li>
+<li>generatorConfig.xml:Mybatis-generator 配置文件</li>
+<li>jdbc.properties:jdbc配置文件</li>
+</ul>
+<p>applicationContext.xml 以下地方需要注意：</p>
+<pre><code><span class="comment">//Spring注解自动扫描的包</span>
+&lt;context:component-scan <span class="keyword">base</span>-package=<span class="string">"dao"</span> /&gt;
+<span class="comment">//Mybatis自动配置Mapper的包，也就是Mybatis生成xxMapper所在的包</span>
+&lt;bean class=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;
+        &lt;property name=<span class="string">"basePackage"</span> <span class="keyword">value</span>=<span class="string">"dao"</span>/&gt;
+    &lt;/bean&gt;
+</code></pre><p>如果你修改了相关的package，则上面需要修改，同理在mvc-dispatcher-servlet.xml中也有action:</p>
+<pre><code>&lt;<span class="keyword">context</span>:<span class="keyword">component</span>-scan base-<span class="keyword">package</span>=<span class="string">"action"</span>/&gt;
+</code></pre><h3 id="开始">开始</h3>
+<p>准备一张表user表:</p>
+<pre><code><span class="operator"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`user`</span>;</span>
+<span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> (
+  <span class="string">`userid`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,
+  <span class="string">`username`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,
+  <span class="string">`password`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,
+  <span class="keyword">PRIMARY</span> <span class="keyword">KEY</span> (<span class="string">`userid`</span>)
+) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">4</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span>
+</code></pre><h4 id="使用mybatis-generator自动生成">使用mybatis-generator自动生成</h4>
+<p>默认情况下，IDEA能自动识别出Maven的mybatis generator插件，但我们还需要进行一点修改<br>在IDEA中，Run-&gt;Edit Configurations 修改Maven的选项:<br><img src="http://7xawrk.com1.z0.glb.clouddn.com/15-10-14/90011352.jpg" alt=""><br>添加上一个参数<code>-e</code>，用于在控制台打印错误信息。<br>然后我们在<code>generatorConfig.xml</code>中加入这张表：</p>
+<pre><code>   &lt;table <span class="variable">tableName=</span><span class="string">"user"</span> <span class="variable">enableCountByExample=</span><span class="string">"false"</span>
+               <span class="variable">enableUpdateByExample=</span><span class="string">"false"</span> <span class="variable">enableDeleteByExample=</span><span class="string">"false"</span>
+               <span class="variable">enableSelectByExample=</span><span class="string">"false"</span> <span class="variable">selectByExampleQueryId=</span><span class="string">"false"</span>&gt;
+        &lt;/table&gt;
+</code></pre><p><code>generatorConfig.xml</code>里还有很多配置，你可以直接使用我的默认配置，往上面添加table即可。<br>相关配置说明可以看<a href="http://www.jianshu.com/p/e09d2370b796" target="_blank" rel="external">这篇文章</a>。<br>这样我们就能点击Run了，顺利的话就能看到自动生成的代码。</p>
+<h4 id="编写service">编写service</h4>
+<p><code>Myabtis-generator</code>会自动生成<code>UserMapper.java</code>,<code>User</code>,<code>UserMapper.xml</code><br>针对User这张表已经自动生成了如下方法:<br>int deleteByPrimaryKey(Integer userid);</p>
+<pre><code><span class="title">int</span> insert(User record);
+
+<span class="title">int</span> insertSelective(User record);
+
+<span class="title">User</span> <span class="built_in">select</span>ByPrimaryKey(Integer userid);
+
+<span class="title">int</span> updateByPrimaryKeySelective(User record);
+
+<span class="title">int</span> updateByPrimaryKey(User record);
+</code></pre><p>如果上面的代码已经能满足你的需求了，那就什么都不用写。如果要增加自己的功能，比如上面没有的查询全部的User，我们所要做的便是修改<code>UserMapper.xml</code>,在<code>UserMapper.java</code>增加相应接口即可。<br><code>UserMapper.xml</code>中增加:</p>
+<pre><code> &lt;<span class="keyword">select</span> id=<span class="string">"selectAll"</span> resultType=<span class="string">"entity.User"</span>&gt;
+    <span class="keyword">select</span> userid, username, password <span class="keyword">from</span> user
+&lt;/<span class="keyword">select</span>&gt;
+</code></pre><p><code>UserMapper.java</code>中增加一个与ID同名的接口:</p>
+<pre><code><span class="input"><span class="prompt">List&lt;User&gt;</span> selectAll();</span>
+</code></pre><p>编写一个service测试一下，我们只要依赖注意一个UserMapper,就能使用相应的功能了:</p>
+<pre><code><span class="keyword">package</span> service;
+
+<span class="keyword">import</span> com.github.pagehelper.PageHelper;
+<span class="keyword">import</span> dao.UserMapper;
+<span class="keyword">import</span> entity.User;
+<span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="keyword">import</span> java.util.List;
+
+
+<span class="annotation">@Service</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserService</span> </span>{
+
+    <span class="keyword">private</span> UserMapper userMapper;
+
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserMapper</span>(UserMapper userMapper) {
+        <span class="keyword">this</span>.userMapper = userMapper;
+    }
+
+    <span class="keyword">public</span> User <span class="title">getUser</span>(Integer userid){
+        <span class="keyword">return</span> userMapper.selectByPrimaryKey(userid);
+    }
+
+    <span class="javadoc">/**
+     *<span class="javadoctag"> @param</span> pageNum  页码
+     *<span class="javadoctag"> @param</span> pageSize 每页显示数量
+     */</span>
+    <span class="keyword">public</span> List&lt;User&gt; <span class="title">getUsers</span>(<span class="keyword">int</span> pageNum, <span class="keyword">int</span> pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        <span class="keyword">return</span> userMapper.selectAll();
+    }
+}
+</code></pre><p>我们知道，在真实的场景中，一次性获取全部用户显然是不现实的，我们往往要进行分页操作。这里我们用到了<code>PageHelper</code>这个Mybatis分页插件,详细的文档说明请看<a href="http://git.oschina.net/free/Mybatis_PageHelper" target="_blank" rel="external">这里</a>。</p>
+<h4 id="编写action">编写action</h4>
+<p>我们写个简单的action测试一下,json方面我使用了<code>fastjson</code>,配置在<code>mvc-dispatcher-servlet.xml</code>里，默认解决了IE下json提示下载的问题，其他更多的配置请看<a href="https://github.com/alibaba/fastjson" target="_blank" rel="external">这里</a>。</p>
+<pre><code><span class="keyword">package</span> action;
+
+<span class="keyword">import</span> entity.User;
+<span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="keyword">import</span> org.springframework.stereotype.Controller;
+<span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;
+<span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;
+<span class="keyword">import</span> service.UserService;
+
+<span class="keyword">import</span> java.util.List;
+
+
+<span class="annotation">@Controller</span>
+<span class="annotation">@RequestMapping</span>(<span class="string">"/user"</span>)
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoAction</span> </span>{
+
+    <span class="keyword">private</span> UserService userService;
+
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserService</span>(UserService userService) {
+        <span class="keyword">this</span>.userService = userService;
+    }
+
+    <span class="annotation">@RequestMapping</span>(<span class="string">"/get"</span>)
+    <span class="annotation">@ResponseBody</span>
+    <span class="keyword">public</span> List&lt;User&gt; <span class="title">test</span>() {
+        <span class="keyword">return</span> userService.getUsers(<span class="number">1</span>,<span class="number">10</span>);
+    }
+
+}
+</code></pre><h3 id="结语">结语</h3>
+<p>当然我这里很多细节没有讲到，仅仅是简单的使用了一下，希望各位有心的读者可以自己动手搭建一下。</p>
+
       
     </div>
 
     <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/打印机/"> #打印机 </a>
-          
-            <a href="/tags/你是一个好人/"> #你是一个好人 </a>
-          
-        </div>
       
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/09/20/install-of-tomcat7/">通过源安装的tomcat7的安装路径</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/03/20/run-VC++6.0-on-windows8.1/">Windows 8.1上运行VC++6.0的方法</a>
+              <a href="/2015/09/12/something-about-maven/">关于Maven</a>
             
           </div>
         </div>
@@ -208,8 +339,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2014/04/29/printer/"
-               data-title="打印机问题" data-url="http://1994.github.io/2014/04/29/printer/">
+          <div class="ds-thread" data-thread-key="2015/10/14/ssm-scaffold/"
+               data-title="Spring+Mybatis脚手架的使用" data-url="http://1994.github.io/2015/10/14/ssm-scaffold/">
           </div>
         
       </div>
@@ -315,7 +446,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#症状描述"><span class="nav-number">1.</span> <span class="nav-text">症状描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方法"><span class="nav-number">2.</span> <span class="nav-text">解决方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Github地址"><span class="nav-number">1.</span> <span class="nav-text">Github地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单说明"><span class="nav-number">2.</span> <span class="nav-text">简单说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置文件"><span class="nav-number">4.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始"><span class="nav-number">5.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用mybatis-generator自动生成"><span class="nav-number">5.1.</span> <span class="nav-text">使用mybatis-generator自动生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写service"><span class="nav-number">5.2.</span> <span class="nav-text">编写service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写action"><span class="nav-number">5.3.</span> <span class="nav-text">编写action</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
