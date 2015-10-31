@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="interview,Java," />
+  <meta name="keywords" content="Ubuntu," />
 
 
 
@@ -41,7 +41,7 @@
   </script>
 
 
-  <title> Java中wait()与sleep()的区别 // reeco's blog </title>
+  <title> 我的Ubuntu终端配置 // reeco's blog </title>
 </head>
 
 <body>
@@ -112,7 +112,7 @@
           
           
             
-              Java中wait()与sleep()的区别
+              我的Ubuntu终端配置
             
           
         </h1>
@@ -120,7 +120,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-03-31
+          发表于 2015-10-31
         </span>
 
         
@@ -140,8 +140,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/03/31/difference-of-wait() -and-sleep()/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/31/difference-of-wait() -and-sleep()/"></span>
+            <a href="/2015/10/31/ubuntu-terminal/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/31/ubuntu-terminal/"></span>
             </a>
           </span>
           
@@ -155,42 +155,50 @@
       
 
       
-        <blockquote>
-<p>最近在做面试题的时候看到这道题，复习了一遍《Thinking in Java》，在此记录这个答案</p>
-</blockquote>
-<h2 id="类的区别">类的区别</h2>
-<ul>
-<li>wait()来自于 <code>java.lang.Object</code>，任何对象都有此方法</li>
-<li>sleep()来自于 <code>java.lang.Thread</code>，调用的对象为线程</li>
-</ul>
-<h2 id="用法上的区别">用法上的区别</h2>
-<p>看一下jdk的描述：</p>
-<blockquote>
-<p><code>wait()</code>:Causes the current thread to wait until either another thread invokes the<br> java.lang.Object.notify() method or the java.lang.Object.notifyAll()method for this object, or a specified amount of time has elapsed.</p>
-</blockquote>
-<a id="more"></a> 
-<p>使当前线程挂起，当对象调用<code>java.lang.Object.notify()</code>或者<code>java.lang.Object.notifyAll()</code>或者时间到期，则从wait()中恢复执行</p>
-<blockquote>
-<p><code>sleep()</code>:Causes the currently executing thread to sleep (temporarily cease execution) for the specified number of milliseconds, subject to the precision and accuracy of system timers and schedulers. The thread does not lose ownership of any monitors.</p>
-</blockquote>
-<p>在指定的时间内使当前执行的线程睡眠（暂停执行）</p>
-<h2 id="同步与锁的不同">同步与锁的不同</h2>
-<p>wait()与sleep()最主要的区别就在于同步与锁，wiat()必须放在synchronized block中，否则会在program runtime时扔出<code>java.lang.IllegalMonitorStateException</code>异常。</p>
-<ul>
-<li>wait()期间对象锁是释放的</li>
-<li><p>调用sleep()的时候锁并没有被释放，调用yield()也属于这种情况</p>
-<pre><code> synchronized(<span class="operator"><span class="keyword">LOCK</span>) {   
-     Thread.<span class="keyword">sleep</span>(<span class="number">1000</span>);</span> // <span class="operator"><span class="keyword">LOCK</span> <span class="keyword">is</span> held
- }
-
- synchronized(<span class="keyword">LOCK</span>) {   
-     <span class="keyword">LOCK</span>.wait();</span> // <span class="operator"><span class="keyword">LOCK</span> <span class="keyword">is</span> <span class="keyword">not</span> held
- }</span>
-</code></pre></li>
-</ul>
-<p>一般而言，wait()用于线程间的通信，sleep()用于线程状态的控制</p>
-<h2 id="参考资料">参考资料</h2>
-<p><a href="http://stackoverflow.com/questions/1036754/difference-between-wait-and-sleep" target="_blank" rel="external">http://stackoverflow.com/questions/1036754/difference-between-wait-and-sleep</a><br><a href="http://howtodoinjava.com/2013/03/08/difference-between-sleep-and-wait/" target="_blank" rel="external">http://howtodoinjava.com/2013/03/08/difference-between-sleep-and-wait/</a><br><a href="http://www.qat.com/using-waitnotify-instead-thread-sleep-java/" target="_blank" rel="external">http://www.qat.com/using-waitnotify-instead-thread-sleep-java/</a></p>
+        <p>记录一下我的Ubuntu终端配置，先上效果图：</p>
+<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/15-10-31/38234278.jpg" alt=""><br><a id="more"></a> </p>
+<h2 id="Terminator">Terminator</h2>
+<p>Terminator是一个实用的GNOME虚拟终端程序，我用来代替默认的Terminal。它的强大之处在于支持分屏与选择复制粘贴。</p>
+<p>安装方式也非常简单:</p>
+<pre><code><span class="built_in">sudo</span> apt-get install terminator
+</code></pre><h2 id="配色">配色</h2>
+<p>配色我选择solarized，包括终端和Vim。</p>
+<h3 id="终端">终端</h3>
+<pre><code>git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/ghuntley/terminator-solarized.git
+<span class="keyword">cd</span> terminator-solarized
+<span class="built_in">mkdir</span> -<span class="keyword">p</span> ~/.config/terminator/
+touch ~/.config/terminator/config
+# <span class="keyword">if</span> you want <span class="keyword">to</span> replace current confi<span class="variable">g:</span>
+<span class="keyword">cp</span> config ~/.config/terminator
+# <span class="keyword">if</span> you want <span class="keyword">to</span> <span class="built_in">append</span> current confi<span class="variable">g:</span>
+<span class="keyword">cat</span> config &gt;&gt; ~/.config/terminator/config
+</code></pre><h3 id="Vim">Vim</h3>
+<pre><code>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>altercation/vim-colors-solarized.git
+cd vim-colors-solarized/colors
+mv solarized.vim ~<span class="regexp">/.vim/colors</span><span class="regexp">/</span>
+</code></pre><p>修改vimrc：</p>
+<pre><code><span class="keyword">syntax</span> enable
+<span class="keyword">set</span> background=dark
+<span class="keyword">colorscheme</span> solarized
+</code></pre><h2 id="oh-my-zsh">oh-my-zsh</h2>
+<pre><code>apt-get <span class="operator"><span class="keyword">install</span> zsh
+wget https://github.com/robbyrussell/oh-my-zsh/raw/<span class="keyword">master</span>/tools/<span class="keyword">install</span>.sh -O - | zsh
+chsh -s <span class="string">`which zsh`</span>
+//restart <span class="keyword">to</span> <span class="keyword">work</span>
+sudo shutdown -r <span class="number">0</span></span>
+</code></pre><p>我用的zsh主题是<code>ys</code></p>
+<h2 id="主题">主题</h2>
+<p>最后一步就是安装一款漂亮的主题了</p>
+<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/15-10-31/63381461.jpg" alt=""></p>
+<p>首先在<a href="https://github.com/anmoljagetia/Flatabulous/archive/master.zip" target="_blank" rel="external">这里</a>下载主题包，将解压后的文件夹移到<code>/usr/share/themes/</code>，接着安装图标：</p>
+<pre><code>sudo <span class="built_in">add</span>-apt-repository <span class="keyword">pp</span><span class="variable">a:noobslab</span>/icons
+sudo apt-<span class="built_in">get</span> <span class="keyword">update</span>
+sudo apt-<span class="built_in">get</span> install ultra-flat-icons
+</code></pre><p>然后需要用到<code>unity-tweak-tool</code></p>
+<pre><code><span class="built_in">sudo</span> apt-get install unity-tweak-tool
+<span class="built_in">sudo</span> unity-tweak-tool
+</code></pre><p>在Theme和Icons下分别选择刚才安装的主题和图标。大功告成 :-)</p>
+<p><img src="http://7xawrk.com1.z0.glb.clouddn.com/15-10-31/47817182.jpg" alt=""></p>
 
       
     </div>
@@ -199,9 +207,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/interview/"> #interview </a>
-          
-            <a href="/tags/Java/"> #Java </a>
+            <a href="/tags/Ubuntu/"> #Ubuntu </a>
           
         </div>
       
@@ -210,13 +216,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/13/how-to-install-SSL -on-nginx/">Nginx上安装SSL证书</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/21/what-happen/">从输入 URL 到页面加载完成发生了什么事</a>
+              <a href="/2015/10/15/favorite-animation/">我喜欢的动漫</a>
             
           </div>
         </div>
@@ -232,8 +236,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/03/31/difference-of-wait() -and-sleep()/"
-               data-title="Java中wait()与sleep()的区别" data-url="http://1994.github.io/2015/03/31/difference-of-wait() -and-sleep()/">
+          <div class="ds-thread" data-thread-key="2015/10/31/ubuntu-terminal/"
+               data-title="我的Ubuntu终端配置" data-url="http://1994.github.io/2015/10/31/ubuntu-terminal/">
           </div>
         
       </div>
@@ -339,7 +343,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类的区别"><span class="nav-number">1.</span> <span class="nav-text">类的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法上的区别"><span class="nav-number">2.</span> <span class="nav-text">用法上的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步与锁的不同"><span class="nav-number">3.</span> <span class="nav-text">同步与锁的不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Terminator"><span class="nav-number">1.</span> <span class="nav-text">Terminator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配色"><span class="nav-number">2.</span> <span class="nav-text">配色</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#终端"><span class="nav-number">2.1.</span> <span class="nav-text">终端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vim"><span class="nav-number">2.2.</span> <span class="nav-text">Vim</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#oh-my-zsh"><span class="nav-number">3.</span> <span class="nav-text">oh-my-zsh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主题"><span class="nav-number">4.</span> <span class="nav-text">主题</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
